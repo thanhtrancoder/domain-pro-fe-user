@@ -3,6 +3,7 @@
 @theme {
   --color-primary: #0096FF;
   --color-primary-hover: #007AD1;
+  --color-light-primary: #8ACEFF;
   --color-secondary: #FF6A00;
   --color-secondary-hover: #D15700;
   --color-third: #6A00FF;
@@ -11,5 +12,9 @@
   --color-fourth-hover: #7AD100;
   --color-fifth: #FF0095;
   --color-fifth-hover: #D1007A;
+  --color-success: #15FF00;
+  --color-warning: #FF6A00;
   --color-fail: #FF0015;
+  --color-dark: #002A47;
+  --color-dark-hover: #1C3656;
 }
