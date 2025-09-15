@@ -70,7 +70,7 @@ const Header: React.FC = () => {
                   to={menuItem.href}
                   className="hover:text-primary flex items-center transition-colors duration-300"
                 >
-                  {menuItem.icon}
+                  <menuItem.icon></menuItem.icon>
                   <span className="ml-1 text-lg whitespace-nowrap">
                     {menuItem.label}
                   </span>
@@ -125,7 +125,7 @@ const Header: React.FC = () => {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="hover:text-primary flex items-center rounded-md px-4 py-2 font-medium transition-colors duration-300 hover:bg-gray-100"
                 >
-                  {menuItem.icon}
+                  <menuItem.icon></menuItem.icon>
                   <span className="ml-2 text-lg whitespace-nowrap">
                     {menuItem.label}
                   </span>

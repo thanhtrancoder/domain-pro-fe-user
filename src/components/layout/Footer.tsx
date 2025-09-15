@@ -68,7 +68,7 @@ const Footer = () => {
                   to={menuItem.href}
                   className="hover:text-primary flex items-center space-x-2 transition-colors duration-300"
                 >
-                  {menuItem.icon}
+                  <menuItem.icon className="size-4"></menuItem.icon>
                   <span className="whitespace-nowrap">{menuItem.label}</span>
                 </Link>
               </li>
@@ -89,7 +89,7 @@ const Footer = () => {
                   className="hover:text-primary flex items-center space-x-2 transition-colors duration-300"
                   target="_blank"
                 >
-                  {contactItem.icon}
+                  <contactItem.icon className="text-primary size-5 flex-shrink-0"></contactItem.icon>
                   <p className="text-justify">{contactItem.label}</p>
                 </Link>
               </li>
@@ -107,7 +107,9 @@ const Footer = () => {
               <div key={index}>
                 <SquareNavButton
                   to={socialItem.href}
-                  leftIcon={socialItem.icon}
+                  leftIcon={
+                    <socialItem.icon className="h-6 w-6 text-gray-200"></socialItem.icon>
+                  }
                   className="hover:bg-primary bg-gray-600"
                 ></SquareNavButton>
               </div>
@@ -126,7 +128,11 @@ const Footer = () => {
               key={index}
               className="bg-dark-hover flex items-center space-x-1 rounded-lg border border-gray-600 px-3 py-2"
             >
-              {certificateItem.icon}
+              {index % 2 === 0 ? (
+                <certificateItem.icon className="text-fourth-hover size-6"></certificateItem.icon>
+              ) : (
+                <certificateItem.icon className="text-fifth size-6"></certificateItem.icon>
+              )}
               <span className="whitespace-nowrap">{certificateItem.label}</span>
             </div>
           ))}

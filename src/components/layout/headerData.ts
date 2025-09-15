@@ -5,11 +5,11 @@ export const headerMenuList: menuType[] = [
   {
     label: "Trang chủ",
     href: "/",
-    icon: <HomeIcon></HomeIcon>,
+    icon: HomeIcon,
   },
   {
     label: "Tên miền",
     href: "/domains",
-    icon: <GlobeIcon></GlobeIcon>,
+    icon: GlobeIcon,
   },
 ];
