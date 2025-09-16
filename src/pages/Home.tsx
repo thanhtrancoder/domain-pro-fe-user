@@ -16,6 +16,7 @@ import {
   domainDiscountListSample,
 } from "./homeData";
 import type { iconProps } from "../components/icons/Icon";
+import { SearchForm1 } from "../components/ui/SearchForm";
 
 interface domainSaleType {
   id: number;
@@ -144,7 +145,13 @@ const Home = () => {
           </p>
 
           {/* Search form */}
-          <div className="w-full max-w-4xl rounded-xl bg-white p-6">
+          <SearchForm1
+            searchString={searchString}
+            setSearchString={setSearchString}
+            navigate={"/search?domain=" + searchString}
+            onActionIconClick={() => setSearchString("")}
+          ></SearchForm1>
+          {/* <div className="w-full max-w-4xl rounded-xl bg-white p-6">
             <form className="space-y-4 md:flex md:gap-4 md:space-y-0">
               <Input
                 value={searchString}
@@ -159,7 +166,7 @@ const Home = () => {
                 className="bg-primary hover:bg-primary-hover text-lg text-white lg:px-6"
               />
             </form>
-          </div>
+          </div> */}
 
           {/* Domain on sale */}
           <div className="grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">

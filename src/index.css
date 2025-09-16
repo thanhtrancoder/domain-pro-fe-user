@@ -19,8 +19,10 @@
   --color-sixth-hover: #D1C000;
   --color-success: #15FF00;
   --color-success-hover: #11D100;
+  --color-light-success: #E8FFE6;
   --color-warning: #FF6A00;
   --color-fail: #FF0015;
+  --color-light-fail: #FFE6E8;
   --color-dark: #002A47;
   --color-dark-hover: #1C3656;
 }

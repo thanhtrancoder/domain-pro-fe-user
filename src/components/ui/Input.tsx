@@ -5,6 +5,8 @@ interface inputProps {
   className?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  actionIcon?: React.ReactNode;
+  onActionIconClick?: () => void;
 }
 
 export const Input: React.FC<inputProps> = ({
@@ -14,6 +16,8 @@ export const Input: React.FC<inputProps> = ({
   className = "bg-white text-black border border-gray-500",
   value,
   onChange,
+  actionIcon,
+  onActionIconClick,
 }) => {
   return (
     <div
@@ -29,6 +33,9 @@ export const Input: React.FC<inputProps> = ({
         className="w-full focus:outline-none"
         onChange={onChange}
       ></input>
+      <button type="button" onClick={onActionIconClick}>
+        {actionIcon}
+      </button>
     </div>
   );
 };
