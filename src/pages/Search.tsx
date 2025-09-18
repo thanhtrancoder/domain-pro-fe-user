@@ -13,7 +13,7 @@ import { moneyFormat } from "../utils/Format";
 import { Button } from "../components/ui/Button";
 import FindIcon from "../assets/icons/icons8-find.svg";
 
-const Search = () => {
+const Search: React.FC = () => {
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("domain");
   const [searchString, setSearchString] = useState(searchQuery || "");

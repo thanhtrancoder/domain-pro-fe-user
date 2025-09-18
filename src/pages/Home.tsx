@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { moneyFormat } from "../utils/Format";
 import {
-  SearchIcon,
   CheckIcon,
   ArrowRightIcon,
   BoltIcon,
   CheckBadgeIcon,
 } from "../components/icons/Icon";
 import { NavButton } from "../components/ui/Button";
-import { Input } from "../components/ui/Input";
 import {
   domainSaleListSample,
   serviceListSample,
@@ -286,24 +284,24 @@ const Home = () => {
         <div className="grid grid-cols-1 gap-6 space-y-4 md:grid-cols-2 lg:grid-cols-3">
           <DomainDiscount
             isPopular={false}
-            domain={domainDiscountListSample[1].domain}
-            price={domainDiscountListSample[1].price}
-            priceDiscount={domainDiscountListSample[1].priceDiscount}
-            feature={domainDiscountListSample[1].feature}
+            domain={domainDiscountList[1].domain}
+            price={domainDiscountList[1].price}
+            priceDiscount={domainDiscountList[1].priceDiscount}
+            feature={domainDiscountList[1].feature}
           ></DomainDiscount>
           <DomainDiscount
             isPopular={true}
-            domain={domainDiscountListSample[0].domain}
-            price={domainDiscountListSample[0].price}
-            priceDiscount={domainDiscountListSample[0].priceDiscount}
-            feature={domainDiscountListSample[0].feature}
+            domain={domainDiscountList[0].domain}
+            price={domainDiscountList[0].price}
+            priceDiscount={domainDiscountList[0].priceDiscount}
+            feature={domainDiscountList[0].feature}
           ></DomainDiscount>
           <DomainDiscount
             isPopular={false}
-            domain={domainDiscountListSample[2].domain}
-            price={domainDiscountListSample[2].price}
-            priceDiscount={domainDiscountListSample[2].priceDiscount}
-            feature={domainDiscountListSample[2].feature}
+            domain={domainDiscountList[2].domain}
+            price={domainDiscountList[2].price}
+            priceDiscount={domainDiscountList[2].priceDiscount}
+            feature={domainDiscountList[2].feature}
           ></DomainDiscount>
         </div>
       </div>

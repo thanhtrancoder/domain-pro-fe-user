@@ -1,6 +1,6 @@
 import NotFoundImg from "../assets/images/pexels-cookiecutter-17489163.jpg";
 
-const NotFound = () => {
+const NotFound: React.FC = () => {
   return (
     <div
       style={{ backgroundImage: `url(${NotFoundImg})` }}

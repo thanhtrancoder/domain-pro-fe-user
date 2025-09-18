@@ -12,7 +12,7 @@ import {
 } from "./footerData";
 import type { menuType } from "./types";
 
-const Footer = () => {
+const Footer: React.FC = () => {
   const [email, setEmail] = useState("");
 
   return (

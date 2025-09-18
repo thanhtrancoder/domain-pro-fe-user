@@ -103,7 +103,7 @@ const Header: React.FC = () => {
               <div className="flex items-center justify-end md:ml-auto md:space-x-1">
                 <NavButton
                   label="Đăng Ký"
-                  to="/signup"
+                  to="/register"
                   className="text-primary hover:text-primary-hover hidden hover:bg-gray-200 md:block"
                 />
                 <NavButton label="Đăng nhập" to="/login" />
@@ -136,7 +136,7 @@ const Header: React.FC = () => {
           </ul>
           <NavButton
             label="Đăng ký"
-            to="/signup"
+            to="/register"
             onClick={() => setIsMobileMenuOpen(false)}
             className="bg-primary hover:bg-primary-hover mx-4 mt-auto text-white"
           ></NavButton>
