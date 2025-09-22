@@ -33,6 +33,31 @@ export const Button: React.FC<buttonProps> = ({
   );
 };
 
+export const SquareButton: React.FC<buttonProps> = ({
+  label,
+  leftIcon,
+  rightIcon,
+  onClick,
+  className = "bg-primary hover:bg-primary-hover text-white",
+}) => {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={
+        "flex cursor-pointer items-center justify-center space-x-1 rounded-lg px-2 py-2 font-medium transition-colors duration-300 " +
+        className
+      }
+    >
+      {leftIcon}
+      {label && (
+        <label className="cursor-pointer whitespace-nowrap">{label}</label>
+      )}
+      {rightIcon}
+    </button>
+  );
+};
+
 interface navButtonProps {
   label?: string;
   leftIcon?: React.ReactNode;

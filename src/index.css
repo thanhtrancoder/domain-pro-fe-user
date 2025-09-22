@@ -11,6 +11,7 @@
   --color-secondary: #FF6A00;
   --color-secondary-hover: #D15700;
   --color-light-secondary: #FF852E;
+  --color-lightest-secondary: #FFF0E6;
   --color-third: #6A00FF;
   --color-third-hover: #852EFF;
   --color-fourth: #95FF00;
@@ -21,6 +22,7 @@
   --color-sixth-hover: #D1C000;
   --color-success: #15FF00;
   --color-success-hover: #11D100;
+  --color-success-hover2: #0EA300;
   --color-light-success: #E8FFE6;
   --color-warning: #FF6A00;
   --color-fail: #FF0015;

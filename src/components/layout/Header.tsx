@@ -25,7 +25,7 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 z-50 w-full bg-white">
+      <header className="fixed top-0 z-50 w-full bg-white shadow-lg">
         <div className="mx-3 my-2 grid grid-cols-3 items-center md:mx-10 md:my-4 md:flex md:items-center lg:mx-20">
           {/* Mobile hamburger button */}
           <button
