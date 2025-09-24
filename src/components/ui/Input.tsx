@@ -22,7 +22,8 @@ export const Input: React.FC<inputProps> = ({
   return (
     <div
       className={
-        "flex items-center space-x-1 rounded-lg px-4 py-2 " + className
+        "transition-color flex items-center space-x-1 rounded-lg px-4 py-2 duration-300 " +
+        className
       }
     >
       {icon}

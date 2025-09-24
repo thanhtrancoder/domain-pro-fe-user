@@ -15,6 +15,7 @@ import {
 } from "../components/icons/Icon";
 import { Input } from "../components/ui/Input";
 import MomoIcon from "../assets/icons/Momo-Icon.jpeg";
+import AnnouncementIcon from "../assets/icons/icons8-announcement-48.png";
 
 const Cart: React.FC = () => {
   const [domainList, setDomainList] = useState<domainType[]>(domainListSample);
@@ -151,79 +152,93 @@ const Cart: React.FC = () => {
           </div>
 
           {/* Service support */}
-          <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
-            {/* Title */}
-            <div className="flex items-center gap-3">
-              <div className="bg-light-success rounded-full p-2">
-                <SquaresPlusIcon className="text-success-hover2 size-6"></SquaresPlusIcon>
+          <div className="relative">
+            {/* Disable announcement */}
+            <div className="absolute z-10 flex h-full w-fit w-full items-center justify-center">
+              <div className="bg-tint-primary border-tint-primary2 text-primary-hover2 flex w-fit items-center justify-center gap-2 rounded-xl border p-4 font-medium shadow-xl">
+                <img src={AnnouncementIcon} className="size-6"></img>
+                <span className="">Tính năng này sẽ được phát hành sau.</span>
               </div>
-              <p className="text-xl font-bold">Dịch vụ bổ trợ</p>
-              <p className="text-secondary bg-lightest-secondary rounded-full px-3 py-1 text-center text-sm font-medium">
-                Khuyến nghị
-              </p>
             </div>
 
-            {/* Service list */}
-            <div className="space-y-4">
-              {serviceList.map((service) => (
-                <div
-                  key={service.id}
-                  className={
-                    "flex cursor-pointer gap-3 rounded-xl border-2 p-4 transition-colors duration-300 " +
-                    (service.isChecked
-                      ? "border-primary-hover bg-tint-primary"
-                      : "border-gray-200")
-                  }
-                  onClick={(event) => handleCheckServiceFull(service.id, event)}
-                >
-                  <div>
-                    <input
-                      type="checkbox"
-                      className="h-5 w-5"
-                      checked={service.isChecked}
-                      onChange={(event) =>
-                        handleCheckService(service.id, event)
-                      }
-                    ></input>
+            <div className="pointer-events-none relative opacity-50">
+              <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
+                {/* Title */}
+                <div className="flex items-center gap-3">
+                  <div className="bg-light-success rounded-full p-2">
+                    <SquaresPlusIcon className="text-success-hover2 size-6"></SquaresPlusIcon>
                   </div>
-                  <div
-                    className={
-                      "h-fit rounded-xl p-2 transition-colors duration-300 " +
-                      (service.isChecked
-                        ? "text-primary-hover bg-tint-primary2"
-                        : "bg-gray-100")
-                    }
-                  >
-                    <service.icon className="h-7 w-7 shrink-0"></service.icon>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="space-y-1">
-                      <p className="text-lg font-bold">{service.name}</p>
-                      <p className="text-sm text-gray-600">
-                        {service.description}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm text-gray-500 line-through">
-                        {moneyFormat({
-                          value: service.price,
-                          countryCode: "vi-VN",
-                          currency: "VND",
-                        })}
-                      </p>
-                      <p className="text-success-hover2 text-lg font-bold">
-                        {moneyFormat({
-                          value: service.priceDiscount,
-                          countryCode: "vi-VN",
-                          currency: "VND",
-                        })}
-                        /năm
-                      </p>
-                    </div>
-                  </div>
+                  <p className="text-xl font-bold">Dịch vụ bổ trợ</p>
+                  <p className="text-secondary bg-lightest-secondary rounded-full px-3 py-1 text-center text-sm font-medium">
+                    Khuyến nghị
+                  </p>
                 </div>
-              ))}
+
+                {/* Service list */}
+                <div className="space-y-4">
+                  {serviceList.map((service) => (
+                    <div
+                      key={service.id}
+                      className={
+                        "flex cursor-pointer gap-3 rounded-xl border-2 p-4 transition-colors duration-300 " +
+                        (service.isChecked
+                          ? "border-primary-hover bg-tint-primary hover:border-primary-hover2"
+                          : "border-gray-200 hover:border-gray-300")
+                      }
+                      onClick={(event) =>
+                        handleCheckServiceFull(service.id, event)
+                      }
+                    >
+                      <div>
+                        <input
+                          type="checkbox"
+                          className="h-5 w-5"
+                          checked={service.isChecked}
+                          onChange={(event) =>
+                            handleCheckService(service.id, event)
+                          }
+                        ></input>
+                      </div>
+                      <div
+                        className={
+                          "h-fit rounded-xl p-2 transition-colors duration-300 " +
+                          (service.isChecked
+                            ? "text-primary-hover bg-tint-primary2"
+                            : "bg-gray-100")
+                        }
+                      >
+                        <service.icon className="h-7 w-7 shrink-0"></service.icon>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="space-y-1">
+                          <p className="text-lg font-bold">{service.name}</p>
+                          <p className="text-sm text-gray-600">
+                            {service.description}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm text-gray-500 line-through">
+                            {moneyFormat({
+                              value: service.price,
+                              countryCode: "vi-VN",
+                              currency: "VND",
+                            })}
+                          </p>
+                          <p className="text-success-hover2 text-lg font-bold">
+                            {moneyFormat({
+                              value: service.priceDiscount,
+                              countryCode: "vi-VN",
+                              currency: "VND",
+                            })}
+                            /năm
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -239,38 +254,8 @@ const Cart: React.FC = () => {
                   <p className="ml-auto">997.000đ</p>
                 </div>
                 <div className="flex items-center">
-                  <p>Dịch vụ bổ trợ (1)</p>
-                  <p className="ml-auto">199.000đ</p>
-                </div>
-              </div>
-              {/* Temporary total */}
-              <div className="border-t border-gray-200">
-                <div className="flex items-center pt-4 font-medium">
-                  <p>Tạm tính</p>
-                  <p className="ml-auto">1.196.000đ</p>
-                </div>
-              </div>
-              {/* Discount */}
-              <div className="space-y-2">
-                <p className="font-medium">Mã giảm giá</p>
-                <div className="flex items-center gap-1">
-                  <Input
-                    placeholder="Nhập mã giảm giá"
-                    actionIcon={
-                      <XMarkIcon className="size-6 cursor-pointer text-gray-500"></XMarkIcon>
-                    }
-                  ></Input>
-                  <Button label="Áp dụng"></Button>
-                </div>
-                <div className="bg-light-success text-success-hover2 border-success flex items-center gap-2 rounded-lg border px-4 py-2">
-                  <CheckIcon className="size-4"></CheckIcon>
-                  <p className="font-bold">VN80</p>
-                  <p>(Giảm 80%)</p>
-                  <XMarkIcon className="ml-auto size-4 cursor-pointer"></XMarkIcon>
-                </div>
-                <div className="text-success-hover2 flex items-center pt-2 font-medium">
-                  <p>Giảm giá (80%)</p>
-                  <p className="ml-auto">-956.800đ</p>
+                  <p>Dịch vụ bổ trợ (0)</p>
+                  <p className="ml-auto">0</p>
                 </div>
               </div>
               {/* Total */}
@@ -279,23 +264,12 @@ const Cart: React.FC = () => {
                   <p>Tổng cộng</p>
                   <p className="text-primary-hover ml-auto">239.200đ</p>
                 </div>
-                <p className="text-sm text-gray-500">Đã bao gồm thuế VAT</p>
-              </div>
-              {/* Method payment */}
-              <div className="space-y-2">
-                <p className="font-medium">Phương thức thanh toán</p>
-                <div className="flex items-center justify-center rounded-lg border border-gray-400 bg-gray-100 px-4 py-2">
-                  <div className="flex items-center gap-2">
-                    <img src={MomoIcon} className="size-6 rounded-lg"></img>
-                    <p>Thanh toán qua Momo</p>
-                  </div>
-                </div>
               </div>
               {/* Checkout button */}
               <Button
                 label="Tiến hành thanh toán"
                 rightIcon={<ArrowRightIcon className="size-4"></ArrowRightIcon>}
-                className="bg-primary hover:bg-primary-hover w-full text-white"
+                className="bg-primary hover:bg-primary-hover w-full py-4 text-lg text-white"
               ></Button>
             </div>
 
