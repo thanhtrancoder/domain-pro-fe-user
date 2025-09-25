@@ -14,6 +14,7 @@
   --color-lightest-secondary: #FFF0E6;
   --color-third: #6A00FF;
   --color-third-hover: #852EFF;
+  --color-light-third: #F0E6FF;
   --color-fourth: #95FF00;
   --color-fourth-hover: #7AD100;
   --color-fifth: #FF0095;
@@ -28,6 +29,7 @@
   --color-tint-success: #F2FFED;
   --color-warning: #FF6A00;
   --color-light-warning: #FFD5B8;
+  --color-lightest-warning: #FFF0E6;
   --color-tint-warning: #FFF2E9;
   --color-fail: #FF0015;
   --color-light-fail: #FFE6E8;
