@@ -24,9 +24,15 @@
   --color-success-hover: #11D100;
   --color-success-hover2: #0EA300;
   --color-light-success: #E8FFE6;
+  --color-light-success2: #93FF8A;
+  --color-tint-success: #F2FFED;
   --color-warning: #FF6A00;
+  --color-light-warning: #FFD5B8;
+  --color-tint-warning: #FFF2E9;
   --color-fail: #FF0015;
   --color-light-fail: #FFE6E8;
+  --color-light-fail2: #FF8A93;
+  --color-tint-fail: #FFEEE8;
   --color-dark: #002A47;
   --color-dark-hover: #1C3656;
 }

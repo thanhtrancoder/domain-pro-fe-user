@@ -6,7 +6,12 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import Dashboard from "./pages/Dashboard";
+import IconGallery from "./pages/IconGallery";
 import NotFound from "./pages/NotFound";
+
+import Overview from "./pages/dashboard/Overview";
+import Domains from "./pages/dashboard/Domains";
 
 function App() {
   return (
@@ -20,6 +25,11 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route index element={<Overview />} />
+              <Route path="domains" element={<Domains />} />
+            </Route>
+            <Route path="/icon-gallery" element={<IconGallery />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         }
