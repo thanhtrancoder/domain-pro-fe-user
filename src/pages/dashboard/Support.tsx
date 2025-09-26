@@ -6,6 +6,10 @@ const Support: React.FC = () => {
         <h3 className="text-xl font-bold">Trung tâm hỗ trợ</h3>
       </div>
 
+      {/* FAQ */}
+
+      {/* Ticket */}
+
       {/* Contact */}
       <div className="bg-light-primary2 text-primary-hover2 space-y-4 rounded-xl p-6 text-sm font-medium">
         <h4 className="text-base font-bold">Thông tin liên hệ</h4>
