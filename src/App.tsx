@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 
 import Overview from "./pages/dashboard/Overview";
 import Domains from "./pages/dashboard/Domains";
+import Support from "./pages/dashboard/Support";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />}>
               <Route index element={<Overview />} />
               <Route path="domains" element={<Domains />} />
+              <Route path="support" element={<Support />} />
             </Route>
             <Route path="/icon-gallery" element={<IconGallery />} />
             <Route path="*" element={<NotFound />} />

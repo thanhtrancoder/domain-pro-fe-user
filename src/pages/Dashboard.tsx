@@ -126,13 +126,13 @@ const Dashboard: React.FC = () => {
                 activeTab={activeTab}
                 handleActive={handleActiveTab}
               ></ActionItem>
-              <ActionItem
+              {/* <ActionItem
                 icon={<FileLinesIcon></FileLinesIcon>}
                 name="Hóa đơn"
                 to="billing"
                 activeTab={activeTab}
                 handleActive={handleActiveTab}
-              ></ActionItem>
+              ></ActionItem> */}
               <ActionItem
                 icon={<QuestionMarkCircleIcon></QuestionMarkCircleIcon>}
                 name="Hỗ trợ"
