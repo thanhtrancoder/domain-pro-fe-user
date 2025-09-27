@@ -13,7 +13,7 @@ export const Input: React.FC<inputProps> = ({
   type = "text",
   placeholder,
   icon,
-  className = "bg-white text-black border border-gray-500",
+  className = "bg-white text-black border border-gray-300 focus-within:ring-primary-hover focus-within:border-transparent focus-within:ring-2",
   value,
   onChange,
   actionIcon,
@@ -38,5 +38,40 @@ export const Input: React.FC<inputProps> = ({
         {actionIcon}
       </button>
     </div>
+  );
+};
+
+interface toggleSwitchProps {
+  enable: boolean;
+  onChange: () => void;
+}
+
+export const ToggleSwitch: React.FC<toggleSwitchProps> = ({
+  enable,
+  onChange,
+}) => {
+  return (
+    <label className="flex cursor-pointer items-center">
+      <div className="relative">
+        <input
+          className="sr-only"
+          type="checkbox"
+          checked={enable}
+          onChange={onChange}
+        ></input>
+        <div
+          className={
+            "block h-6 w-10 rounded-full " +
+            (enable ? "bg-blue-600" : "bg-gray-300")
+          }
+        ></div>
+        <div
+          className={
+            "absolute top-1 left-1 h-4 w-4 rounded-full bg-white transition-transform " +
+            (enable ? "translate-x-4 transform" : "")
+          }
+        ></div>
+      </div>
+    </label>
   );
 };

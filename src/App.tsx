@@ -14,6 +14,7 @@ import Overview from "./pages/dashboard/Overview";
 import Domains from "./pages/dashboard/Domains";
 import Support from "./pages/dashboard/Support";
 import Settings from "./pages/dashboard/Settings";
+import DomainDetail from "./pages/dashboard/DomainDetail";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />}>
               <Route index element={<Overview />} />
               <Route path="domains" element={<Domains />} />
+              <Route path="domains/:domainId" element={<DomainDetail />} />
               <Route path="support" element={<Support />} />
               <Route path="settings" element={<Settings />} />
             </Route>

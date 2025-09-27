@@ -14,6 +14,7 @@ import { searchDomainListTemp } from "./domainsData";
 import type { domainType } from "./domainsData";
 import { useState } from "react";
 import { Pagination, PaginationMini } from "../../components/ui/Pagination";
+import { useNavigate } from "react-router-dom";
 
 const Domains: React.FC = () => {
   const [searchDomainList, setSearchDomainList] =
@@ -21,8 +22,15 @@ const Domains: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(10);
 
+  const navigate = useNavigate();
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const handleDomainDetail = (domainId: number) => {
+    console.log("domainId = " + domainId);
+    navigate(`${domainId}`);
   };
 
   return (
@@ -134,6 +142,7 @@ const Domains: React.FC = () => {
                           <Cog6ToothIcon className="text-third size-4"></Cog6ToothIcon>
                         }
                         className="hover:bg-light-third"
+                        onClick={() => handleDomainDetail(domain.id)}
                       ></SquareButton>
                       <SquareButton
                         leftIcon={
