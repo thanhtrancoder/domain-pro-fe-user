@@ -157,7 +157,7 @@ const Cart: React.FC = () => {
             <div className="absolute z-10 flex h-full w-fit w-full items-center justify-center">
               <div className="bg-tint-primary border-tint-primary2 text-primary-hover2 flex w-fit items-center justify-center gap-2 rounded-xl border p-4 font-medium shadow-xl">
                 <img src={AnnouncementIcon} className="size-6"></img>
-                <span className="">Tính năng này sẽ được phát hành sau.</span>
+                <span className="">Tính năng sẽ được phát hành sau.</span>
               </div>
             </div>
 
