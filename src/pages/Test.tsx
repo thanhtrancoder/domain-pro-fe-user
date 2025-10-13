@@ -38,7 +38,10 @@ const Test = () => {
 
     toast("success", "test");
     toast("error", "test");
-    toast("info", "test");
+    toast(
+      "info",
+      "Join us for Open Source Friday as we explore Simulacrum! The powerful toolkit that allows you to simulate the GitHub API so you can build, test, and demo without hitting real servers. We’ll show how developers use Simulacrum to eliminate flaky tests, mock complex workflows, and preview integrations faster. ",
+    );
     toast("warning", "test");
 
     return () => {

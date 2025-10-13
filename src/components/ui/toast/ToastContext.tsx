@@ -4,6 +4,7 @@ export type Toast = {
   id: string;
   type: "success" | "error" | "info" | "warning";
   message: string;
+  isLeaving?: boolean;
 };
 
 type State = {
@@ -12,6 +13,7 @@ type State = {
 
 type Action =
   | { type: "ADD_TOAST"; toast: Toast }
+  | { type: "START_REMOVE_TOAST"; id: string }
   | { type: "REMOVE_TOAST"; id: string };
 
 const ToastStateContext = createContext<State | undefined>(undefined);
@@ -23,6 +25,12 @@ function toastReducer(state: State, action: Action): State {
   switch (action.type) {
     case "ADD_TOAST":
       return { toasts: [...state.toasts, action.toast] };
+    case "START_REMOVE_TOAST":
+      return {
+        toasts: state.toasts.map((toast) =>
+          toast.id === action.id ? { ...toast, isLeaving: true } : toast,
+        ),
+      };
     case "REMOVE_TOAST":
       return { toasts: state.toasts.filter((t) => t.id !== action.id) };
     default:
@@ -60,11 +68,14 @@ export function useToast(timeout = 3000) {
     const id = Math.random().toString(36).substr(2, 9);
     dispatch({
       type: "ADD_TOAST",
-      toast: { id, type, message },
+      toast: { id, type, message, isLeaving: false },
     });
     setTimeout(() => {
-      dispatch({ type: "REMOVE_TOAST", id });
+      dispatch({ type: "START_REMOVE_TOAST", id });
     }, timeout);
+    setTimeout(() => {
+      dispatch({ type: "REMOVE_TOAST", id });
+    }, timeout + 300);
   }
   return toast;
 }

@@ -28,7 +28,7 @@ function App() {
         <Layout
           children={
             <Routes>
-              <Route path="/test" element={<Test />} />
+              {/* <Route path="/test" element={<Test />} /> */}
               <Route path="/" element={<Home />} />
               <Route path="/search" element={<Search />} />
               <Route path="/register" element={<Signup />} />

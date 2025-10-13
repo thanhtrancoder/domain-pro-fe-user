@@ -40,7 +40,7 @@ export const domainSaleListSample:domainSaleType[] = [
     priceSale: 199000,
   },
   {
-    id: 5,
+    id: 6,
     domain: ".xyz",
     price: 199000,
     priceSale: 99000,

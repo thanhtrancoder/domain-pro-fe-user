@@ -14,7 +14,8 @@ import {
   domainDiscountListSample,
 } from "./homeData";
 import type { iconProps } from "../components/icons/Icon";
-import { SearchForm1 } from "../components/ui/SearchForm";
+import { SearchForm2 } from "../components/ui/SearchForm";
+import { useNavigate } from "react-router-dom";
 
 interface domainSaleType {
   id: number;
@@ -114,6 +115,8 @@ const DomainDiscount: React.FC<domainDiscountProps> = ({
 };
 
 const Home = () => {
+  const navigate = useNavigate();
+
   const [domainSaleList, setDomainSaleList] =
     useState<domainSaleType[]>(domainSaleListSample);
 
@@ -126,6 +129,16 @@ const Home = () => {
   const [domainDiscountList, setDomainDiscountList] = useState<
     domainDiscountListType[]
   >(domainDiscountListSample);
+  const [showSearchStringEmptyTooltip, setShowSearchStringEmptyTooltip] =
+    useState(false);
+
+  const handleSearch = () => {
+    if (searchString.trim() === "") {
+      setShowSearchStringEmptyTooltip(true);
+      return;
+    }
+    navigate("/search?domain=" + searchString);
+  };
 
   return (
     <>
@@ -143,28 +156,25 @@ const Home = () => {
           </p>
 
           {/* Search form */}
-          <SearchForm1
-            searchString={searchString}
-            setSearchString={setSearchString}
-            navigate={"/search?domain=" + searchString}
-            onActionIconClick={() => setSearchString("")}
-          ></SearchForm1>
-          {/* <div className="w-full max-w-4xl rounded-xl bg-white p-6">
-            <form className="space-y-4 md:flex md:gap-4 md:space-y-0">
-              <Input
-                value={searchString}
-                onChange={(e) => setSearchString(e.target.value)}
-                placeholder="Nhập tên miền bạn muốn tìm..."
-                className="focus-within:border-primary focus-within:ring-primary flex-1 border border-gray-200 focus-within:ring-2 lg:px-6 lg:py-4"
-              ></Input>
-              <NavButton
-                label="Tìm kiếm"
-                to="/search"
-                leftIcon={<SearchIcon className="size-6"></SearchIcon>}
-                className="bg-primary hover:bg-primary-hover text-lg text-white lg:px-6"
-              />
-            </form>
-          </div> */}
+          <div className="w-full max-w-4xl rounded-xl bg-white p-6 shadow-lg">
+            {showSearchStringEmptyTooltip && (
+              <div className="relative">
+                <div className="absolute bottom-full left-0 mb-2 -translate-x-0 transform">
+                  <div className="tooltip-box bg-light-warning2 relative rounded px-2 py-1 text-sm">
+                    Bạn chưa nhập tên miền hoặc từ khóa
+                    <div className="tooltip-arrow border-t-light-warning2 absolute bottom-[-4px] left-1/2 h-0 w-0 -translate-x-1/2 transform border-t-4 border-r-4 border-l-4 border-r-transparent border-l-transparent" />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <SearchForm2
+              searchString={searchString}
+              setSearchString={setSearchString}
+              onActionIconClick={() => setSearchString("")}
+              onClick={() => handleSearch()}
+            ></SearchForm2>
+          </div>
 
           {/* Domain on sale */}
           <div className="grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">

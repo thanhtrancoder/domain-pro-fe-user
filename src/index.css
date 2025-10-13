@@ -28,10 +28,13 @@
   --color-light-success2: #93FF8A;
   --color-tint-success: #F2FFED;
   --color-warning: #FF6A00;
+  --color-warning-hover: #D15700;
   --color-light-warning: #FFD5B8;
+  --color-light-warning2: #FFA05C;
   --color-lightest-warning: #FFF0E6;
   --color-tint-warning: #FFF2E9;
   --color-fail: #FF0015;
+  --color-fail-hover: #D10011;
   --color-light-fail: #FFE6E8;
   --color-light-fail2: #FF8A93;
   --color-tint-fail: #FFEEE8;
@@ -65,4 +68,25 @@
 
 .animate-progress-bar {
   animation: progress-bar 3s linear forwards;
+}
+
+@keyframes collapse-grid {
+  from {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  to {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+}
+
+.animate-collapse-grid {
+  animation: collapse-grid 0.3s ease-in forwards;
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.animate-collapse-grid > div {
+  overflow: hidden;
 }
