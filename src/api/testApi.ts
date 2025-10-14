@@ -1,5 +1,5 @@
-import type { UseApiResult } from './apiType';
-import { callGet, callPost } from './apiCall';
+import type { UseApiResult } from './base/apiType';
+import { callGet, callPost } from './base/apiCall';
 
 export interface testDto {
   id: string;

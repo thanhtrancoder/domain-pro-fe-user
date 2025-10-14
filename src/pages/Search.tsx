@@ -12,6 +12,7 @@ import type { relatedDomainType, resultDomainType } from "./searchData";
 import { moneyFormat } from "../utils/Format";
 import { Button } from "../components/ui/Button";
 import FindIcon from "../assets/icons/icons8-find.svg";
+import { useEffect } from "react";
 
 const Search: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -22,6 +23,10 @@ const Search: React.FC = () => {
   const [resultDomain, setResultDomain] =
     useState<resultDomainType>(resultDomainSample);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const onActionIconClick = () => {
     setSearchString("");

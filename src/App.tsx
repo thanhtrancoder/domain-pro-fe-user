@@ -9,6 +9,7 @@ import Checkout from "./pages/Checkout";
 import Dashboard from "./pages/Dashboard";
 import IconGallery from "./pages/IconGallery";
 import NotFound from "./pages/NotFound";
+import ComingSoon from "./pages/FeatureComingSoon";
 
 import Overview from "./pages/dashboard/Overview";
 import Domains from "./pages/dashboard/Domains";
@@ -30,6 +31,7 @@ function App() {
             <Routes>
               {/* <Route path="/test" element={<Test />} /> */}
               <Route path="/" element={<Home />} />
+              <Route path="/coming-soon" element={<ComingSoon />} />
               <Route path="/search" element={<Search />} />
               <Route path="/register" element={<Signup />} />
               <Route path="/login" element={<Login />} />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { moneyFormat } from "../utils/Format";
 import {
   CheckIcon,
@@ -8,7 +8,6 @@ import {
 } from "../components/icons/Icon";
 import { NavButton } from "../components/ui/Button";
 import {
-  domainSaleListSample,
   serviceListSample,
   domainDiscountSample,
   domainDiscountListSample,
@@ -16,13 +15,10 @@ import {
 import type { iconProps } from "../components/icons/Icon";
 import { SearchForm2 } from "../components/ui/SearchForm";
 import { useNavigate } from "react-router-dom";
-
-interface domainSaleType {
-  id: number;
-  domain: string;
-  price: number;
-  priceSale: number;
-}
+import { getPopular, type domainExtendDto } from "../api/domainExtendApi";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import { useToast } from "../components/ui/toast/ToastContext";
+import { getDiscountest, type voucherDto } from "../api/vouchersApi";
 
 interface serviceType {
   id: number;
@@ -32,6 +28,7 @@ interface serviceType {
   feature: string[];
   price: number;
   unitPrice: string;
+  navigate: string;
 }
 
 interface domainDiscountType {
@@ -81,10 +78,10 @@ const DomainDiscount: React.FC<domainDiscountProps> = ({
         </div>
       )}
       <p className="text-3xl font-bold">{domain}</p>
-      <p className={`text-sm ${priceTextColor} line-through`}>
+      {/* <p className={`text-sm ${priceTextColor} line-through`}>
         {moneyFormat({ value: price, countryCode: "vi-VN", currency: "VND" })}
         /năm
-      </p>
+      </p> */}
       <p className="text-4xl font-bold">
         {moneyFormat({
           value: priceDiscount,
@@ -104,11 +101,14 @@ const DomainDiscount: React.FC<domainDiscountProps> = ({
       {isPopular ? (
         <NavButton
           label="Đăng ký ngay"
-          to="/register"
+          to={"/search?domain=yourdomain" + domain}
           className="text-primary bg-white font-medium hover:bg-gray-100"
         ></NavButton>
       ) : (
-        <NavButton label="Đăng ký ngay" to="/register"></NavButton>
+        <NavButton
+          label="Đăng ký ngay"
+          to={"/search?domain=yourdomain" + domain}
+        ></NavButton>
       )}
     </div>
   );
@@ -116,9 +116,10 @@ const DomainDiscount: React.FC<domainDiscountProps> = ({
 
 const Home = () => {
   const navigate = useNavigate();
+  const toast = useToast(5000);
 
-  const [domainSaleList, setDomainSaleList] =
-    useState<domainSaleType[]>(domainSaleListSample);
+  const [error, setError] = useState<string | null>(null);
+  const [domainSaleList, setDomainSaleList] = useState<domainExtendDto[]>([]);
 
   const [serviceList, setServiceList] =
     useState<serviceType[]>(serviceListSample);
@@ -126,11 +127,47 @@ const Home = () => {
   const [searchString, setSearchString] = useState("");
   const [domainDiscount, setDomainDiscount] =
     useState<domainDiscountType>(domainDiscountSample);
-  const [domainDiscountList, setDomainDiscountList] = useState<
-    domainDiscountListType[]
-  >(domainDiscountListSample);
+  // const [domainDiscountList, setDomainDiscountList] = useState<
+  //   domainDiscountListType[]
+  // >(domainDiscountListSample);
   const [showSearchStringEmptyTooltip, setShowSearchStringEmptyTooltip] =
     useState(false);
+  const [featureList, setFeatureList] = useState<string[]>([
+    "Hỗ trợ 24/7",
+    "DNS miễn phí",
+    "Chuyển đổi dễ dàng",
+  ]);
+  const [voucher, setVoucher] = useState<voucherDto | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function fetch() {
+      const domainSaleData = await getPopular();
+      if (cancelled) return;
+      if (domainSaleData.data) {
+        setDomainSaleList(domainSaleData.data);
+      }
+      if (domainSaleData.error) {
+        toast("error", domainSaleData.error);
+      }
+
+      const voucherData = await getDiscountest();
+      if (cancelled) return;
+      if (voucherData.data) {
+        setVoucher(voucherData.data);
+      }
+      if (voucherData.error) {
+        toast("error", voucherData.error);
+      }
+    }
+
+    fetch();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleSearch = () => {
     if (searchString.trim() === "") {
@@ -151,8 +188,7 @@ const Home = () => {
             doanh nghiệp
           </h1>
           <p className="text-center text-xl text-white lg:text-2xl">
-            Đăng ký tên miền với giá tốt nhất. Hơn 500+ đuôi tên miền để lựa
-            chọn.
+            Đăng ký tên miền với giá tốt nhất.
           </p>
 
           {/* Search form */}
@@ -180,20 +216,20 @@ const Home = () => {
           <div className="grid w-full max-w-4xl grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
             {domainSaleList.map((domainSaleItem) => (
               <div
-                key={domainSaleItem.id}
+                key={domainSaleItem.domainExtendId}
                 className="flex w-full flex-col items-center rounded-xl bg-white/10 py-4 text-lg font-bold transition-colors duration-300 hover:bg-white/20"
               >
-                <span className="text-white">{domainSaleItem.domain}</span>
-                <span className="text-sm font-normal text-white line-through">
+                <span className="text-white">{domainSaleItem.name}</span>
+                {/* <span className="text-sm font-normal text-white line-through">
                   {moneyFormat({
                     value: domainSaleItem.price,
                     countryCode: "vi-VN",
                     currency: "VND",
                   })}
-                </span>
+                </span> */}
                 <span className="text-sixth">
                   {moneyFormat({
-                    value: domainSaleItem.priceSale,
+                    value: domainSaleItem.basePrice,
                     countryCode: "vi-VN",
                     currency: "VND",
                   })}
@@ -247,7 +283,7 @@ const Home = () => {
               </p>
               <NavButton
                 label="Tìm hiểu thêm"
-                to="/register"
+                to={service.navigate}
                 className="hover:bg-primary-hover bg-gray-100 hover:text-white"
                 rightIcon={<ArrowRightIcon className="size-4"></ArrowRightIcon>}
               ></NavButton>
@@ -268,52 +304,61 @@ const Home = () => {
         </div>
 
         {/* Discount announcement */}
-        <div className="from-secondary to-fail space-y-4 rounded-xl bg-gradient-to-br p-8 text-center text-white">
-          <div className="flex items-center justify-center space-x-1 font-bold">
-            <BoltIcon className="size-8"></BoltIcon>
-            <p className="text-2xl">Khuyến mãi đặc biệt!</p>
+        {voucher ? (
+          <div className="from-secondary to-fail space-y-4 rounded-xl bg-gradient-to-br p-8 text-center text-white">
+            <div className="flex items-center justify-center space-x-1 font-bold">
+              <BoltIcon className="size-8"></BoltIcon>
+              <p className="text-2xl">Khuyến mãi đặc biệt!</p>
+            </div>
+            <p className="text-xl">
+              Giảm giá lên đến{" "}
+              <span className="text-3xl font-bold">
+                {moneyFormat({
+                  value: voucher.maxDiscountAmount,
+                  countryCode: "vi-VN",
+                  currency: "VND",
+                })}
+              </span>{" "}
+              cho tên miền bất kỳ{" "}
+              {/* <span className="font-bold">{domainDiscount.domain}</span> */}
+            </p>
+            <p className="text-lg">
+              Nhập mã <span className="font-bold">{voucher.code}</span> để nhận
+              ưu đãi này!
+            </p>
           </div>
-          <p className="text-xl">
-            Giảm giá lên đến{" "}
-            <span className="text-3xl font-bold">
-              {domainDiscount.discount}%
-            </span>{" "}
-            cho tên miền{" "}
-            <span className="font-bold">{domainDiscount.domain}</span>
-          </p>
-          <p className="text-lg">
-            Chỉ còn{" "}
-            <span className="font-bold">
-              {domainDiscount.expiredDuringDate} ngày
-            </span>{" "}
-            để nhận ưu đãi này!
-          </p>
-        </div>
+        ) : (
+          <LoadingSpinner></LoadingSpinner>
+        )}
 
         {/* Domain discount list */}
-        <div className="grid grid-cols-1 gap-6 space-y-4 md:grid-cols-2 lg:grid-cols-3">
-          <DomainDiscount
-            isPopular={false}
-            domain={domainDiscountList[1].domain}
-            price={domainDiscountList[1].price}
-            priceDiscount={domainDiscountList[1].priceDiscount}
-            feature={domainDiscountList[1].feature}
-          ></DomainDiscount>
-          <DomainDiscount
-            isPopular={true}
-            domain={domainDiscountList[0].domain}
-            price={domainDiscountList[0].price}
-            priceDiscount={domainDiscountList[0].priceDiscount}
-            feature={domainDiscountList[0].feature}
-          ></DomainDiscount>
-          <DomainDiscount
-            isPopular={false}
-            domain={domainDiscountList[2].domain}
-            price={domainDiscountList[2].price}
-            priceDiscount={domainDiscountList[2].priceDiscount}
-            feature={domainDiscountList[2].feature}
-          ></DomainDiscount>
-        </div>
+        {domainSaleList.length === 0 ? (
+          <LoadingSpinner></LoadingSpinner>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 space-y-4 md:grid-cols-2 lg:grid-cols-3">
+            <DomainDiscount
+              isPopular={false}
+              domain={domainSaleList[1].name}
+              price={0}
+              priceDiscount={domainSaleList[1].basePrice}
+              feature={featureList}
+            ></DomainDiscount>
+            <DomainDiscount
+              isPopular={true}
+              domain={domainSaleList[0].name}
+              price={0}
+              priceDiscount={domainSaleList[0].basePrice}
+              feature={featureList}
+            ></DomainDiscount>
+            <DomainDiscount
+              isPopular={false}
+              domain={domainSaleList[2].name}
+              price={0}
+              priceDiscount={domainSaleList[2].basePrice}
+              feature={featureList}
+            ></DomainDiscount>
+          </div>
+        )}
       </div>
     </>
   );

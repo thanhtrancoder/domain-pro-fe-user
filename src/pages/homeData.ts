@@ -1,51 +1,7 @@
 import { GlobeIcon, ServerIcon, ShieldIcon, EnvelopeIcon } from "../components/icons/Icon";
 import type { iconProps } from "../components/icons/Icon";
 
-interface domainSaleType {
-  id: number;
-  domain: string;
-  price: number;
-  priceSale: number;
-};
 
-export const domainSaleListSample:domainSaleType[] = [
-  {
-    id: 1,
-    domain: ".com",
-    price: 399000,
-    priceSale: 299000,
-  },
-  {
-    id: 2,
-    domain: ".net",
-    price: 449000,
-    priceSale: 349000,
-  },
-  {
-    id: 3,
-    domain: ".vn",
-    price: 799000,
-    priceSale: 599000,
-  },
-  {
-    id: 4,
-    domain: ".org",
-    price: 429000,
-    priceSale: 329000,
-  },
-  {
-    id: 5,
-    domain: ".info",
-    price: 299000,
-    priceSale: 199000,
-  },
-  {
-    id: 6,
-    domain: ".xyz",
-    price: 199000,
-    priceSale: 99000,
-  },
-];
 
 interface serviceType {
   id: number;
@@ -55,6 +11,7 @@ interface serviceType {
   feature: string[];
   price: number;
   unitPrice: string;
+  navigate: string;
 };
 
 export const serviceListSample: serviceType[] = [
@@ -67,6 +24,7 @@ export const serviceListSample: serviceType[] = [
     feature: ["Hỗ trợ 24/7", "DNS miễn phí", "Chuyển đổi dễ dàng"],
     price: 99000,
     unitPrice: "năm",
+    navigate: "/search?domain=yourdomain.com",
   },
   {
     id: 2,
@@ -77,6 +35,7 @@ export const serviceListSample: serviceType[] = [
     feature: ["SSD NVMe", "SSL miễn phí", "Backup tự động"],
     price: 199000,
     unitPrice: "tháng",
+    navigate: "/coming-soon",
   },
   {
     id: 3,
@@ -87,6 +46,7 @@ export const serviceListSample: serviceType[] = [
     feature: ["Mã hóa 256-bit", "Cài đặt tự động", "Bảo hành 100%"],
     price: 299000,
     unitPrice: "năm",
+    navigate: "/coming-soon",
   },
   {
     id: 4,
@@ -97,6 +57,7 @@ export const serviceListSample: serviceType[] = [
     feature: ["50GB dung lượng", "Anti-spam", "Đồng bộ đa thiết bị"],
     price: 99000,
     unitPrice: "tháng",
+    navigate: "/coming-soon",
   },
 ];
 

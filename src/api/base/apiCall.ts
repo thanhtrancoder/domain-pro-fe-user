@@ -1,6 +1,5 @@
-import type { apiResponse } from "./apiType";
+import type { apiResponse, UseApiResult } from "./apiType";
 import apiClient from "./apiClient";
-import type { UseApiResult } from "./apiType";
 
 export async function callGet<T, B>(url: string, params?: B): Promise<UseApiResult<T>> {
   let data: T | null = null;
@@ -14,7 +13,11 @@ export async function callGet<T, B>(url: string, params?: B): Promise<UseApiResu
     data = responseCustom.data;
     message = responseCustom.message;
   } catch (err: any) {
-    error = err.message || "Error";
+    if (err instanceof TypeError) {
+      error = "Lỗi kết nối đến server";
+    } else {
+      error = err.message || "Error";
+    }
   } finally {
     loading = false;
   }
@@ -34,7 +37,11 @@ export async function callDelete<T>(url: string, id: string): Promise<UseApiResu
     data = responseCustom.data;
     message = responseCustom.message;
   } catch (err: any) {
-    error = err.message || "Error";
+    if (err instanceof TypeError) {
+      error = "Lỗi kết nối đến server";
+    } else {
+      error = err.message || "Error";
+    }
   } finally {
     loading = false;
   }
@@ -57,7 +64,11 @@ export async function callPost<T, B>(
     data = responseCustom.data;
     message = responseCustom.message;
   } catch (err: any) {
-    error = err.message || "Error";
+    if (err instanceof TypeError) {
+      error = "Lỗi kết nối đến server";
+    } else {
+      error = err.message || "Error";
+    }
   } finally {
     loading = false;
   }
@@ -80,7 +91,11 @@ export async function callPut<T, B>(
     data = responseCustom.data;
     message = responseCustom.message;
   } catch (err: any) {
-    error = err.message || "Error";
+    if (err instanceof TypeError) {
+      error = "Lỗi kết nối đến server";
+    } else {
+      error = err.message || "Error";
+    }
   } finally {
     loading = false;
   }
