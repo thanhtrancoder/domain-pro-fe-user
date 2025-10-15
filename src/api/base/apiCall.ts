@@ -1,22 +1,37 @@
 import type { apiResponse, UseApiResult } from "./apiType";
 import apiClient from "./apiClient";
 
-export async function callGet<T, B>(url: string, params?: B): Promise<UseApiResult<T>> {
+interface callApiParams<B> {
+  url: string;
+  id?: string;
+  data?: B;
+  login?: boolean;
+}
+
+export async function callGet<T, B>(params: callApiParams<B>): Promise<UseApiResult<T>> {
   let data: T | null = null;
-  let message: string | null = null;
-  let error: string | null = null;
+  let message: string | "" = "";
+  let error: apiResponse<null> | null = null;
   let loading = true;
 
   try {
-    const resp = await apiClient.get<apiResponse<T>>(url, {params});
+    const resp = await apiClient.get<apiResponse<T>>(
+      params.url,
+      {params: params.data, login: params.login}
+    );
     const responseCustom: apiResponse<T> = resp.data;
     data = responseCustom.data;
     message = responseCustom.message;
   } catch (err: any) {
     if (err instanceof TypeError) {
-      error = "Lỗi kết nối đến server";
+      error = {
+        timestamp: null,
+        status: null,
+        message: "Lỗi kết nối đến server",
+        data: null,
+      };
     } else {
-      error = err.message || "Error";
+      error = err;
     }
   } finally {
     loading = false;
@@ -25,22 +40,30 @@ export async function callGet<T, B>(url: string, params?: B): Promise<UseApiResu
   return { data, error, message, loading };
 }
 
-export async function callDelete<T>(url: string, id: string): Promise<UseApiResult<T>> {
+export async function callDelete<T>(params: callApiParams<null>): Promise<UseApiResult<T>> {
   let data: T | null = null;
-  let message: string | null = null;
-  let error: string | null = null;
+  let message: string | "" = "";
+  let error: apiResponse<null> | null = null;
   let loading = true;
 
   try {
-    const resp = await apiClient.delete<apiResponse<T>>(url+"/"+id);
+    const resp = await apiClient.delete<apiResponse<T>>(
+      params.url + "/" + params.id,
+      { login: params.login }
+    );
     const responseCustom: apiResponse<T> = resp.data;
     data = responseCustom.data;
     message = responseCustom.message;
   } catch (err: any) {
     if (err instanceof TypeError) {
-      error = "Lỗi kết nối đến server";
+      error = {
+        timestamp: null,
+        status: null,
+        message: "Lỗi kết nối đến server",
+        data: null,
+      };
     } else {
-      error = err.message || "Error";
+      error = err;
     }
   } finally {
     loading = false;
@@ -49,25 +72,31 @@ export async function callDelete<T>(url: string, id: string): Promise<UseApiResu
   return { data, error, message, loading };
 }
 
-export async function callPost<T, B>(
-  url: string,
-  body: B
-): Promise<UseApiResult<T>> {
+export async function callPost<T, B>(params: callApiParams<B>): Promise<UseApiResult<T>> {
   let data: T | null = null;
-  let message: string | null = null;
-  let error: string | null = null;
+  let message: string | "" = "";
+  let error: apiResponse<null> | null = null;
   let loading = true;
 
   try {
-    const resp = await apiClient.post<apiResponse<T>>(url, body);
+    const resp = await apiClient.post<apiResponse<T>>(
+      params.url,
+      params.data,
+      { login: params.login }
+    );
     const responseCustom: apiResponse<T> = resp.data;
     data = responseCustom.data;
     message = responseCustom.message;
   } catch (err: any) {
     if (err instanceof TypeError) {
-      error = "Lỗi kết nối đến server";
+      error = {
+        timestamp: null,
+        status: null,
+        message: "Lỗi kết nối đến server",
+        data: null,
+      };
     } else {
-      error = err.message || "Error";
+      error = err;
     }
   } finally {
     loading = false;
@@ -76,25 +105,31 @@ export async function callPost<T, B>(
   return { data, error, message, loading };
 }
 
-export async function callPut<T, B>(
-  url: string,
-  body: B
-): Promise<UseApiResult<T>> {
+export async function callPut<T, B>(params: callApiParams<B>): Promise<UseApiResult<T>> {
   let data: T | null = null;
-  let message: string | null = null;
-  let error: string | null = null;
+  let message: string | "" = "";
+  let error: apiResponse<null> | null = null;
   let loading = true;
 
   try {
-    const resp = await apiClient.put<apiResponse<T>>(url, body);
+    const resp = await apiClient.put<apiResponse<T>>(
+      params.url,
+      params.data,
+      { login: params.login }
+    );
     const responseCustom: apiResponse<T> = resp.data;
     data = responseCustom.data;
     message = responseCustom.message;
   } catch (err: any) {
     if (err instanceof TypeError) {
-      error = "Lỗi kết nối đến server";
+      error = {
+        timestamp: null,
+        status: null,
+        message: "Lỗi kết nối đến server",
+        data: null,
+      };
     } else {
-      error = err.message || "Error";
+      error = err;
     }
   } finally {
     loading = false;

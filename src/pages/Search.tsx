@@ -1,5 +1,5 @@
-import { SearchForm1 } from "../components/ui/SearchForm";
-import { useState } from "react";
+import { SearchForm2 } from "../components/ui/SearchForm";
+import React, { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import {
   XMarkIcon,
@@ -7,26 +7,125 @@ import {
   CartPlusIcon,
   CheckIcon,
 } from "../components/icons/Icon";
-import { relatedDomainSample, resultDomainSample } from "./searchData";
-import type { relatedDomainType, resultDomainType } from "./searchData";
 import { moneyFormat } from "../utils/Format";
 import { Button } from "../components/ui/Button";
 import FindIcon from "../assets/icons/icons8-find.svg";
 import { useEffect } from "react";
+import { useToast } from "../components/ui/toast/ToastContext";
+import { searchDomainExtend } from "../api/domainExtend/domainExtendApi";
+import type { domainExtendDto } from "../api/domainExtend/domainExtendRes";
+import { transformString } from "../utils/StringUtil";
+import { addToCart } from "../api/cart/cartApi";
+import type { cartDto } from "../api/cart/cartReq";
 
 const Search: React.FC = () => {
+  const toast = useToast(5000);
+  const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("domain");
+
   const [searchString, setSearchString] = useState(searchQuery || "");
-  const [relatedDomainList, setRelatedDomainList] =
-    useState<relatedDomainType[]>(relatedDomainSample);
-  const [resultDomain, setResultDomain] =
-    useState<resultDomainType>(resultDomainSample);
-  const navigate = useNavigate();
+  const [domainName, setDomainName] = useState<String>("");
+  const [domainNameFull, setDomainNameFull] = useState<String>("");
+  const [relatedDomainList, setRelatedDomainList] = useState<domainExtendDto[]>(
+    [],
+  );
+  const [domainExtendId, setDomainExtendId] = useState<number>(0);
+  const [isAvailable, setIsAvailable] = useState(true);
+  const [price, setPrice] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function fetch() {
+      if (searchString === "") return;
+      const transformedString = transformString(searchString);
+
+      let domainExtendIdData: number = 0;
+      let isAvailableData: boolean = false;
+      let priceData: number = 0;
+      let domainNameData: string = transformedString;
+      let domainNameFullData: string = transformedString;
+
+      const domainNameSplit = transformedString.split(".");
+      if (domainNameSplit.length > 1) {
+        domainNameData = domainNameSplit[domainNameSplit.length - 2];
+      }
+
+      const domainSearchData = await searchDomainExtend({
+        domainName: transformedString,
+        size: 100,
+        page: 0,
+      });
+
+      if (cancelled) return;
+      if (domainSearchData.data) {
+        const domainList = domainSearchData.data.content;
+        let filtered = domainList;
+        for (const domain of domainList) {
+          if (transformedString.includes(domain.name)) {
+            domainExtendIdData = domain.domainExtendId;
+            isAvailableData = true;
+            priceData = domain.basePrice;
+            filtered = domainList.filter((d) => d.name !== domain.name);
+            break;
+          }
+        }
+
+        if (filtered.length === domainList.length) {
+          isAvailableData = false;
+
+          if (domainNameData === domainNameFullData) {
+            isAvailableData = true;
+            domainNameFullData = transformedString + domainList[0].name;
+          }
+          domainExtendIdData = domainList[0].domainExtendId;
+          priceData = domainList[0].basePrice;
+          filtered = domainList.filter((d) => d.name !== domainList[0].name);
+        }
+        setDomainName(domainNameData);
+        setDomainNameFull(domainNameFullData);
+        setDomainExtendId(domainExtendIdData);
+        setIsAvailable(isAvailableData);
+        setPrice(priceData);
+        setRelatedDomainList(filtered);
+      }
+      if (domainSearchData.error) {
+        toast("error", domainSearchData.error.message);
+      }
+    }
+
+    fetch();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [searchQuery]);
+
+  const handleAddToCart = async (domainExtendId: number) => {
+    const req: cartDto = {
+      domainName: "thanhtran",
+      domainExtendId: domainExtendId,
+    };
+
+    const addToCartData = await addToCart(req);
+    if (addToCartData.data) {
+      toast("success", addToCartData.message || "Thêm vào giỏ hàng thành công");
+    }
+    if (addToCartData.error) {
+      if (addToCartData.error.status === 403) {
+        navigate("/login");
+        toast("warning", "Vui lòng đăng nhập để thêm vào giỏ hàng");
+      } else {
+        toast("error", addToCartData.error.message);
+      }
+    }
+  };
 
   const onActionIconClick = () => {
     setSearchString("");
@@ -35,7 +134,7 @@ const Search: React.FC = () => {
 
   return (
     <div className="">
-      <div className="from-primary to-primary-hover2 space-y-8 bg-gradient-to-br px-4 py-12 md:space-y-10 md:px-10 md:py-16 lg:space-y-12 lg:px-14 lg:py-20">
+      <div className="from-primary to-primary-hover2 space-y-8 bg-gradient-to-br px-4 py-12 md:space-y-10 md:px-10 md:py-16 lg:space-y-12 lg:px-20 lg:py-20">
         {/* Tittle */}
         <p className="text-center text-4xl font-bold text-white md:text-5xl">
           Sở hữu <span className="text-light-secondary">tên miền</span> riêng
@@ -43,13 +142,15 @@ const Search: React.FC = () => {
         </p>
 
         {/* Search */}
-        <div className="flex w-full items-center justify-center">
-          <SearchForm1
-            searchString={searchString}
-            setSearchString={setSearchString}
-            navigate={"/search?domain=" + searchString}
-            onActionIconClick={() => onActionIconClick()}
-          />
+        <div className="flex items-center justify-center">
+          <div className="w-full max-w-4xl rounded-xl bg-white p-6 shadow-lg">
+            <SearchForm2
+              searchString={searchString}
+              setSearchString={setSearchString}
+              onActionIconClick={() => onActionIconClick()}
+              onClick={() => navigate("/search?domain=" + searchString)}
+            />
+          </div>
         </div>
 
         {/* Result */}
@@ -61,47 +162,47 @@ const Search: React.FC = () => {
                 <div
                   className={
                     "flex aspect-square h-14 w-14 items-center justify-center rounded-full " +
-                    (resultDomain.isAvailable
-                      ? "bg-light-success"
-                      : "bg-light-fail")
+                    (isAvailable ? "bg-light-success" : "bg-light-fail")
                   }
                 >
-                  {resultDomain.isAvailable ? (
+                  {isAvailable ? (
                     <CheckIcon className="text-success-hover size-8"></CheckIcon>
                   ) : (
                     <XMarkIcon className="text-fail size-8"></XMarkIcon>
                   )}
                 </div>
                 <div className="w-full lg:grid lg:grid-cols-2 lg:items-center lg:justify-center lg:gap-2">
-                  <p className="text-3xl font-bold break-all">{searchQuery}</p>
+                  <p className="text-3xl font-bold break-all">
+                    {domainNameFull}
+                  </p>
                   <p
                     className={
                       "text-lg font-medium " +
-                      (resultDomain.isAvailable
+                      (isAvailable
                         ? "text-success-hover md:w-2/3"
                         : "text-fail")
                     }
                   >
-                    {resultDomain.isAvailable
+                    {isAvailable
                       ? "Có sẵn để đăng ký"
                       : "Tên miền này đã được đăng ký"}
                   </p>
                 </div>
               </div>
-              {resultDomain.isAvailable ? (
+              {isAvailable ? (
                 <div className="flex items-center gap-4 lg:col-span-2 lg:justify-end">
                   <div className="text-right">
-                    <p className="text-sm text-gray-500 line-through">
+                    {/* <p className="text-sm text-gray-500 line-through">
                       {moneyFormat({
                         value: resultDomain.price,
                         countryCode: "vi-VN",
                         currency: "VND",
                       })}
                       /năm
-                    </p>
+                    </p> */}
                     <p className="text-primary text-2xl font-bold">
                       {moneyFormat({
-                        value: resultDomain.priceDiscount,
+                        value: price,
                         countryCode: "vi-VN",
                         currency: "VND",
                       })}
@@ -112,10 +213,14 @@ const Search: React.FC = () => {
                     <Button
                       label="Thêm vào giỏ hàng"
                       leftIcon={<CartIcon></CartIcon>}
+                      onClick={() => handleAddToCart(domainExtendId)}
                     ></Button>
                   </div>
                   <div className="ml-auto md:hidden">
-                    <Button leftIcon={<CartPlusIcon></CartPlusIcon>}></Button>
+                    <Button
+                      leftIcon={<CartPlusIcon></CartPlusIcon>}
+                      onClick={() => handleAddToCart(domainExtendId)}
+                    ></Button>
                   </div>
                 </div>
               ) : (
@@ -129,7 +234,7 @@ const Search: React.FC = () => {
           )}
       </div>
 
-      <div className="md:px10 space-y-8 bg-gray-50 px-4 py-8 lg:px-14">
+      <div className="md:px10 space-y-8 bg-gray-50 px-4 py-8 lg:px-20">
         {/* Related domain */}
         {searchQuery !== "" &&
         searchQuery !== undefined &&
@@ -141,28 +246,26 @@ const Search: React.FC = () => {
             <div className="space-y-4">
               {relatedDomainList.map((relatedDomain) => (
                 <div
-                  key={relatedDomain.id}
+                  key={relatedDomain.domainExtendId}
                   className="flex flex-col gap-y-2 rounded-xl border-2 border-gray-200 bg-white p-6 md:grid md:grid-cols-5 md:items-center"
                 >
                   <p className="text-xl font-bold break-all md:col-span-2 lg:col-span-3">
-                    {searchQuery}
-                    <span className="text-secondary">
-                      {relatedDomain.domain}
-                    </span>
+                    {domainName}
+                    <span className="text-secondary">{relatedDomain.name}</span>
                   </p>
-                  <div className="flex items-center justify-end gap-2 md:col-span-3 lg:col-span-2">
+                  <div className="flex items-center justify-end gap-4 md:col-span-3 lg:col-span-2">
                     <div className="text-right">
-                      <p className="text-sm text-gray-500 line-through">
+                      {/* <p className="text-sm text-gray-500 line-through">
                         {moneyFormat({
                           value: relatedDomain.price,
                           countryCode: "vi-VN",
                           currency: "VND",
                         })}
                         /năm
-                      </p>
+                      </p> */}
                       <p className="text-primary text-2xl font-bold">
                         {moneyFormat({
-                          value: relatedDomain.priceDiscount,
+                          value: relatedDomain.basePrice,
                           countryCode: "vi-VN",
                           currency: "VND",
                         })}
@@ -173,10 +276,18 @@ const Search: React.FC = () => {
                       <Button
                         label="Thêm vào giỏ hàng"
                         leftIcon={<CartIcon></CartIcon>}
+                        onClick={() =>
+                          handleAddToCart(relatedDomain.domainExtendId)
+                        }
                       ></Button>
                     </div>
                     <div className="md:hidden">
-                      <Button leftIcon={<CartPlusIcon></CartPlusIcon>}></Button>
+                      <Button
+                        leftIcon={<CartPlusIcon></CartPlusIcon>}
+                        onClick={() =>
+                          handleAddToCart(relatedDomain.domainExtendId)
+                        }
+                      ></Button>
                     </div>
                   </div>
                 </div>

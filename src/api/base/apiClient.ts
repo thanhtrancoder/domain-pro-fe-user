@@ -3,7 +3,7 @@ import axios, { type AxiosInstance } from 'axios';
 
 declare module 'axios' {
   interface AxiosRequestConfig {
-    skipAuth?: boolean;
+    login?: boolean;
   }
 }
 
@@ -16,10 +16,11 @@ const apiClient: AxiosInstance = axios.create({
 });
 
 apiClient.interceptors.request.use(config => {
-  if (config.skipAuth) {
+  if (config.login !== true) {
     return config;
   }
   const token = localStorage.getItem('token');
+  
   if (token && config.headers) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }

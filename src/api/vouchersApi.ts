@@ -17,5 +17,7 @@ export interface voucherDto {
 const vouchersUrl = `/vouchers`;
 
 export async function getDiscountest(): Promise<UseApiResult<voucherDto>> {
-  return callGet<voucherDto, null>(`${vouchersUrl}/discountest`);
+  return callGet<voucherDto, null>({
+    url: `${vouchersUrl}/discountest`,
+  });
 }

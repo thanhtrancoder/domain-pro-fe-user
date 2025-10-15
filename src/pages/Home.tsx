@@ -15,10 +15,11 @@ import {
 import type { iconProps } from "../components/icons/Icon";
 import { SearchForm2 } from "../components/ui/SearchForm";
 import { useNavigate } from "react-router-dom";
-import { getPopular, type domainExtendDto } from "../api/domainExtendApi";
+import { getDomainExtendPopular } from "../api/domainExtend/domainExtendApi";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import { useToast } from "../components/ui/toast/ToastContext";
 import { getDiscountest, type voucherDto } from "../api/vouchersApi";
+import type { domainExtendDto } from "../api/domainExtend/domainExtendRes";
 
 interface serviceType {
   id: number;
@@ -35,14 +36,6 @@ interface domainDiscountType {
   domain: string;
   discount: number;
   expiredDuringDate: number;
-}
-
-interface domainDiscountListType {
-  id: number;
-  domain: string;
-  price: number;
-  priceDiscount: number;
-  feature: string[];
 }
 
 interface domainDiscountProps {
@@ -118,7 +111,6 @@ const Home = () => {
   const navigate = useNavigate();
   const toast = useToast(5000);
 
-  const [error, setError] = useState<string | null>(null);
   const [domainSaleList, setDomainSaleList] = useState<domainExtendDto[]>([]);
 
   const [serviceList, setServiceList] =
@@ -143,13 +135,13 @@ const Home = () => {
     let cancelled = false;
 
     async function fetch() {
-      const domainSaleData = await getPopular();
+      const domainSaleData = await getDomainExtendPopular();
       if (cancelled) return;
       if (domainSaleData.data) {
         setDomainSaleList(domainSaleData.data);
       }
       if (domainSaleData.error) {
-        toast("error", domainSaleData.error);
+        toast("error", domainSaleData.error.message);
       }
 
       const voucherData = await getDiscountest();
@@ -158,7 +150,7 @@ const Home = () => {
         setVoucher(voucherData.data);
       }
       if (voucherData.error) {
-        toast("error", voucherData.error);
+        toast("error", voucherData.error.message);
       }
     }
 
