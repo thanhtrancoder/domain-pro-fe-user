@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
-import Home from "./pages/Home";
-import Search from "./pages/Search";
+import Home from "./pages/home/Home";
+import Search from "./pages/search/Search";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Cart from "./pages/Cart";
+import Cart from "./pages/cart/Cart";
 import Checkout from "./pages/Checkout";
 import Dashboard from "./pages/Dashboard";
 import IconGallery from "./pages/IconGallery";

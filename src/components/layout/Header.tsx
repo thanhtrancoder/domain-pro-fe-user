@@ -5,11 +5,41 @@ import { CartIcon, UserCircleIcon, AngleRightIcon } from "../icons/Icon";
 import type { menuType } from "./types";
 import { headerMenuList } from "./headerData";
 import { Link } from "react-router-dom";
+import { getProfile } from "../../api/account/accountApi";
 
 const Header: React.FC = () => {
   const [isLogin, setIsLogin] = useState(false);
-  const [cartCount, setCartCount] = useState("99");
+  const [cartCount, setCartCount] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setIsLogin(false);
+
+      cancelled = true;
+      return;
+    }
+    console.log("token = " + token);
+    async function fetch() {
+      const profileData = await getProfile();
+      if (cancelled) return;
+      if (profileData.error) {
+        setIsLogin(false);
+      }
+      if (profileData.data) {
+        setIsLogin(true);
+        setCartCount(profileData.data.numberCartItem);
+      }
+    }
+    fetch();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -87,9 +117,11 @@ const Header: React.FC = () => {
                 className="hover:text-primary relative flex items-center rounded-lg p-1 hover:bg-gray-100"
               >
                 <CartIcon className="size-7"></CartIcon>
-                <span className="bg-fail absolute -top-1 -right-2 rounded-full px-1.5 text-sm font-medium text-white">
-                  {cartCount}
-                </span>
+                {cartCount > 0 && (
+                  <span className="bg-fail absolute -top-1 -right-2 rounded-full px-1.5 text-sm font-medium text-white">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
               <a
                 href="/login"

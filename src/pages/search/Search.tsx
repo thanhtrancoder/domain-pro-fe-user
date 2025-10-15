@@ -1,4 +1,4 @@
-import { SearchForm2 } from "../components/ui/SearchForm";
+import { SearchForm2 } from "../../components/ui/SearchForm";
 import React, { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import {
@@ -6,17 +6,17 @@ import {
   CartIcon,
   CartPlusIcon,
   CheckIcon,
-} from "../components/icons/Icon";
-import { moneyFormat } from "../utils/Format";
-import { Button } from "../components/ui/Button";
-import FindIcon from "../assets/icons/icons8-find.svg";
+} from "../../components/icons/Icon";
+import { moneyFormat } from "../../utils/Format";
+import { Button } from "../../components/ui/Button";
+import FindIcon from "../../assets/icons/icons8-find.svg";
 import { useEffect } from "react";
-import { useToast } from "../components/ui/toast/ToastContext";
-import { searchDomainExtend } from "../api/domainExtend/domainExtendApi";
-import type { domainExtendDto } from "../api/domainExtend/domainExtendRes";
-import { transformString } from "../utils/StringUtil";
-import { addToCart } from "../api/cart/cartApi";
-import type { cartDto } from "../api/cart/cartReq";
+import { useToast } from "../../components/ui/toast/ToastContext";
+import { searchDomainExtend } from "../../api/domainExtend/domainExtendApi";
+import type { domainExtendDto } from "../../api/domainExtend/domainExtendRes";
+import { transformString } from "../../utils/StringUtil";
+import { addToCart } from "../../api/cart/cartApi";
+import type { cartDto } from "../../api/cart/cartReq";
 
 const Search: React.FC = () => {
   const toast = useToast(5000);
@@ -31,9 +31,10 @@ const Search: React.FC = () => {
   const [relatedDomainList, setRelatedDomainList] = useState<domainExtendDto[]>(
     [],
   );
-  const [domainExtendId, setDomainExtendId] = useState<number>(0);
+  const [domainExtendIdCurrent, setDomainExtendIdCurrent] = useState<number>(0);
   const [isAvailable, setIsAvailable] = useState(true);
   const [price, setPrice] = useState(0);
+  const [isAddToCart, setIsAddToCart] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -90,7 +91,7 @@ const Search: React.FC = () => {
         }
         setDomainName(domainNameData);
         setDomainNameFull(domainNameFullData);
-        setDomainExtendId(domainExtendIdData);
+        setDomainExtendIdCurrent(domainExtendIdData);
         setIsAvailable(isAvailableData);
         setPrice(priceData);
         setRelatedDomainList(filtered);
@@ -114,9 +115,6 @@ const Search: React.FC = () => {
     };
 
     const addToCartData = await addToCart(req);
-    if (addToCartData.data) {
-      toast("success", addToCartData.message || "Thêm vào giỏ hàng thành công");
-    }
     if (addToCartData.error) {
       if (addToCartData.error.status === 403) {
         navigate("/login");
@@ -124,7 +122,19 @@ const Search: React.FC = () => {
       } else {
         toast("error", addToCartData.error.message);
       }
+      return;
     }
+    if (domainExtendId === domainExtendIdCurrent) {
+      setIsAddToCart(true);
+    }
+    setRelatedDomainList((prev) =>
+      prev.map((item) =>
+        item.domainExtendId === domainExtendId
+          ? { ...item, isAddToCart: true }
+          : item,
+      ),
+    );
+    toast("success", addToCartData.message || "Thêm vào giỏ hàng thành công");
   };
 
   const onActionIconClick = () => {
@@ -209,18 +219,25 @@ const Search: React.FC = () => {
                       /năm
                     </p>
                   </div>
-                  <div className="ml-auto hidden md:block lg:ml-0">
-                    <Button
-                      label="Thêm vào giỏ hàng"
-                      leftIcon={<CartIcon></CartIcon>}
-                      onClick={() => handleAddToCart(domainExtendId)}
-                    ></Button>
-                  </div>
-                  <div className="ml-auto md:hidden">
-                    <Button
-                      leftIcon={<CartPlusIcon></CartPlusIcon>}
-                      onClick={() => handleAddToCart(domainExtendId)}
-                    ></Button>
+                  <div
+                    className={
+                      "ml-auto " +
+                      (isAddToCart && "pointer-events-none opacity-50")
+                    }
+                  >
+                    <div className="hidden md:block lg:ml-0">
+                      <Button
+                        label="Thêm vào giỏ hàng"
+                        leftIcon={<CartIcon></CartIcon>}
+                        onClick={() => handleAddToCart(domainExtendIdCurrent)}
+                      ></Button>
+                    </div>
+                    <div className="md:hidden">
+                      <Button
+                        leftIcon={<CartPlusIcon></CartPlusIcon>}
+                        onClick={() => handleAddToCart(domainExtendIdCurrent)}
+                      ></Button>
+                    </div>
                   </div>
                 </div>
               ) : (
@@ -272,22 +289,30 @@ const Search: React.FC = () => {
                         /năm
                       </p>
                     </div>
-                    <div className="hidden md:block">
-                      <Button
-                        label="Thêm vào giỏ hàng"
-                        leftIcon={<CartIcon></CartIcon>}
-                        onClick={() =>
-                          handleAddToCart(relatedDomain.domainExtendId)
-                        }
-                      ></Button>
-                    </div>
-                    <div className="md:hidden">
-                      <Button
-                        leftIcon={<CartPlusIcon></CartPlusIcon>}
-                        onClick={() =>
-                          handleAddToCart(relatedDomain.domainExtendId)
-                        }
-                      ></Button>
+                    <div
+                      className={
+                        "" +
+                        (relatedDomain.isAddToCart &&
+                          "pointer-events-none opacity-50")
+                      }
+                    >
+                      <div className="hidden md:block">
+                        <Button
+                          label="Thêm vào giỏ hàng"
+                          leftIcon={<CartIcon></CartIcon>}
+                          onClick={() =>
+                            handleAddToCart(relatedDomain.domainExtendId)
+                          }
+                        ></Button>
+                      </div>
+                      <div className="md:hidden">
+                        <Button
+                          leftIcon={<CartPlusIcon></CartPlusIcon>}
+                          onClick={() =>
+                            handleAddToCart(relatedDomain.domainExtendId)
+                          }
+                        ></Button>
+                      </div>
                     </div>
                   </div>
                 </div>

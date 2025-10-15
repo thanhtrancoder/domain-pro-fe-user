@@ -1,7 +1,5 @@
-import { GlobeIcon, ServerIcon, ShieldIcon, EnvelopeIcon } from "../components/icons/Icon";
-import type { iconProps } from "../components/icons/Icon";
-
-
+import { GlobeIcon, ServerIcon, ShieldIcon, EnvelopeIcon } from "../../components/icons/Icon";
+import type { iconProps } from "../../components/icons/Icon";
 
 interface serviceType {
   id: number;

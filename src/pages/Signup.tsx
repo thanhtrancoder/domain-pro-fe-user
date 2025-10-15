@@ -16,6 +16,9 @@ import GoogleIcon from "../assets/icons/icons8-google.svg";
 import { supportData } from "./data";
 import type { supportType } from "./data";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../components/ui/toast/ToastContext";
+import { register } from "../api/auth/authApi";
+import type { registerReq } from "../api/auth/authReq";
 
 interface checkPasswordType {
   length: boolean;
@@ -27,6 +30,9 @@ interface checkPasswordType {
 }
 
 const Signup: React.FC = () => {
+  const toast = useToast(5000);
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [password, setPassword] = useState("");
@@ -44,8 +50,6 @@ const Signup: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accept, setAccept] = useState(false);
   const [isValidAccept, setIsValidAccept] = useState(true);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     {
@@ -120,7 +124,7 @@ const Signup: React.FC = () => {
     }
   }, [password]);
 
-  const onHandleRegister = () => {
+  const onHandleRegister = async () => {
     {
       /* Check email */
     }
@@ -160,7 +164,19 @@ const Signup: React.FC = () => {
       isValidConfirmPasswordTemp &&
       accept
     ) {
-      navigate("/login");
+      const req: registerReq = {
+        email: email,
+        password: password,
+        confirmPassword: confirmPassword,
+      };
+      const registerData = await register(req);
+      if (registerData.error) {
+        toast("error", registerData.error.message);
+        return;
+      }
+      localStorage.setItem("token", registerData.data?.token || "");
+      toast("success", registerData.message);
+      navigate("/");
     }
   };
 

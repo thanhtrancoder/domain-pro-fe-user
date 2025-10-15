@@ -1,5 +1,5 @@
-import { ShieldIcon, LockClosedIcon, ServerIcon, EnvelopeIcon } from "../components/icons/Icon";
-import type { iconProps } from "../components/icons/Icon";
+import { ShieldIcon, LockClosedIcon, ServerIcon, EnvelopeIcon } from "../../components/icons/Icon";
+import type { iconProps } from "../../components/icons/Icon";
 
 export interface domainType {
   id: number;

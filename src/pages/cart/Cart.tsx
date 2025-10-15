@@ -1,21 +1,21 @@
-import { GlobeIcon } from "../components/icons/Icon";
+import { GlobeIcon } from "../../components/icons/Icon";
 import { domainListSample, serviceListSample } from "./cartData";
 import type { domainType, serviceType } from "./cartData";
 import { useState } from "react";
-import { moneyFormat } from "../utils/Format";
-import { SquareButton, Button } from "../components/ui/Button";
+import { moneyFormat } from "../../utils/Format";
+import { SquareButton, Button } from "../../components/ui/Button";
 import {
   MinusIcon,
   PlusIcon,
   TrashIcon,
   SquaresPlusIcon,
-  XMarkIcon,
-  CheckIcon,
+  // XMarkIcon,
+  // CheckIcon,
   ArrowRightIcon,
-} from "../components/icons/Icon";
-import { Input } from "../components/ui/Input";
-import MomoIcon from "../assets/icons/Momo-Icon.jpeg";
-import AnnouncementIcon from "../assets/icons/icons8-announcement-48.png";
+} from "../../components/icons/Icon";
+// import { Input } from "../../components/ui/Input";
+// import MomoIcon from "../../assets/icons/Momo-Icon.jpeg";
+import AnnouncementIcon from "../../assets/icons/icons8-announcement-48.png";
 
 const Cart: React.FC = () => {
   const [domainList, setDomainList] = useState<domainType[]>(domainListSample);

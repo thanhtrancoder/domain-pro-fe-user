@@ -1,25 +1,25 @@
 import { useState, useEffect } from "react";
-import { moneyFormat } from "../utils/Format";
+import { moneyFormat } from "../../utils/Format";
 import {
   CheckIcon,
   ArrowRightIcon,
   BoltIcon,
   CheckBadgeIcon,
-} from "../components/icons/Icon";
-import { NavButton } from "../components/ui/Button";
+} from "../../components/icons/Icon";
+import { NavButton } from "../../components/ui/Button";
 import {
   serviceListSample,
   domainDiscountSample,
   domainDiscountListSample,
 } from "./homeData";
-import type { iconProps } from "../components/icons/Icon";
-import { SearchForm2 } from "../components/ui/SearchForm";
+import type { iconProps } from "../../components/icons/Icon";
+import { SearchForm2 } from "../../components/ui/SearchForm";
 import { useNavigate } from "react-router-dom";
-import { getDomainExtendPopular } from "../api/domainExtend/domainExtendApi";
-import LoadingSpinner from "../components/ui/LoadingSpinner";
-import { useToast } from "../components/ui/toast/ToastContext";
-import { getDiscountest, type voucherDto } from "../api/vouchersApi";
-import type { domainExtendDto } from "../api/domainExtend/domainExtendRes";
+import { getDomainExtendPopular } from "../../api/domainExtend/domainExtendApi";
+import LoadingSpinner from "../../components/ui/LoadingSpinner";
+import { useToast } from "../../components/ui/toast/ToastContext";
+import { getDiscountest, type voucherDto } from "../../api/vouchersApi";
+import type { domainExtendDto } from "../../api/domainExtend/domainExtendRes";
 
 interface serviceType {
   id: number;

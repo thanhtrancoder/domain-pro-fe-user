@@ -6,14 +6,21 @@ export interface testDto {
   name: string;
 }
 
+const testUrl = `/test`;
+
 export async function getTest(): Promise<UseApiResult<testDto>> {
-  return callGet<testDto, null>(`/test`);
+  return callGet<testDto, null>({
+    url: testUrl,
+  });
 }
 
 export async function postTest(
   payload: testDto
 ): Promise<UseApiResult<testDto>> {
-  return callPost<testDto, testDto>(`/test/post`, payload);
+  return callPost<testDto, testDto>({
+    url: testUrl + `/post`,
+    data: payload,
+  });
 }
 
 
