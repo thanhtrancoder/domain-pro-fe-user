@@ -6,6 +6,7 @@ interface callApiParams<B> {
   id?: string;
   data?: B;
   login?: boolean;
+  withCredentials?: boolean;
 }
 
 export async function callGet<T, B>(params: callApiParams<B>): Promise<UseApiResult<T>> {
@@ -17,7 +18,7 @@ export async function callGet<T, B>(params: callApiParams<B>): Promise<UseApiRes
   try {
     const resp = await apiClient.get<apiResponse<T>>(
       params.url,
-      {params: params.data, login: params.login}
+      {params: params.data, login: params.login, withCredentials: params.withCredentials}
     );
     const responseCustom: apiResponse<T> = resp.data;
     data = responseCustom.data;
@@ -49,7 +50,7 @@ export async function callDelete<T>(params: callApiParams<null>): Promise<UseApi
   try {
     const resp = await apiClient.delete<apiResponse<T>>(
       params.url + "/" + params.id,
-      { login: params.login }
+      { login: params.login, withCredentials: params.withCredentials }
     );
     const responseCustom: apiResponse<T> = resp.data;
     data = responseCustom.data;
@@ -82,7 +83,7 @@ export async function callPost<T, B>(params: callApiParams<B>): Promise<UseApiRe
     const resp = await apiClient.post<apiResponse<T>>(
       params.url,
       params.data,
-      { login: params.login }
+      { login: params.login, withCredentials: params.withCredentials }
     );
     const responseCustom: apiResponse<T> = resp.data;
     data = responseCustom.data;
@@ -115,7 +116,7 @@ export async function callPut<T, B>(params: callApiParams<B>): Promise<UseApiRes
     const resp = await apiClient.put<apiResponse<T>>(
       params.url,
       params.data,
-      { login: params.login }
+      { login: params.login, withCredentials: params.withCredentials }
     );
     const responseCustom: apiResponse<T> = resp.data;
     data = responseCustom.data;

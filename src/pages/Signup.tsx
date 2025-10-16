@@ -186,6 +186,11 @@ const Signup: React.FC = () => {
   const inputClassName =
     "focus-within:ring-primary border border-gray-300 shadow-sm transition-discrete duration-300 focus-within:ring-2";
 
+  const handleGoogleLogin = () => {
+    window.location.href =
+      process.env.REACT_APP_BACKEND_DOMAIN + "/oauth2/authorization/google";
+  };
+
   return (
     <div className="from-tint-primary to-tint-primary2 flex flex-col items-center justify-center bg-gradient-to-br px-8 py-12">
       <div className="flex w-fit flex-col items-center justify-center gap-6">
@@ -413,6 +418,7 @@ const Signup: React.FC = () => {
               label="Google"
               leftIcon={<img src={GoogleIcon} className="size-5"></img>}
               className="border border-gray-300 bg-white text-gray-500 hover:bg-gray-100"
+              onClick={() => handleGoogleLogin()}
             ></Button>
           </div>
           <div className="text-center">

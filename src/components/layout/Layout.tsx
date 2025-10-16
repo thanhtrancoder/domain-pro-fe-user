@@ -9,7 +9,7 @@ interface layoutProps {
 
 const Layout: React.FC<layoutProps> = ({ children }) => {
   const { pathname } = useLocation();
-  const hideFor = ["/login", "/register"];
+  const hideFor = ["/login", "/register", "/oauth2/success"];
   const isGuest = hideFor.includes(pathname);
 
   return (

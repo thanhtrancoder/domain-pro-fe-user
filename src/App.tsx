@@ -4,6 +4,7 @@ import Home from "./pages/home/Home";
 import Search from "./pages/search/Search";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import OAuth2Success from "./pages/OAuth2Success";
 import Cart from "./pages/cart/Cart";
 import Checkout from "./pages/Checkout";
 import Dashboard from "./pages/Dashboard";
@@ -35,6 +36,7 @@ function App() {
               <Route path="/search" element={<Search />} />
               <Route path="/register" element={<Signup />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/oauth2/success" element={<OAuth2Success />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/dashboard" element={<Dashboard />}>

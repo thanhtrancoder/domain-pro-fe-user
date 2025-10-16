@@ -22,7 +22,6 @@ const Header: React.FC = () => {
       cancelled = true;
       return;
     }
-    console.log("token = " + token);
     async function fetch() {
       const profileData = await getProfile();
       if (cancelled) return;
