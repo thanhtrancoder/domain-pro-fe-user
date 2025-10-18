@@ -16,7 +16,7 @@ import { searchDomainExtend } from "../../api/domainExtend/domainExtendApi";
 import type { domainExtendDto } from "../../api/domainExtend/domainExtendRes";
 import { transformString } from "../../utils/StringUtil";
 import { addToCart } from "../../api/cart/cartApi";
-import type { cartDto } from "../../api/cart/cartReq";
+import type { addCartReq } from "../../api/cart/cartReq";
 
 const Search: React.FC = () => {
   const toast = useToast(5000);
@@ -109,7 +109,7 @@ const Search: React.FC = () => {
   }, [searchQuery]);
 
   const handleAddToCart = async (domainExtendId: number) => {
-    const req: cartDto = {
+    const req: addCartReq = {
       domainName: "thanhtran",
       domainExtendId: domainExtendId,
     };

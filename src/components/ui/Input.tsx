@@ -7,6 +7,7 @@ interface inputProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   actionIcon?: React.ReactNode;
   onActionIconClick?: () => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export const Input: React.FC<inputProps> = ({
@@ -18,6 +19,7 @@ export const Input: React.FC<inputProps> = ({
   onChange,
   actionIcon,
   onActionIconClick,
+  onKeyDown,
 }) => {
   return (
     <div
@@ -33,6 +35,7 @@ export const Input: React.FC<inputProps> = ({
         value={value}
         className="w-full focus:outline-none"
         onChange={onChange}
+        onKeyDown={onKeyDown}
       ></input>
       <button type="button" onClick={onActionIconClick}>
         {actionIcon}

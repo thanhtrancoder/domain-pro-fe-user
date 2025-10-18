@@ -4,15 +4,3 @@ export interface domainExtendDto {
   basePrice: number;
   isAddToCart: boolean;
 }
-
-interface page {
-  size: number;
-  number: number;
-  totalElements: number;
-  totalPages: number;
-}
-
-export interface searchResponse {
-  content: domainExtendDto[];
-  page: page;
-}

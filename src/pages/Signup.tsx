@@ -204,6 +204,13 @@ const Signup: React.FC = () => {
       process.env.REACT_APP_BACKEND_DOMAIN + "/oauth2/authorization/google";
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      onHandleRegister();
+    }
+  };
+
   return (
     <div className="from-tint-primary to-tint-primary2 flex flex-col items-center justify-center bg-gradient-to-br px-8 py-12">
       <div className="flex w-fit flex-col items-center justify-center gap-6">
@@ -234,6 +241,7 @@ const Signup: React.FC = () => {
               placeholder="Nhập địa chỉ email"
               type="email"
               className={inputClassName}
+              onKeyDown={handleKeyDown}
             ></Input>
             {/* Email requirements */}
             {!isValidEmail && (
@@ -262,6 +270,7 @@ const Signup: React.FC = () => {
                 )
               }
               onActionIconClick={() => setShowPassword(!showPassword)}
+              onKeyDown={handleKeyDown}
             ></Input>
             {/* Password requirements */}
             {password.length === 0 && !checkPassword.valid && (
@@ -375,6 +384,7 @@ const Signup: React.FC = () => {
               onActionIconClick={() =>
                 setShowConfirmPassword(!showConfirmPassword)
               }
+              onKeyDown={handleKeyDown}
             ></Input>
             {/* Confirm Password requirements */}
             {!isValidConfirmPassword && (

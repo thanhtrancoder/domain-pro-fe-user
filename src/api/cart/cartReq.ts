@@ -1,11 +1,16 @@
-export interface cartDto {
+export interface addCartReq {
   cartId?: number | null;
   accountId?: number | null;
   domainName?: string;
   domainExtendId?: number | null;
-  period?: number | null;
+  period?: number;
   domainExtend?: string;
-  price?: number | null;
-  discountPrice?: number | null;
+  price?: number;
+  discountPrice?: number;
   isAvailable?: boolean | null;
+}
+
+export interface updateCartReq {
+  cartId: number;
+  period: number;
 }

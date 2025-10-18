@@ -13,11 +13,12 @@ import {
 import MomoIcon from "../assets/icons/Momo-Icon.jpeg";
 import { Input } from "../components/ui/Input";
 import type { iconProps } from "../components/icons/Icon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { domainType } from "./checkoutData";
 import { domainListSample } from "./checkoutData";
 import { moneyFormat } from "../utils/Format";
 import { Button } from "../components/ui/Button";
+import { useNavigate } from "react-router-dom";
 
 interface inputDataProps {
   label: string;
@@ -66,12 +67,23 @@ const PaymentSecurity: React.FC<paymentSecurityProps> = ({ content }) => {
 };
 
 const Checkout: React.FC = () => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [province, setProvince] = useState("");
   const [address, setAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="space-y-8 bg-gray-50 px-3 py-8 md:px-10 lg:px-20">

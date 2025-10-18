@@ -11,3 +11,15 @@ export interface UseApiResult<T> {
   error: apiResponse<null> | null;
   loading: boolean;
 }
+
+interface page {
+  size: number;
+  number: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+export interface pageRes<T> {
+  content: T[];
+  page: page;
+}

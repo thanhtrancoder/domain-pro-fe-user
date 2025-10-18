@@ -74,6 +74,13 @@ const Login: React.FC = () => {
       process.env.REACT_APP_BACKEND_DOMAIN + "/oauth2/authorization/google";
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      onHandleLogin();
+    }
+  };
+
   const inputClassName =
     "focus-within:ring-primary border border-gray-300 shadow-sm transition-discrete duration-300 focus-within:ring-2";
 
@@ -107,6 +114,7 @@ const Login: React.FC = () => {
               placeholder="Nhập địa chỉ email"
               type="email"
               className={inputClassName}
+              onKeyDown={handleKeyDown}
             ></Input>
             {/* Email requirements */}
             {isEmptyEmail ? (
@@ -143,6 +151,7 @@ const Login: React.FC = () => {
                 )
               }
               onActionIconClick={() => setShowPassword(!showPassword)}
+              onKeyDown={handleKeyDown}
             ></Input>
             {/* Email requirements */}
             {isEmptyPassword && (

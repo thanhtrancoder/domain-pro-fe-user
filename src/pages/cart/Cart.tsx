@@ -1,7 +1,7 @@
 import { GlobeIcon } from "../../components/icons/Icon";
 import { domainListSample, serviceListSample } from "./cartData";
 import type { domainType, serviceType } from "./cartData";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { moneyFormat } from "../../utils/Format";
 import { SquareButton, Button } from "../../components/ui/Button";
 import {
@@ -9,18 +9,70 @@ import {
   PlusIcon,
   TrashIcon,
   SquaresPlusIcon,
-  // XMarkIcon,
-  // CheckIcon,
   ArrowRightIcon,
 } from "../../components/icons/Icon";
-// import { Input } from "../../components/ui/Input";
-// import MomoIcon from "../../assets/icons/Momo-Icon.jpeg";
 import AnnouncementIcon from "../../assets/icons/icons8-announcement-48.png";
+import { useNavigate } from "react-router-dom";
+import {
+  getAllCart,
+  updateCartItem,
+  deleteCartItem,
+} from "../../api/cart/cartApi";
+import { useToast } from "../../components/ui/toast/ToastContext";
+import type { cartDto } from "../../api/cart/cartRes";
+import type { updateCartReq } from "../../api/cart/cartReq";
 
 const Cart: React.FC = () => {
-  const [domainList, setDomainList] = useState<domainType[]>(domainListSample);
+  const navigate = useNavigate();
+  const toast = useToast(5000);
+
+  const [domainList, setDomainList] = useState<cartDto[]>([]);
   const [serviceList, setServiceList] =
     useState<serviceType[]>(serviceListSample);
+  const [numberCartItem, setNumberCartItem] = useState<number>(0);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    let canceled = false;
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+
+    async function fetch() {
+      const response = await getAllCart();
+
+      if (canceled) {
+        return;
+      }
+      if (response.error) {
+        toast("error", response.error.message);
+      } else {
+        setDomainList(response.data?.content || []);
+        setNumberCartItem(response.data?.page.totalElements || 0);
+        const totalPrice = response.data?.content.reduce((total, domain) => {
+          return total + domain.discountPrice * domain.period;
+        }, 0);
+        setTotalPrice(totalPrice || 0);
+      }
+    }
+
+    fetch();
+
+    return () => {
+      canceled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    const totalPrice = domainList.reduce((total, domain) => {
+      return total + domain.discountPrice * domain.period;
+    }, 0);
+    setTotalPrice(totalPrice || 0);
+    setNumberCartItem(domainList.length || 0);
+  }, [domainList]);
 
   const handleCheckServiceFull = (
     serviceId: number,
@@ -48,6 +100,48 @@ const Cart: React.FC = () => {
     );
   };
 
+  const handleUpdatePeriod = async (cartId: number, period: number) => {
+    const req: updateCartReq = {
+      cartId: cartId,
+      period: period,
+    };
+    const response = await updateCartItem(req);
+    if (response.error) {
+      toast("error", response.error.message);
+    } else if (response.data) {
+      setDomainList((prevList) =>
+        prevList.map((item) =>
+          item.cartId === cartId
+            ? {
+                ...item,
+                period: response.data?.period ?? item.period,
+                price: response.data?.price ?? item.price,
+                discountPrice:
+                  response.data?.discountPrice ?? item.discountPrice,
+              }
+            : item,
+        ),
+      );
+      toast("success", response.message);
+    }
+  };
+
+  const handleDeleteCartItem = async (cartId: number) => {
+    const response = await deleteCartItem(cartId);
+    if (response.error) {
+      toast("error", response.error.message);
+    } else {
+      setDomainList((prevList) =>
+        prevList.filter((item) => item.cartId !== cartId),
+      );
+      toast("success", response.message);
+    }
+  };
+
+  const handleCheckout = () => {
+    navigate("/checkout");
+  };
+
   return (
     <div className="space-y-8 bg-gray-50 px-3 py-8 md:px-10 lg:px-20">
       {/* Title */}
@@ -69,38 +163,43 @@ const Cart: React.FC = () => {
 
               <p className="text-xl font-bold">Tên miền đã chọn</p>
               <p className="text-primary-hover bg-light-primary2 rounded-full px-3 py-1 text-center text-sm font-medium">
-                2 tên miền
+                {numberCartItem} tên miền
               </p>
             </div>
 
             <div className="space-y-4">
               {domainList.map((domain) => (
                 <div
-                  key={domain.id}
+                  key={domain.cartId}
                   className="space-y-4 rounded-xl border border-gray-200 p-4 lg:flex lg:items-center lg:gap-3 lg:space-y-0"
                 >
                   <div className="space-y-1">
                     <div className="flex items-center">
-                      <p className="text-xl font-bold">{domain.domainName}</p>
+                      <p className="text-xl font-bold">
+                        {domain.domainName + domain.domainExtend}
+                      </p>
                       <SquareButton
                         leftIcon={<TrashIcon className="text-fail size-5" />}
-                        onClick={() => {}}
+                        onClick={() => handleDeleteCartItem(domain.cartId)}
                         className="hover:bg-light-fail ml-auto lg:hidden"
                       ></SquareButton>
                     </div>
 
                     <div className="flex items-center gap-4 text-sm">
-                      <p className="text-gray-600 line-through">
-                        {moneyFormat({
-                          value: domain.price,
-                          countryCode: "vi-VN",
-                          currency: "VND",
-                        })}
-                        /năm
-                      </p>
+                      {domain.discountPrice !== domain.price && (
+                        <p className="text-gray-600 line-through">
+                          {moneyFormat({
+                            value: domain.price,
+                            countryCode: "vi-VN",
+                            currency: "VND",
+                          })}
+                          /năm
+                        </p>
+                      )}
+
                       <p className="text-success-hover2 font-medium">
                         {moneyFormat({
-                          value: domain.priceDiscount,
+                          value: domain.discountPrice,
                           countryCode: "vi-VN",
                           currency: "VND",
                         })}
@@ -114,7 +213,9 @@ const Cart: React.FC = () => {
                     <div className="flex items-center gap-2 rounded-xl border border-gray-200">
                       <SquareButton
                         leftIcon={<MinusIcon className="size-4" />}
-                        onClick={() => {}}
+                        onClick={() =>
+                          handleUpdatePeriod(domain.cartId, domain.period - 1)
+                        }
                         className="hover:bg-gray-100"
                       ></SquareButton>
                       <p className="text-center text-sm font-medium">
@@ -122,14 +223,16 @@ const Cart: React.FC = () => {
                       </p>
                       <SquareButton
                         rightIcon={<PlusIcon className="size-4" />}
-                        onClick={() => {}}
+                        onClick={() =>
+                          handleUpdatePeriod(domain.cartId, domain.period + 1)
+                        }
                         className="hover:bg-gray-100"
                       ></SquareButton>
                     </div>
                     <div className="ml-auto text-right lg:pl-2">
                       <p className="text-primary-hover text-lg font-bold">
                         {moneyFormat({
-                          value: domain.priceDiscount * domain.period,
+                          value: domain.discountPrice * domain.period,
                           countryCode: "vi-VN",
                           currency: "VND",
                         })}
@@ -143,7 +246,7 @@ const Cart: React.FC = () => {
                   </div>
                   <SquareButton
                     leftIcon={<TrashIcon className="text-fail size-5" />}
-                    onClick={() => {}}
+                    onClick={() => handleDeleteCartItem(domain.cartId)}
                     className="hover:bg-light-fail hidden lg:block"
                   ></SquareButton>
                 </div>
@@ -250,8 +353,14 @@ const Cart: React.FC = () => {
               {/* List item */}
               <div className="space-y-2 text-gray-600">
                 <div className="flex items-center">
-                  <p>Tên miền (2)</p>
-                  <p className="ml-auto">997.000đ</p>
+                  <p>Tên miền ({numberCartItem})</p>
+                  <p className="ml-auto">
+                    {moneyFormat({
+                      value: totalPrice,
+                      countryCode: "vi-VN",
+                      currency: "VND",
+                    })}
+                  </p>
                 </div>
                 <div className="flex items-center">
                   <p>Dịch vụ bổ trợ (0)</p>
@@ -262,7 +371,13 @@ const Cart: React.FC = () => {
               <div className="space-y-1 border-t border-gray-200 pt-4">
                 <div className="flex items-center text-xl font-bold">
                   <p>Tổng cộng</p>
-                  <p className="text-primary-hover ml-auto">239.200đ</p>
+                  <p className="text-primary-hover ml-auto">
+                    {moneyFormat({
+                      value: totalPrice,
+                      countryCode: "vi-VN",
+                      currency: "VND",
+                    })}
+                  </p>
                 </div>
               </div>
               {/* Checkout button */}
@@ -270,6 +385,7 @@ const Cart: React.FC = () => {
                 label="Tiến hành thanh toán"
                 rightIcon={<ArrowRightIcon className="size-4"></ArrowRightIcon>}
                 className="bg-primary hover:bg-primary-hover w-full py-4 text-lg text-white"
+                onClick={handleCheckout}
               ></Button>
             </div>
 
