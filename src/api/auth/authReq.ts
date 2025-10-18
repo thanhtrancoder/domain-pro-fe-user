@@ -3,3 +3,8 @@ export interface registerReq {
   password: string;
   confirmPassword: string;
 }
+
+export interface loginReq {
+  email: string;
+  password: string;
+}

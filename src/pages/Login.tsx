@@ -8,15 +8,19 @@ import {
   ArrowRightIcon,
   ExclamationCircleIcon,
 } from "../components/icons/Icon";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../components/ui/Button";
 import { useNavigate } from "react-router-dom";
 import GoogleIcon from "../assets/icons/icons8-google.svg";
 import { supportData } from "./data";
 import type { supportType } from "./data";
+import { login } from "../api/auth/authApi";
+import { useToast } from "../components/ui/toast/ToastContext";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const toast = useToast(5000);
+
   const [email, setEmail] = useState("");
   const [isEmptyEmail, setIsEmptyEmail] = useState(false);
   const [isValidEmail, setIsValidEmail] = useState(true);
@@ -24,11 +28,24 @@ const Login: React.FC = () => {
   const [isEmptyPassword, setIsEmptyPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  useEffect(() => {
+    let canceled = false;
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
+
+    return () => {
+      canceled = true;
+    };
+  }, []);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 
-  const onHandleLogin = () => {
+  const onHandleLogin = async () => {
     // Check email
     const isEmptyEmailTemp = email === "";
     setIsEmptyEmail(isEmptyEmailTemp);
@@ -39,8 +56,22 @@ const Login: React.FC = () => {
     setIsEmptyPassword(isEmptyPasswordTemp);
 
     if (!isEmptyEmailTemp && !isEmptyPasswordTemp && isValidEmailTemp) {
-      navigate("/");
+      const res = await login({ email, password });
+      if (res.error) {
+        toast("error", res.error.message);
+        return;
+      }
+      if (res.data) {
+        localStorage.setItem("token", res.data?.token || "");
+        toast("success", res.message);
+        navigate("/");
+      }
     }
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href =
+      process.env.REACT_APP_BACKEND_DOMAIN + "/oauth2/authorization/google";
   };
 
   const inputClassName =
@@ -150,6 +181,7 @@ const Login: React.FC = () => {
               label="Google"
               leftIcon={<img src={GoogleIcon} className="size-5"></img>}
               className="border border-gray-300 bg-white text-gray-500 hover:bg-gray-100"
+              onClick={() => handleGoogleLogin()}
             ></Button>
           </div>
 
