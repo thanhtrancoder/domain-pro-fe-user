@@ -6,10 +6,14 @@ import type { menuType } from "./types";
 import { headerMenuList } from "./headerData";
 import { Link } from "react-router-dom";
 import { getProfile } from "../../api/account/accountApi";
+import { useAppState, useAppDispatch } from "../context/AppContext";
+import { useAccount } from "../context/Account";
 
 const Header: React.FC = () => {
+  const { account } = useAppState();
+  const accountContext = useAccount();
+
   const [isLogin, setIsLogin] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -30,7 +34,7 @@ const Header: React.FC = () => {
       }
       if (profileData.data) {
         setIsLogin(true);
-        setCartCount(profileData.data.numberCartItem);
+        accountContext(profileData.data);
       }
     }
     fetch();
@@ -110,20 +114,21 @@ const Header: React.FC = () => {
 
           {/* Button */}
           {isLogin ? (
-            <div className="ml-auto flex">
+            <div className="ml-auto flex space-x-2">
               <Link
                 to="/cart"
                 className="hover:text-primary relative flex items-center rounded-lg p-1 hover:bg-gray-100"
               >
                 <CartIcon className="size-7"></CartIcon>
-                {cartCount > 0 && (
-                  <span className="bg-fail absolute -top-1 -right-2 rounded-full px-1.5 text-sm font-medium text-white">
-                    {cartCount}
-                  </span>
-                )}
+                {account?.numberCartItem !== undefined &&
+                  account?.numberCartItem > 0 && (
+                    <span className="bg-fail absolute -top-1 -right-2 rounded-full px-1.5 text-sm font-medium text-white">
+                      {account?.numberCartItem}
+                    </span>
+                  )}
               </Link>
               <a
-                href="/login"
+                href="/dashboard"
                 className="hover:text-primary ml-2 flex items-center rounded-md p-1 hover:bg-gray-100"
               >
                 <UserCircleIcon className="size-7"></UserCircleIcon>

@@ -18,14 +18,14 @@ import Support from "./pages/dashboard/Support";
 import Settings from "./pages/dashboard/Settings";
 import DomainDetail from "./pages/dashboard/DomainDetail";
 
-import ToastContainer from "./components/ui/toast/ToastContainer";
-import { ToastProvider } from "./components/ui/toast/ToastContext";
+import { AppProvider } from "./components/context/AppContext";
+import ToastContainer from "./components/context/Toast";
 
 import Test from "./pages/Test";
 
 function App() {
   return (
-    <ToastProvider>
+    <AppProvider>
       <Router>
         <Layout
           children={
@@ -53,7 +53,7 @@ function App() {
         ></Layout>
       </Router>
       <ToastContainer />
-    </ToastProvider>
+    </AppProvider>
   );
 }
 

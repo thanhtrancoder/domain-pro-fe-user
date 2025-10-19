@@ -11,22 +11,25 @@ import { moneyFormat } from "../../utils/Format";
 import { Button } from "../../components/ui/Button";
 import FindIcon from "../../assets/icons/icons8-find.svg";
 import { useEffect } from "react";
-import { useToast } from "../../components/ui/toast/ToastContext";
+import { useToast } from "../../components/context/Toast";
 import { searchDomainExtend } from "../../api/domainExtend/domainExtendApi";
 import type { domainExtendDto } from "../../api/domainExtend/domainExtendRes";
 import { transformString } from "../../utils/StringUtil";
 import { addToCart } from "../../api/cart/cartApi";
 import type { addCartReq } from "../../api/cart/cartReq";
+import { useAccount } from "../../components/context/Account";
+import { getProfile } from "../../api/account/accountApi";
 
 const Search: React.FC = () => {
   const toast = useToast(5000);
   const navigate = useNavigate();
+  const accountContext = useAccount();
 
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("domain");
 
   const [searchString, setSearchString] = useState(searchQuery || "");
-  const [domainName, setDomainName] = useState<String>("");
+  const [domainName, setDomainName] = useState<string>("");
   const [domainNameFull, setDomainNameFull] = useState<String>("");
   const [relatedDomainList, setRelatedDomainList] = useState<domainExtendDto[]>(
     [],
@@ -110,7 +113,7 @@ const Search: React.FC = () => {
 
   const handleAddToCart = async (domainExtendId: number) => {
     const req: addCartReq = {
-      domainName: "thanhtran",
+      domainName: domainName,
       domainExtendId: domainExtendId,
     };
 
@@ -134,6 +137,15 @@ const Search: React.FC = () => {
           : item,
       ),
     );
+
+    const profileData = await getProfile();
+    if (profileData.error) {
+      toast("error", profileData.error.message);
+    }
+    if (profileData.data) {
+      accountContext(profileData.data);
+    }
+
     toast("success", addToCartData.message || "Thêm vào giỏ hàng thành công");
   };
 
@@ -159,6 +171,12 @@ const Search: React.FC = () => {
               setSearchString={setSearchString}
               onActionIconClick={() => onActionIconClick()}
               onClick={() => navigate("/search?domain=" + searchString)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  navigate("/search?domain=" + searchString);
+                }
+              }}
             />
           </div>
         </div>

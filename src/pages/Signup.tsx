@@ -16,7 +16,7 @@ import GoogleIcon from "../assets/icons/icons8-google.svg";
 import { supportData } from "./data";
 import type { supportType } from "./data";
 import { useNavigate } from "react-router-dom";
-import { useToast } from "../components/ui/toast/ToastContext";
+import { useToast } from "../components/context/Toast";
 import { register } from "../api/auth/authApi";
 import type { registerReq } from "../api/auth/authReq";
 

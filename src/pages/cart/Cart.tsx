@@ -18,13 +18,20 @@ import {
   updateCartItem,
   deleteCartItem,
 } from "../../api/cart/cartApi";
-import { useToast } from "../../components/ui/toast/ToastContext";
+import { useToast } from "../../components/context/Toast";
 import type { cartDto } from "../../api/cart/cartRes";
 import type { updateCartReq } from "../../api/cart/cartReq";
+import {
+  useAppState,
+  useAppDispatch,
+} from "../../components/context/AppContext";
+import { useAccount } from "../../components/context/Account";
 
 const Cart: React.FC = () => {
   const navigate = useNavigate();
   const toast = useToast(5000);
+  const accountContext = useAccount();
+  const { account } = useAppState();
 
   const [domainList, setDomainList] = useState<cartDto[]>([]);
   const [serviceList, setServiceList] =
@@ -72,6 +79,13 @@ const Cart: React.FC = () => {
     }, 0);
     setTotalPrice(totalPrice || 0);
     setNumberCartItem(domainList.length || 0);
+
+    if (account) {
+      accountContext({
+        ...account,
+        numberCartItem: domainList.length,
+      });
+    }
   }, [domainList]);
 
   const handleCheckServiceFull = (
@@ -229,7 +243,7 @@ const Cart: React.FC = () => {
                         className="hover:bg-gray-100"
                       ></SquareButton>
                     </div>
-                    <div className="ml-auto text-right lg:pl-2">
+                    <div className="ml-auto min-w-[120px] text-right lg:pl-2">
                       <p className="text-primary-hover text-lg font-bold">
                         {moneyFormat({
                           value: domain.discountPrice * domain.period,

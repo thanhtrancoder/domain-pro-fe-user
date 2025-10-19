@@ -3,7 +3,7 @@ import { type testDto } from "../api/testApi";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import { Button } from "../components/ui/Button";
 import { getTest, postTest } from "../api/testApi";
-import { useToast } from "../components/ui/toast/ToastContext";
+import { useToast } from "../components/context/Toast";
 import Loading from "../components/layout/Loading";
 
 const Test = () => {
@@ -31,7 +31,7 @@ const Test = () => {
         setMessage(message);
       }
       if (error) {
-        setError(error);
+        setError(error.message);
       }
       setLoading(loading);
     }

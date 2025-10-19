@@ -1,16 +1,16 @@
-import { useToastState, useToastDispatch } from "./ToastContext";
+import { useAppState, useAppDispatch } from "./AppContext";
 import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
   BellIcon,
   XCircleIcon,
   XMarkIcon,
-} from "../../icons/Icon";
-import { type Toast } from "./ToastContext";
+} from "../icons/Icon";
+import type { Toast } from "./AppContext";
 
 export default function ToastContainer() {
-  const { toasts } = useToastState();
-  const dispatch = useToastDispatch();
+  const { toasts } = useAppState();
+  const dispatch = useAppDispatch();
 
   const getToastIcon = (type: Toast["type"]) => {
     switch (type) {
@@ -78,4 +78,14 @@ export default function ToastContainer() {
       ))}
     </div>
   );
+}
+
+export function useToast(timeout = 3000) {
+  const dispatch = useAppDispatch();
+  return (type: "success" | "error" | "info" | "warning", message: string) => {
+    const id = Math.random().toString(36).substr(2, 9);
+    dispatch({ type: "ADD_TOAST", toast: { id, type, message } });
+    setTimeout(() => dispatch({ type: "START_REMOVE_TOAST", id }), timeout);
+    setTimeout(() => dispatch({ type: "REMOVE_TOAST", id }), timeout + 300);
+  };
 }

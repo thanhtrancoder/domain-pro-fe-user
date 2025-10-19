@@ -17,7 +17,7 @@ import { SearchForm2 } from "../../components/ui/SearchForm";
 import { useNavigate } from "react-router-dom";
 import { getDomainExtendPopular } from "../../api/domainExtend/domainExtendApi";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
-import { useToast } from "../../components/ui/toast/ToastContext";
+import { useToast } from "../../components/context/Toast";
 import { getDiscountest, type voucherDto } from "../../api/vouchersApi";
 import type { domainExtendDto } from "../../api/domainExtend/domainExtendRes";
 

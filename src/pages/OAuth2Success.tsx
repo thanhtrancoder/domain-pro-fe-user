@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { oauth2 } from "../api/auth/authApi";
-import { useToast } from "../components/ui/toast/ToastContext";
+import { useToast } from "../components/context/Toast";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 const OAuth2Success: React.FC = () => {

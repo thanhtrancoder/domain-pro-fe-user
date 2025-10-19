@@ -8,6 +8,7 @@ interface searchProps {
   navigate?: string;
   onActionIconClick?: () => void;
   onClick?: () => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 export const SearchForm1: React.FC<searchProps> = ({
@@ -15,6 +16,7 @@ export const SearchForm1: React.FC<searchProps> = ({
   setSearchString,
   navigate,
   onActionIconClick,
+  onKeyDown,
 }) => {
   return (
     <div className="w-full max-w-4xl rounded-xl bg-white p-6 shadow-lg">
@@ -28,6 +30,7 @@ export const SearchForm1: React.FC<searchProps> = ({
             <XMarkIcon className="size-6 cursor-pointer text-gray-400 hover:text-gray-500"></XMarkIcon>
           }
           onActionIconClick={onActionIconClick}
+          onKeyDown={onKeyDown}
         ></Input>
         <NavButton
           label="Tìm kiếm"
@@ -45,6 +48,7 @@ export const SearchForm2: React.FC<searchProps> = ({
   setSearchString,
   onActionIconClick,
   onClick,
+  onKeyDown,
 }) => {
   return (
     <form className="space-y-4 md:flex md:gap-4 md:space-y-0">
@@ -57,6 +61,7 @@ export const SearchForm2: React.FC<searchProps> = ({
           <XMarkIcon className="size-6 cursor-pointer text-gray-400 hover:text-gray-500"></XMarkIcon>
         }
         onActionIconClick={onActionIconClick}
+        onKeyDown={onKeyDown}
       ></Input>
       <Button
         label="Tìm kiếm"
