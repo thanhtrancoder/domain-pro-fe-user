@@ -5,7 +5,7 @@ export interface cartDto {
   domainExtendId?: number | null;
   period: number;
   domainExtend: string;
-  price: number;
+  basePrice: number;
   discountPrice: number;
   isAvailable?: boolean | null;
 }

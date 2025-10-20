@@ -132,7 +132,7 @@ const Cart: React.FC = () => {
             ? {
                 ...item,
                 period: response.data?.period ?? item.period,
-                price: response.data?.price ?? item.price,
+                basePrice: response.data?.basePrice ?? item.basePrice,
                 discountPrice:
                   response.data?.discountPrice ?? item.discountPrice,
               }
@@ -215,10 +215,10 @@ const Cart: React.FC = () => {
                       </div>
 
                       <div className="flex items-center gap-4 text-sm">
-                        {domain.discountPrice !== domain.price && (
+                        {domain.discountPrice !== domain.basePrice && (
                           <p className="text-gray-600 line-through">
                             {moneyFormat({
-                              value: domain.price,
+                              value: domain.basePrice,
                               countryCode: "vi-VN",
                               currency: "VND",
                             })}
