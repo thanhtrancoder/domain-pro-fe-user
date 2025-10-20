@@ -109,7 +109,7 @@ const DomainDiscount: React.FC<domainDiscountProps> = ({
 
 const Home = () => {
   const navigate = useNavigate();
-  const toast = useToast(5000);
+  const toast = useToast();
 
   const [domainSaleList, setDomainSaleList] = useState<domainExtendDto[]>([]);
 

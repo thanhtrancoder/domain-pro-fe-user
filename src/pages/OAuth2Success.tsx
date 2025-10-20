@@ -6,7 +6,7 @@ import LoadingSpinner from "../components/ui/LoadingSpinner";
 
 const OAuth2Success: React.FC = () => {
   const navigate = useNavigate();
-  const toast = useToast(5000);
+  const toast = useToast();
 
   useEffect(() => {
     let canceled = false;

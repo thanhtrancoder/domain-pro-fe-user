@@ -6,7 +6,7 @@ import type { menuType } from "./types";
 import { headerMenuList } from "./headerData";
 import { Link } from "react-router-dom";
 import { getProfile } from "../../api/account/accountApi";
-import { useAppState, useAppDispatch } from "../context/AppContext";
+import { useAppState } from "../context/AppContext";
 import { useAccount } from "../context/Account";
 
 const Header: React.FC = () => {
@@ -117,7 +117,7 @@ const Header: React.FC = () => {
             <div className="ml-auto flex space-x-2">
               <Link
                 to="/cart"
-                className="hover:text-primary relative flex items-center rounded-lg p-1 hover:bg-gray-100"
+                className="hover:text-primary relative flex items-center rounded-lg p-1 transition-colors duration-300 hover:bg-gray-100"
               >
                 <CartIcon className="size-7"></CartIcon>
                 {account?.numberCartItem !== undefined &&
@@ -129,7 +129,7 @@ const Header: React.FC = () => {
               </Link>
               <a
                 href="/dashboard"
-                className="hover:text-primary ml-2 flex items-center rounded-md p-1 hover:bg-gray-100"
+                className="hover:text-primary ml-2 flex items-center rounded-md p-1 transition-colors duration-300 hover:bg-gray-100"
               >
                 <UserCircleIcon className="size-7"></UserCircleIcon>
               </a>
@@ -148,7 +148,7 @@ const Header: React.FC = () => {
           )}
         </div>
       </header>
-      <div className="mt-14 md:mt-18"></div>
+      <div className="mt-13 md:mt-17"></div>
 
       {/* Dropdown menu */}
       {isMobileMenuOpen && (

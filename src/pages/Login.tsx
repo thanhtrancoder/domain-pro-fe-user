@@ -19,7 +19,7 @@ import { useToast } from "../components/context/Toast";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const toast = useToast(5000);
+  const toast = useToast();
 
   const [email, setEmail] = useState("");
   const [isEmptyEmail, setIsEmptyEmail] = useState(false);

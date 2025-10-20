@@ -21,7 +21,7 @@ import { useAccount } from "../../components/context/Account";
 import { getProfile } from "../../api/account/accountApi";
 
 const Search: React.FC = () => {
-  const toast = useToast(5000);
+  const toast = useToast();
   const navigate = useNavigate();
   const accountContext = useAccount();
 

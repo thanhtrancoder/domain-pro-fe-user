@@ -7,7 +7,7 @@ import { useToast } from "../components/context/Toast";
 import Loading from "../components/layout/Loading";
 
 const Test = () => {
-  const toast = useToast(5000);
+  const toast = useToast();
 
   const [message, setMessage] = useState<string | null>(null);
   const [test, setTest] = useState<testDto | null>(null);

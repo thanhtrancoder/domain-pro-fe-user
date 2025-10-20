@@ -30,7 +30,7 @@ interface checkPasswordType {
 }
 
 const Signup: React.FC = () => {
-  const toast = useToast(5000);
+  const toast = useToast();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");

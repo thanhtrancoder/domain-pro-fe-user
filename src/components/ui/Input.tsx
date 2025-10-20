@@ -37,7 +37,7 @@ export const Input: React.FC<inputProps> = ({
         onChange={onChange}
         onKeyDown={onKeyDown}
       ></input>
-      <button type="button" onClick={onActionIconClick}>
+      <button type="button" onClick={onActionIconClick} tabIndex={-1}>
         {actionIcon}
       </button>
     </div>

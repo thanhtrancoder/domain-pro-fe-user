@@ -39,7 +39,7 @@ export default function ToastContainer() {
   };
 
   return (
-    <div className="pointer-events-none fixed top-4 right-4 z-50 flex flex-col items-end space-y-3">
+    <div className="pointer-events-none fixed top-16 right-4 z-50 flex flex-col items-end space-y-3 md:top-20">
       {toasts.map((t) => (
         <div
           key={t.id}
@@ -80,7 +80,7 @@ export default function ToastContainer() {
   );
 }
 
-export function useToast(timeout = 3000) {
+export function useToast(timeout = 4000) {
   const dispatch = useAppDispatch();
   return (type: "success" | "error" | "info" | "warning", message: string) => {
     const id = Math.random().toString(36).substr(2, 9);
