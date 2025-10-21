@@ -6,7 +6,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import OAuth2Success from "./pages/OAuth2Success";
 import Cart from "./pages/cart/Cart";
-import Checkout from "./pages/Checkout";
+import Checkout from "./pages/checkout/Checkout";
 import Dashboard from "./pages/Dashboard";
 import IconGallery from "./pages/IconGallery";
 import NotFound from "./pages/NotFound";

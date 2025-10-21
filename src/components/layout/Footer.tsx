@@ -16,7 +16,7 @@ const Footer: React.FC = () => {
   const [email, setEmail] = useState("");
 
   return (
-    <footer className="from-dark to-dark-hover bg-gradient-to-br">
+    <footer className="from-dark to-dark-hover relative z-40 bg-gradient-to-br">
       <div className="flex flex-col space-y-8 px-4 py-8 text-gray-300 md:grid md:grid-cols-2 md:gap-4 md:px-10 md:pt-10 md:pb-6 lg:grid lg:grid-cols-4 lg:gap-8 lg:px-14 lg:pt-14 lg:pb-10">
         <div className="flex flex-col space-y-8">
           {/* Company */}

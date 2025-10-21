@@ -169,7 +169,17 @@ const Cart: React.FC = () => {
   };
 
   return (
-    <Popup isShow={showPopup} onConfirm={handleDeleteCartItem}>
+    <Popup
+      title="Xác nhận"
+      content="Bạn có chắc chắn muốn xóa tên miền này?"
+      value={
+        "" +
+        domainList.find((item) => item.cartId === cartId)?.domainName +
+        domainList.find((item) => item.cartId === cartId)?.domainExtend
+      }
+      isShow={showPopup}
+      onConfirm={handleDeleteCartItem}
+    >
       <div className="space-y-8 bg-gray-50 px-3 py-8 md:px-10 lg:px-20">
         {/* Title */}
         <div className="space-y-2">

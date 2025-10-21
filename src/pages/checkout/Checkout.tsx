@@ -9,16 +9,20 @@ import {
   ArrowRightIcon,
   ShieldIcon,
   LockClosedIcon,
-} from "../components/icons/Icon";
-import MomoIcon from "../assets/icons/Momo-Icon.jpeg";
-import { Input } from "../components/ui/Input";
-import type { iconProps } from "../components/icons/Icon";
+} from "../../components/icons/Icon";
+import MomoIcon from "../../assets/icons/Momo-Icon.jpeg";
+import { Input } from "../../components/ui/Input";
+import type { iconProps } from "../../components/icons/Icon";
 import { useState, useEffect } from "react";
 import type { domainType } from "./checkoutData";
 import { domainListSample } from "./checkoutData";
-import { moneyFormat } from "../utils/Format";
-import { Button } from "../components/ui/Button";
+import { moneyFormat } from "../../utils/Format";
+import { Button } from "../../components/ui/Button";
 import { useNavigate } from "react-router-dom";
+import { useAppState } from "../../components/context/AppContext";
+import { getAllCart } from "../../api/cart/cartApi";
+import { useToast } from "../../components/context/Toast";
+import type { cartDto } from "../../api/cart/cartRes";
 
 interface inputDataProps {
   label: string;
@@ -68,13 +72,18 @@ const PaymentSecurity: React.FC<paymentSecurityProps> = ({ content }) => {
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
+  const { account } = useAppState();
+  const toast = useToast();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(account?.fullname || "");
+  const [email, setEmail] = useState(account?.email || "");
   const [phone, setPhone] = useState("");
   const [province, setProvince] = useState("");
   const [address, setAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [domainList, setDomainList] = useState<cartDto[]>([]);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [discountPrice, setDiscountPrice] = useState<number>(0);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -83,6 +92,31 @@ const Checkout: React.FC = () => {
     }
 
     window.scrollTo(0, 0);
+
+    let canceled = false;
+
+    async function fetch() {
+      const response = await getAllCart();
+
+      if (canceled) {
+        return;
+      }
+      if (response.error) {
+        toast("error", response.error.message);
+      } else {
+        setDomainList(response.data?.content || []);
+        const totalPrice = response.data?.content.reduce((total, domain) => {
+          return total + domain.discountPrice * domain.period;
+        }, 0);
+        setTotalPrice(totalPrice || 0);
+      }
+    }
+
+    fetch();
+
+    return () => {
+      canceled = true;
+    };
   }, []);
 
   return (
@@ -193,13 +227,13 @@ const Checkout: React.FC = () => {
               <p className="text-xl font-bold">Tóm tắt đơn hàng</p>
               {/* Domain list */}
               <div className="space-y-3">
-                {domainListSample.map((domainItem) => (
-                  <div key={domainItem.id}>
+                {domainList.map((domainItem) => (
+                  <div key={domainItem.cartId}>
                     <div className="flex items-center font-medium">
-                      <p>{domainItem.name}</p>
+                      <p>{domainItem.domainName + domainItem.domainExtend}</p>
                       <p className="ml-auto">
                         {moneyFormat({
-                          value: domainItem.priceDiscout,
+                          value: domainItem.discountPrice * domainItem.period,
                           countryCode: "vi-VN",
                           currency: "VND",
                         })}
@@ -208,9 +242,9 @@ const Checkout: React.FC = () => {
                     <p className="text-sm text-gray-600">
                       {domainItem.period} năm
                     </p>
-                    <p className="text-sm text-gray-500 line-through">
+                    <p className="text-sm text-gray-500">
                       {moneyFormat({
-                        value: domainItem.price,
+                        value: domainItem.discountPrice,
                         countryCode: "vi-VN",
                         currency: "VND",
                       })}
@@ -223,7 +257,13 @@ const Checkout: React.FC = () => {
               <div className="border-t border-gray-200">
                 <div className="flex items-center pt-4 font-medium">
                   <p>Tạm tính</p>
-                  <p className="ml-auto">1.196.000đ</p>
+                  <p className="ml-auto">
+                    {moneyFormat({
+                      value: totalPrice,
+                      countryCode: "vi-VN",
+                      currency: "VND",
+                    })}
+                  </p>
                 </div>
               </div>
 
@@ -250,7 +290,13 @@ const Checkout: React.FC = () => {
                 </div>
                 <div className="text-success-hover2 flex items-center pt-2 font-medium">
                   <p>Giảm giá (80%)</p>
-                  <p className="ml-auto">-956.800đ</p>
+                  <p className="ml-auto">
+                    {moneyFormat({
+                      value: discountPrice,
+                      countryCode: "vi-VN",
+                      currency: "VND",
+                    })}
+                  </p>
                 </div>
               </div>
 
@@ -258,7 +304,13 @@ const Checkout: React.FC = () => {
               <div className="space-y-1 border-t border-gray-200 pt-4">
                 <div className="flex items-center text-xl font-bold">
                   <p>Tổng cộng</p>
-                  <p className="text-primary-hover ml-auto">239.200đ</p>
+                  <p className="text-primary-hover ml-auto">
+                    {moneyFormat({
+                      value: totalPrice - discountPrice,
+                      countryCode: "vi-VN",
+                      currency: "VND",
+                    })}
+                  </p>
                 </div>
                 <p className="text-sm text-gray-500">Đã bao gồm thuế VAT</p>
               </div>
