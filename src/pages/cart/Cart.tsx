@@ -420,14 +420,20 @@ const Cart: React.FC = () => {
                   </div>
                 </div>
                 {/* Checkout button */}
-                <Button
-                  label="Tiến hành thanh toán"
-                  rightIcon={
-                    <ArrowRightIcon className="size-4"></ArrowRightIcon>
+                <div
+                  className={
+                    numberCartItem === 0 ? "pointer-events-none opacity-50" : ""
                   }
-                  className="bg-primary hover:bg-primary-hover w-full py-4 text-lg text-white"
-                  onClick={handleCheckout}
-                ></Button>
+                >
+                  <Button
+                    label="Tiến hành thanh toán"
+                    rightIcon={
+                      <ArrowRightIcon className="size-4"></ArrowRightIcon>
+                    }
+                    className="bg-primary hover:bg-primary-hover w-full py-4 text-lg text-white"
+                    onClick={handleCheckout}
+                  ></Button>
+                </div>
               </div>
 
               {/* Suggest */}

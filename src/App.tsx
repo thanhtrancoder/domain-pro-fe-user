@@ -7,10 +7,12 @@ import Login from "./pages/Login";
 import OAuth2Success from "./pages/OAuth2Success";
 import Cart from "./pages/cart/Cart";
 import Checkout from "./pages/checkout/Checkout";
+import MoMoReturn from "./pages/momo/MoMoReturn";
 import Dashboard from "./pages/Dashboard";
 import IconGallery from "./pages/IconGallery";
 import NotFound from "./pages/NotFound";
 import ComingSoon from "./pages/FeatureComingSoon";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 import Overview from "./pages/dashboard/Overview";
 import Domains from "./pages/dashboard/Domains";
@@ -39,6 +41,8 @@ function App() {
               <Route path="/oauth2/success" element={<OAuth2Success />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/momo/return" element={<MoMoReturn />} />
+              <Route path="/payment/success" element={<PaymentSuccess />} />
               <Route path="/dashboard" element={<Dashboard />}>
                 <Route index element={<Overview />} />
                 <Route path="domains" element={<Domains />} />

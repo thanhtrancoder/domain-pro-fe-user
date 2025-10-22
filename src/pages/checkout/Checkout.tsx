@@ -23,6 +23,10 @@ import { useAppState } from "../../components/context/AppContext";
 import { getAllCart } from "../../api/cart/cartApi";
 import { useToast } from "../../components/context/Toast";
 import type { cartDto } from "../../api/cart/cartRes";
+import { applyVoucher } from "../../api/vouchers/vouchersApi";
+import { getProfile } from "../../api/account/accountApi";
+import { createOrder } from "../../api/orders/ordersApi";
+import { createCollectionLink } from "../../api/momo/momoApi";
 
 interface inputDataProps {
   label: string;
@@ -72,18 +76,20 @@ const PaymentSecurity: React.FC<paymentSecurityProps> = ({ content }) => {
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
-  const { account } = useAppState();
   const toast = useToast();
 
-  const [name, setName] = useState(account?.fullname || "");
-  const [email, setEmail] = useState(account?.email || "");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [province, setProvince] = useState("");
   const [address, setAddress] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [paymentMethodId, setPaymentMethodId] = useState<number>(0);
   const [domainList, setDomainList] = useState<cartDto[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [discountPrice, setDiscountPrice] = useState<number>(0);
+  const [voucherCode, setVoucherCode] = useState<string>("");
+  const [voucherCodeApplied, setVoucherCodeApplied] = useState<string>("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -110,6 +116,17 @@ const Checkout: React.FC = () => {
         }, 0);
         setTotalPrice(totalPrice || 0);
       }
+
+      const profile = await getProfile();
+      if (canceled) {
+        return;
+      }
+      if (profile.error) {
+        toast("error", profile.error.message);
+      } else {
+        setName(profile.data?.fullname || "");
+        setEmail(profile.data?.email || "");
+      }
     }
 
     fetch();
@@ -118,6 +135,80 @@ const Checkout: React.FC = () => {
       canceled = true;
     };
   }, []);
+
+  const handleApplyVoucher = async () => {
+    const response = await applyVoucher({
+      code: voucherCode,
+      amount: totalPrice,
+    });
+
+    if (response.error) {
+      toast("error", response.error.message);
+      setDiscountPrice(0);
+    } else {
+      setVoucherCodeApplied(voucherCode);
+      setDiscountPrice(response.data?.discountPriceValue || 0);
+      setVoucherCode("");
+    }
+  };
+
+  const handleCancelVoucher = () => {
+    setDiscountPrice(0);
+    setVoucherCode("");
+  };
+
+  const handleSelectPaymentMethod = () => {
+    setPaymentMethod("momo");
+    setPaymentMethodId(1);
+  };
+
+  const handleCheckout = async () => {
+    if (name === "") {
+      toast("warning", "Vui lòng nhập họ và tên");
+      return;
+    }
+
+    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email === "" || !validEmail.test(email)) {
+      toast("warning", "Vui lòng nhập địa chỉ email hợp lệ");
+      return;
+    }
+
+    if (paymentMethod === "") {
+      toast("warning", "Vui lòng chọn phương thức thanh toán");
+      return;
+    }
+
+    const order = await createOrder({
+      fullname: name,
+      email: email,
+      phone: phone,
+      province: province,
+      address: address,
+      paymentMethodId: paymentMethodId,
+      discountCode: voucherCodeApplied,
+    });
+
+    if (order.error) {
+      toast("error", order.error.message);
+      return;
+    }
+
+    const momo = await createCollectionLink({
+      orderId: order.data?.orderId + "",
+    });
+
+    if (momo.error) {
+      toast("error", momo.error.message);
+      return;
+    }
+
+    if (momo.data?.payUrl) {
+      window.location.href = momo.data?.payUrl;
+    } else if (momo.data?.shortLink) {
+      window.location.href = momo.data?.shortLink;
+    }
+  };
 
   return (
     <div className="space-y-8 bg-gray-50 px-3 py-8 md:px-10 lg:px-20">
@@ -200,13 +291,13 @@ const Checkout: React.FC = () => {
                     ? "border-primary-hover hover:border-primary-hover2"
                     : "border-gray-200 hover:border-gray-300")
                 }
-                onClick={() => setPaymentMethod("momo")}
+                onClick={() => handleSelectPaymentMethod()}
               >
                 <input
                   type="radio"
                   className="size-5"
                   checked={paymentMethod === "momo"}
-                  onChange={() => setPaymentMethod("momo")}
+                  onChange={() => handleSelectPaymentMethod()}
                 ></input>
                 <img src={MomoIcon} className="size-8 rounded-full"></img>
                 <div>
@@ -277,27 +368,42 @@ const Checkout: React.FC = () => {
                       <XMarkIcon className="size-6 cursor-pointer text-gray-500"></XMarkIcon>
                     }
                     className="focus-within:ring-primary-hover focus-within:border-primary-hover w-full border border-gray-400 focus-within:ring-2"
+                    value={voucherCode}
+                    onChange={(event) => setVoucherCode(event.target.value)}
+                    onActionIconClick={() => setVoucherCode("")}
                   ></Input>
                   <div className="ml-auto">
-                    <Button label="Áp dụng"></Button>
+                    <Button
+                      label="Áp dụng"
+                      onClick={handleApplyVoucher}
+                    ></Button>
                   </div>
                 </div>
-                <div className="bg-light-success text-success-hover2 border-success flex items-center gap-2 rounded-lg border px-4 py-2">
-                  <CheckIcon className="size-4"></CheckIcon>
-                  <p className="font-bold">VN80</p>
-                  <p>(Giảm 80%)</p>
-                  <XMarkIcon className="ml-auto size-4 cursor-pointer"></XMarkIcon>
-                </div>
-                <div className="text-success-hover2 flex items-center pt-2 font-medium">
-                  <p>Giảm giá (80%)</p>
-                  <p className="ml-auto">
-                    {moneyFormat({
-                      value: discountPrice,
-                      countryCode: "vi-VN",
-                      currency: "VND",
-                    })}
-                  </p>
-                </div>
+                {discountPrice !== 0 && (
+                  <div>
+                    <div className="bg-light-success text-success-hover2 border-success flex items-center gap-2 rounded-lg border px-4 py-2">
+                      <CheckIcon className="size-4"></CheckIcon>
+                      <p className="font-bold uppercase">
+                        {voucherCodeApplied}
+                      </p>
+                      {/* <p>(Giảm 80%)</p> */}
+                      <button className="ml-auto" onClick={handleCancelVoucher}>
+                        <XMarkIcon className="size-4 cursor-pointer"></XMarkIcon>
+                      </button>
+                    </div>
+                    <div className="text-success-hover2 flex items-center pt-2 font-medium">
+                      <p>Giảm giá</p>
+                      <p className="ml-auto">
+                        -
+                        {moneyFormat({
+                          value: discountPrice,
+                          countryCode: "vi-VN",
+                          currency: "VND",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Total */}
@@ -320,6 +426,7 @@ const Checkout: React.FC = () => {
                 label="Hoàn tất thanh toán"
                 rightIcon={<ArrowRightIcon className="size-5"></ArrowRightIcon>}
                 className="bg-primary hover:bg-primary-hover w-full py-4 text-lg text-white"
+                onClick={handleCheckout}
               ></Button>
 
               {/* Commit */}

@@ -39,7 +39,7 @@ export const Popup: React.FC<popupProps> = ({
                   className="cursor-pointer rounded bg-red-600 px-4 py-2 text-white transition-colors duration-300 hover:bg-red-700 focus:outline-none"
                   onClick={() => onConfirm(true)}
                 >
-                  Xóa
+                  Xác nhận
                 </button>
               </div>
             </div>

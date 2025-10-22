@@ -201,6 +201,12 @@ const Home = () => {
               setSearchString={setSearchString}
               onActionIconClick={() => setSearchString("")}
               onClick={() => handleSearch()}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  handleSearch();
+                }
+              }}
             ></SearchForm2>
           </div>
 
