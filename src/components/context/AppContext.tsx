@@ -20,13 +20,15 @@ export type account = {
 type GlobalState = {
   toasts: Toast[];
   account: account | null;
+  isShowPopup: boolean;
 };
 
 type Action =
   | { type: "ADD_TOAST"; toast: Toast }
   | { type: "START_REMOVE_TOAST"; id: string }
   | { type: "REMOVE_TOAST"; id: string }
-  | { type: "SET_ACCOUNT"; account: account | null };
+  | { type: "SET_ACCOUNT"; account: account | null }
+  | { type: "SET_IS_SHOW_POPUP"; isShowPopup: boolean };
 
 const AppStateContext = createContext<GlobalState | undefined>(undefined);
 const AppDispatchContext = createContext<React.Dispatch<Action> | undefined>(
@@ -51,6 +53,8 @@ function appReducer(state: GlobalState, action: Action): GlobalState {
       };
     case "SET_ACCOUNT":
       return { ...state, account: action.account };
+    case "SET_IS_SHOW_POPUP":
+      return { ...state, isShowPopup: action.isShowPopup };
     default:
       return state;
   }
@@ -60,6 +64,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(appReducer, {
     toasts: [],
     account: null,
+    isShowPopup: false,
   });
   return (
     <AppStateContext.Provider value={state}>

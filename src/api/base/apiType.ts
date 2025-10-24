@@ -26,5 +26,6 @@ export interface pageRes<T> {
 
 export interface pageReq {
   size: number;
-  number: number;
+  page: number;
+  sort?: string;
 }

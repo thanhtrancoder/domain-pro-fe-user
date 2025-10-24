@@ -9,7 +9,7 @@ export const headerMenuList: menuType[] = [
   },
   {
     label: "Tên miền",
-    href: "/domains",
+    href: "/search",
     icon: GlobeIcon,
   },
 ];

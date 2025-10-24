@@ -21,7 +21,7 @@ import { useAppState } from "../../components/context/AppContext";
 import { getAllNotification } from "../../api/notification/notificationApi";
 import type { notificationDto } from "../../api/notification/notificationRes";
 import { statusNotification } from "../../utils/StatusUtil";
-import { formatDate } from "../../utils/Format";
+import { formatDateTime } from "../../utils/Format";
 
 interface reportItemProps {
   Icon: React.FC<iconProps>;
@@ -147,7 +147,7 @@ const Overview: React.FC = () => {
 
       const responseNotification = await getAllNotification({
         size: 6,
-        number: 0,
+        page: 0,
       });
       if (canceled) {
         return;
@@ -197,7 +197,7 @@ const Overview: React.FC = () => {
               key={notification.notificationId}
               type={statusNotification(notification.type)}
               title={notification.title}
-              date={formatDate(notification.createdAt)}
+              date={formatDateTime(notification.createdAt)}
             ></NotificationItem>
           ))}
           {/* <NotificationItem

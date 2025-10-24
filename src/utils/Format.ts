@@ -12,7 +12,7 @@ export const moneyFormat = ({ value, countryCode, currency }: moneyFormatProps) 
   }).format(value);
 };
 
-export const formatDate = (dateString: string): string => {
+export const formatDateTime = (dateString: string): string => {
   const date = new Date(dateString);
   return date.toLocaleString('vi-VN', {
     day: '2-digit',
@@ -20,6 +20,14 @@ export const formatDate = (dateString: string): string => {
     year: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
-    // second: '2-digit'
+  });
+};
+
+export const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleString('vi-VN', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
   });
 };

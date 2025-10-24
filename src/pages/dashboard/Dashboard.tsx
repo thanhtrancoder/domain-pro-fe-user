@@ -76,7 +76,7 @@ const QuickReportItem: React.FC<quickReportItemProps> = ({
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const toast = useToast();
-  const { account } = useAppState();
+  const { account, isShowPopup } = useAppState();
 
   const [activeTab, setActiveTab] = useState("");
   const [domainNameActive, setDomainNameActive] = useState(0);
@@ -113,6 +113,14 @@ const Dashboard: React.FC = () => {
     };
   }, []);
 
+  // useEffect(() => {
+  //   if (isShowPopup) {
+  //     document.body.classList.add("overflow-hidden");
+  //   } else {
+  //     document.body.classList.remove("overflow-hidden");
+  //   }
+  // }, [isShowPopup]);
+
   const handleActiveTab = (activeTab: string) => {
     setActiveTab(activeTab);
   };
@@ -123,132 +131,142 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 bg-gray-50 px-3 py-8 md:px-10">
-      {/* Title */}
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold">Bảng điều khiển</h1>
-        <p className="text-gray-600">Quản lý tên miền và dịch vụ của bạn</p>
-      </div>
-
-      {/* Main */}
-      <div className="space-y-8 lg:grid lg:grid-cols-4 lg:gap-8">
-        <div className="space-y-6 lg:col-span-1">
-          {/* Nav bar */}
-          <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
-            {/* User info */}
-            <div className="flex items-center gap-4">
-              {account?.avatar !== null && account?.avatar !== "" ? (
-                <img
-                  alt="avatar"
-                  src={account?.avatar}
-                  className="h-16 w-16 rounded-full object-cover"
-                ></img>
-              ) : (
-                <UserCircleIcon className="size-16"></UserCircleIcon>
-              )}
-
-              <div className="space-y-1">
-                <div>
-                  <h3 className="font-bold text-gray-900">
-                    {account?.fullname}
-                  </h3>
-                  <p className="text-sm break-all text-gray-600">
-                    {account?.email}
-                  </p>
-                </div>
-                {account?.isVerify && (
-                  <div className="text-success-hover2 bg-light-success flex w-fit items-center gap-1 rounded-xl px-2 py-1">
-                    <CheckCircleIcon className="size-4"></CheckCircleIcon>
-                    <span className="text-xs font-medium">Verified</span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="border-t border-gray-200"></div>
-
-            {/* User actions */}
-            <ul className="space-y-2">
-              <ActionItem
-                icon={<BuildingOfficeIcon></BuildingOfficeIcon>}
-                name="Tổng quan"
-                to=""
-                activeTab={activeTab}
-                handleActive={handleActiveTab}
-              ></ActionItem>
-              <ActionItem
-                icon={<ServerIcon></ServerIcon>}
-                name="Tên miền của tôi"
-                to="domains"
-                activeTab={activeTab}
-                handleActive={handleActiveTab}
-              ></ActionItem>
-              {/* <ActionItem
-                icon={<FileLinesIcon></FileLinesIcon>}
-                name="Hóa đơn"
-                to="billing"
-                activeTab={activeTab}
-                handleActive={handleActiveTab}
-              ></ActionItem> */}
-              <ActionItem
-                icon={<QuestionMarkCircleIcon></QuestionMarkCircleIcon>}
-                name="Hỗ trợ"
-                to="support"
-                activeTab={activeTab}
-                handleActive={handleActiveTab}
-              ></ActionItem>
-              <ActionItem
-                icon={<Cog6ToothIcon></Cog6ToothIcon>}
-                name="Cài đặt"
-                to="settings"
-                activeTab={activeTab}
-                handleActive={handleActiveTab}
-              ></ActionItem>
-              {/* <ActionItem
-                icon={
-                  <ArrowRightStartOnRectangleIcon></ArrowRightStartOnRectangleIcon>
-                }
-                name="Đăng xuất"
-                to="settings"
-                activeTab={activeTab}
-                handleActive={handleActiveTab}
-              ></ActionItem> */}
-              <button
-                className="flex w-full cursor-pointer items-center gap-2 rounded-xl px-4 py-3 transition-colors duration-300 hover:bg-gray-100"
-                onClick={() => handleLogout()}
-              >
-                <ArrowRightStartOnRectangleIcon></ArrowRightStartOnRectangleIcon>
-                <span>Đăng xuất</span>
-              </button>
-            </ul>
-          </div>
-
-          {/* Quick report */}
-          <div className="space-y-4 rounded-xl bg-white p-6 shadow-lg">
-            <h2 className="font-bold">Thống kê nhanh</h2>
-            <div className="space-y-2">
-              <QuickReportItem
-                name="Tên miền hoạt động"
-                total={domainNameActive}
-                totalColor="success-hover2"
-              ></QuickReportItem>
-              <QuickReportItem
-                name="Sắp hết hạn"
-                total={domainNameExpiring}
-                totalColor="fail"
-              ></QuickReportItem>
-              <QuickReportItem
-                name="Đã hết hạn"
-                total={domainNameExpired}
-                totalColor="fail"
-              ></QuickReportItem>
-            </div>
-          </div>
+    <div>
+      {isShowPopup && (
+        <div className="fixed z-30 h-screen w-full bg-black/50"></div>
+      )}
+      <div
+        className={
+          "space-y-8 bg-gray-50 px-3 py-8 md:px-10" +
+          (isShowPopup ? " pointer-events-none" : "")
+        }
+      >
+        {/* Title */}
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold">Bảng điều khiển</h1>
+          <p className="text-gray-600">Quản lý tên miền và dịch vụ của bạn</p>
         </div>
 
-        {/* Content */}
-        <div className="lg:col-span-3">
-          <Outlet></Outlet>
+        {/* Main */}
+        <div className="space-y-8 lg:grid lg:grid-cols-4 lg:gap-8">
+          <div className="space-y-6 lg:col-span-1">
+            {/* Nav bar */}
+            <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
+              {/* User info */}
+              <div className="flex items-center gap-4">
+                {account?.avatar !== null && account?.avatar !== "" ? (
+                  <img
+                    alt="avatar"
+                    src={account?.avatar}
+                    className="h-16 w-16 rounded-full object-cover"
+                  ></img>
+                ) : (
+                  <UserCircleIcon className="size-16"></UserCircleIcon>
+                )}
+
+                <div className="space-y-1">
+                  <div>
+                    <h3 className="font-bold text-gray-900">
+                      {account?.fullname}
+                    </h3>
+                    <p className="text-sm break-all text-gray-600">
+                      {account?.email}
+                    </p>
+                  </div>
+                  {account?.isVerify && (
+                    <div className="text-success-hover2 bg-light-success flex w-fit items-center gap-1 rounded-xl px-2 py-1">
+                      <CheckCircleIcon className="size-4"></CheckCircleIcon>
+                      <span className="text-xs font-medium">Verified</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="border-t border-gray-200"></div>
+
+              {/* User actions */}
+              <ul className="space-y-2">
+                <ActionItem
+                  icon={<BuildingOfficeIcon></BuildingOfficeIcon>}
+                  name="Tổng quan"
+                  to=""
+                  activeTab={activeTab}
+                  handleActive={handleActiveTab}
+                ></ActionItem>
+                <ActionItem
+                  icon={<ServerIcon></ServerIcon>}
+                  name="Tên miền của tôi"
+                  to="domains"
+                  activeTab={activeTab}
+                  handleActive={handleActiveTab}
+                ></ActionItem>
+                {/* <ActionItem
+              icon={<FileLinesIcon></FileLinesIcon>}
+              name="Hóa đơn"
+              to="billing"
+              activeTab={activeTab}
+              handleActive={handleActiveTab}
+            ></ActionItem> */}
+                <ActionItem
+                  icon={<QuestionMarkCircleIcon></QuestionMarkCircleIcon>}
+                  name="Hỗ trợ"
+                  to="support"
+                  activeTab={activeTab}
+                  handleActive={handleActiveTab}
+                ></ActionItem>
+                <ActionItem
+                  icon={<Cog6ToothIcon></Cog6ToothIcon>}
+                  name="Cài đặt"
+                  to="settings"
+                  activeTab={activeTab}
+                  handleActive={handleActiveTab}
+                ></ActionItem>
+                {/* <ActionItem
+              icon={
+                <ArrowRightStartOnRectangleIcon></ArrowRightStartOnRectangleIcon>
+              }
+              name="Đăng xuất"
+              to="settings"
+              activeTab={activeTab}
+              handleActive={handleActiveTab}
+            ></ActionItem> */}
+                <button
+                  className="flex w-full cursor-pointer items-center gap-2 rounded-xl px-4 py-3 transition-colors duration-300 hover:bg-gray-100"
+                  onClick={() => handleLogout()}
+                >
+                  <ArrowRightStartOnRectangleIcon></ArrowRightStartOnRectangleIcon>
+                  <span>Đăng xuất</span>
+                </button>
+              </ul>
+            </div>
+
+            {/* Quick report */}
+            <div className="space-y-4 rounded-xl bg-white p-6 shadow-lg">
+              <h2 className="font-bold">Thống kê nhanh</h2>
+              <div className="space-y-2">
+                <QuickReportItem
+                  name="Tên miền hoạt động"
+                  total={domainNameActive}
+                  totalColor="success-hover2"
+                ></QuickReportItem>
+                <QuickReportItem
+                  name="Sắp hết hạn"
+                  total={domainNameExpiring}
+                  totalColor="fail"
+                ></QuickReportItem>
+                <QuickReportItem
+                  name="Đã hết hạn"
+                  total={domainNameExpired}
+                  totalColor="fail"
+                ></QuickReportItem>
+              </div>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="lg:col-span-3">
+            <Outlet></Outlet>
+          </div>
         </div>
       </div>
     </div>
