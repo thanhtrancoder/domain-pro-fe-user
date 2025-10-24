@@ -5,10 +5,16 @@ import {
   FileLinesIcon,
   QuestionMarkCircleIcon,
   Cog6ToothIcon,
-} from "../components/icons/Icon";
+  ArrowRightStartOnRectangleIcon,
+  UserCircleIcon,
+} from "../../components/icons/Icon";
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "../../components/context/Toast";
+import { getCountDomainName } from "../../api/domainName/domainNameApi";
+import { useAppState } from "../../components/context/AppContext";
 
 interface actionItemProps {
   icon: React.ReactNode;
@@ -34,7 +40,7 @@ const ActionItem: React.FC<actionItemProps> = ({
       <Link to={to} onClick={() => handleActiveTab()}>
         <div
           className={
-            "flex items-center gap-2 rounded-xl px-4 py-3 " +
+            "flex items-center gap-2 rounded-xl px-4 py-3 transition-colors duration-300 " +
             (activeTab === to
               ? "bg-primary-hover text-white"
               : "hover:bg-gray-100")
@@ -68,10 +74,52 @@ const QuickReportItem: React.FC<quickReportItemProps> = ({
 };
 
 const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
+  const toast = useToast();
+  const { account } = useAppState();
+
   const [activeTab, setActiveTab] = useState("");
+  const [domainNameActive, setDomainNameActive] = useState(0);
+  const [domainNameExpiring, setDomainNameExpiring] = useState(0);
+  const [domainNameExpired, setDomainNameExpired] = useState(0);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    let canceled = false;
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+
+    async function fetch() {
+      const response = await getCountDomainName();
+      if (canceled) {
+        return;
+      }
+      if (response.error) {
+        toast("error", response.error.message);
+      } else {
+        setDomainNameActive(response.data?.totalDomainNameActive || 0);
+        setDomainNameExpiring(response.data?.totalDomainNameExpiring || 0);
+        setDomainNameExpired(response.data?.totalDomainNameExpired || 0);
+      }
+    }
+
+    fetch();
+
+    return () => {
+      canceled = true;
+    };
+  }, []);
 
   const handleActiveTab = (activeTab: string) => {
     setActiveTab(activeTab);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/login";
   };
 
   return (
@@ -89,22 +137,31 @@ const Dashboard: React.FC = () => {
           <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
             {/* User info */}
             <div className="flex items-center gap-4">
-              <img
-                alt="avatar"
-                src="https://static1.srcdn.com/wordpress/wp-content/uploads/2025/04/hulk-from-the-mcu-franchise.jpg"
-                className="h-16 w-16 rounded-full object-cover"
-              ></img>
+              {account?.avatar !== null && account?.avatar !== "" ? (
+                <img
+                  alt="avatar"
+                  src={account?.avatar}
+                  className="h-16 w-16 rounded-full object-cover"
+                ></img>
+              ) : (
+                <UserCircleIcon className="size-16"></UserCircleIcon>
+              )}
+
               <div className="space-y-1">
                 <div>
-                  <h3 className="font-bold text-gray-900">Trần Tuấn Thành</h3>
+                  <h3 className="font-bold text-gray-900">
+                    {account?.fullname}
+                  </h3>
                   <p className="text-sm break-all text-gray-600">
-                    thanhtrancoder@gmail.com
+                    {account?.email}
                   </p>
                 </div>
-                <div className="text-success-hover2 bg-light-success flex w-fit items-center gap-1 rounded-xl px-2 py-1">
-                  <CheckCircleIcon className="size-4"></CheckCircleIcon>
-                  <span className="text-xs font-medium">Verified</span>
-                </div>
+                {account?.isVerify && (
+                  <div className="text-success-hover2 bg-light-success flex w-fit items-center gap-1 rounded-xl px-2 py-1">
+                    <CheckCircleIcon className="size-4"></CheckCircleIcon>
+                    <span className="text-xs font-medium">Verified</span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -147,6 +204,22 @@ const Dashboard: React.FC = () => {
                 activeTab={activeTab}
                 handleActive={handleActiveTab}
               ></ActionItem>
+              {/* <ActionItem
+                icon={
+                  <ArrowRightStartOnRectangleIcon></ArrowRightStartOnRectangleIcon>
+                }
+                name="Đăng xuất"
+                to="settings"
+                activeTab={activeTab}
+                handleActive={handleActiveTab}
+              ></ActionItem> */}
+              <button
+                className="flex w-full cursor-pointer items-center gap-2 rounded-xl px-4 py-3 transition-colors duration-300 hover:bg-gray-100"
+                onClick={() => handleLogout()}
+              >
+                <ArrowRightStartOnRectangleIcon></ArrowRightStartOnRectangleIcon>
+                <span>Đăng xuất</span>
+              </button>
             </ul>
           </div>
 
@@ -156,17 +229,17 @@ const Dashboard: React.FC = () => {
             <div className="space-y-2">
               <QuickReportItem
                 name="Tên miền hoạt động"
-                total={2}
+                total={domainNameActive}
                 totalColor="success-hover2"
               ></QuickReportItem>
               <QuickReportItem
                 name="Sắp hết hạn"
-                total={1}
+                total={domainNameExpiring}
                 totalColor="fail"
               ></QuickReportItem>
               <QuickReportItem
                 name="Đã hết hạn"
-                total={1}
+                total={domainNameExpired}
                 totalColor="fail"
               ></QuickReportItem>
             </div>

@@ -15,6 +15,7 @@ const Layout: React.FC<layoutProps> = ({ children }) => {
     "/oauth2/success",
     "/momo/return",
     "/payment/success",
+    "/coming-soon",
   ];
   const isGuest = hideFor.includes(pathname);
 

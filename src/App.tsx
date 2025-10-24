@@ -8,7 +8,7 @@ import OAuth2Success from "./pages/OAuth2Success";
 import Cart from "./pages/cart/Cart";
 import Checkout from "./pages/checkout/Checkout";
 import MoMoReturn from "./pages/momo/MoMoReturn";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import IconGallery from "./pages/IconGallery";
 import NotFound from "./pages/NotFound";
 import ComingSoon from "./pages/FeatureComingSoon";

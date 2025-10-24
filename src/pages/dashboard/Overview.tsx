@@ -13,6 +13,15 @@ import {
   QuestionMarkCircleIcon,
 } from "../../components/icons/Icon";
 import type { iconProps } from "../../components/icons/Icon";
+import { getCountDomainName } from "../../api/domainName/domainNameApi";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "../../components/context/Toast";
+import { useState, useEffect } from "react";
+import { useAppState } from "../../components/context/AppContext";
+import { getAllNotification } from "../../api/notification/notificationApi";
+import type { notificationDto } from "../../api/notification/notificationRes";
+import { statusNotification } from "../../utils/StatusUtil";
+import { formatDate } from "../../utils/Format";
 
 interface reportItemProps {
   Icon: React.FC<iconProps>;
@@ -102,16 +111,75 @@ const QuickActionItem: React.FC<quickActionItemProps> = ({
 };
 
 const Overview: React.FC = () => {
+  const navigate = useNavigate();
+  const toast = useToast();
+  const { account } = useAppState();
+
+  const [totalDomainName, setTotalDomainName] = useState(0);
+  const [year, setYear] = useState(0);
+  const [notifications, setNotifications] = useState<notificationDto[]>([]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    let canceled = false;
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+
+    async function fetch() {
+      const response = await getCountDomainName();
+      if (canceled) {
+        return;
+      }
+      if (response.error) {
+        toast("error", response.error.message);
+      } else {
+        setTotalDomainName(
+          (response.data?.totalDomainNameActive || 0) +
+            (response.data?.totalDomainNameExpiring || 0) +
+            (response.data?.totalDomainNameExpired || 0),
+        );
+        const date = new Date(account?.createdAt || "");
+        setYear(date.getFullYear());
+      }
+
+      const responseNotification = await getAllNotification({
+        size: 6,
+        number: 0,
+      });
+      if (canceled) {
+        return;
+      }
+      if (responseNotification.error) {
+        toast("error", responseNotification.error.message);
+      } else {
+        setNotifications(responseNotification.data?.content || []);
+      }
+    }
+
+    fetch();
+
+    return () => {
+      canceled = true;
+    };
+  }, []);
+
   return (
     <div className="space-y-6">
       {/* Welcome */}
       <div className="from-primary-hover to-primary-hover2 space-y-6 rounded-xl bg-gradient-to-br p-8 text-white">
         <div className="space-y-2">
           <h2 className="text-2xl font-bold">Chào mừng trở lại, Thành!</h2>
-          <p>Bạn đã là thành viên từ năm 2025</p>
+          <p>Bạn đã là thành viên từ năm {year}</p>
         </div>
         <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4 md:space-y-0">
-          <ReportItem Icon={GlobeIcon} value={4} name="Tên miền"></ReportItem>
+          <ReportItem
+            Icon={GlobeIcon}
+            value={totalDomainName}
+            name="Tên miền"
+          ></ReportItem>
           <ReportItem Icon={ServerIcon} value={0} name="Hosting"></ReportItem>
           <ReportItem Icon={ShieldIcon} value={0} name="SSL"></ReportItem>
         </div>
@@ -124,7 +192,15 @@ const Overview: React.FC = () => {
           <h2 className="text-xl font-bold">Thông báo quan trọng</h2>
         </div>
         <div className="space-y-4">
-          <NotificationItem
+          {notifications.map((notification) => (
+            <NotificationItem
+              key={notification.notificationId}
+              type={statusNotification(notification.type)}
+              title={notification.title}
+              date={formatDate(notification.createdAt)}
+            ></NotificationItem>
+          ))}
+          {/* <NotificationItem
             type="warning"
             title="mystore.vn sẽ hết hạn trong 12 ngày"
             date="2025-09-25"
@@ -143,7 +219,7 @@ const Overview: React.FC = () => {
             type="error"
             title="Hóa đơn của mydomain.com đã hết hạn"
             date="2025-09-25"
-          ></NotificationItem>
+          ></NotificationItem> */}
         </div>
       </div>
 
@@ -168,7 +244,7 @@ const Overview: React.FC = () => {
               <QuestionMarkCircleIcon className="text-warning size-8 stroke-2" />
             }
             title="Hỗ trợ"
-            to="/domain"
+            to="/coming-soon"
           />
         </div>
       </div>

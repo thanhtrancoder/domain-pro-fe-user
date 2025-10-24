@@ -15,7 +15,7 @@ const FeatureComingSoon = () => {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-50 p-16">
+    <div className="flex h-screen items-center justify-center bg-gray-50 p-16">
       <div className="mx-auto max-w-lg p-8 text-center">
         <div className="mb-6 flex items-center justify-center">
           <img

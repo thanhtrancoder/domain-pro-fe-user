@@ -23,3 +23,8 @@ export interface pageRes<T> {
   content: T[];
   page: page;
 }
+
+export interface pageReq {
+  size: number;
+  number: number;
+}

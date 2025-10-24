@@ -14,6 +14,7 @@ export type account = {
   avatar: string;
   roles: string[];
   numberCartItem: number;
+  createdAt: string;
 };
 
 type GlobalState = {

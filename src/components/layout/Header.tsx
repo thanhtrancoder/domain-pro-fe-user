@@ -131,7 +131,15 @@ const Header: React.FC = () => {
                 href="/dashboard"
                 className="hover:text-primary ml-2 flex items-center rounded-md p-1 transition-colors duration-300 hover:bg-gray-100"
               >
-                <UserCircleIcon className="size-7"></UserCircleIcon>
+                {account?.avatar !== null && account?.avatar !== "" ? (
+                  <img
+                    alt="avatar"
+                    src={account?.avatar}
+                    className="h-7 w-7 rounded-full object-cover"
+                  ></img>
+                ) : (
+                  <UserCircleIcon className="size-7"></UserCircleIcon>
+                )}
               </a>
             </div>
           ) : (
