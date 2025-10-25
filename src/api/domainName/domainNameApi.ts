@@ -27,3 +27,13 @@ export async function updateDomainName(req: domainNameDto): Promise<UseApiResult
     data: req,
   });
 }
+
+export async function getDomainNameDetail(domainNameId: string): Promise<UseApiResult<domainNameDto>> {
+  return callGet<domainNameDto, { domainNameId: string }>({
+    url: `${domainNameUrl}/detail`,
+    data: {
+      domainNameId: domainNameId,
+    },
+    login: true,
+  });
+}

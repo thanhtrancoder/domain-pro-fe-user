@@ -14,10 +14,20 @@ import {
   ArrowLeftIcon,
 } from "../../components/icons/Icon";
 import type { iconProps } from "../../components/icons/Icon";
-import { moneyFormat } from "../../utils/Format";
+import { formatDate, moneyFormat } from "../../utils/Format";
 import { useEffect, useState } from "react";
 import { Input, ToggleSwitch } from "../../components/ui/Input";
-import { RecordItemTemp, type recordItemProps } from "./domainDetailData";
+import {
+  getDomainNameDetail,
+  updateDomainName,
+} from "../../api/domainName/domainNameApi";
+import { useToast } from "../../components/context/Toast";
+import type { domainNameDto } from "../../api/domainName/domainNameRes";
+import {
+  getAllDnsConfig,
+  matchDnsConfig,
+} from "../../api/dnsConfig/dnsConfigApi";
+import type { dnsConfigDto } from "../../api/dnsConfig/dnsConfigRes";
 
 interface infoItemProps {
   Icon: React.FC<iconProps>;
@@ -37,18 +47,86 @@ const InfoItem: React.FC<infoItemProps> = ({ Icon, label, value }) => {
   );
 };
 
-const DomainDetail: React.FC = () => {
-  const { domainId } = useParams<{ domainId: string }>();
-  const [autoRenew, setAutoRenew] = useState(true);
-  const [recordList, setRecordList] = useState<recordItemProps[]>([]);
-  const [oldRecordList, setOldRecordList] = useState<recordItemProps[]>([]);
-  const [showSaveButton, setShowSaveButton] = useState(false);
+const LabelStatus: React.FC<{ status: number }> = ({ status }) => {
+  return (
+    <div>
+      {status === 1 && (
+        <p className="bg-light-success text-success-hover2 rounded-full px-3 py-1 font-medium">
+          Active
+        </p>
+      )}
+      {status === 2 && (
+        <p className="bg-tint-warning text-warning rounded-full px-3 py-1 font-medium">
+          Expiring
+        </p>
+      )}
+      {status === 3 && (
+        <p className="bg-tint-fail text-fail rounded-full px-3 py-1 font-medium">
+          Expired
+        </p>
+      )}
+    </div>
+  );
+};
 
+const DomainDetail: React.FC = () => {
   const navigate = useNavigate();
+  const toast = useToast();
+  const { domainId } = useParams<{ domainId: string }>();
+
+  const [recordList, setRecordList] = useState<dnsConfigDto[]>([]);
+  const [oldRecordList, setOldRecordList] = useState<dnsConfigDto[]>([]);
+  const [showSaveButton, setShowSaveButton] = useState(false);
+  const [domainNameDetail, setDomainNameDetail] =
+    useState<domainNameDto | null>(null);
 
   useEffect(() => {
-    setRecordList(RecordItemTemp);
-    setOldRecordList(RecordItemTemp);
+    window.scrollTo(0, 0);
+    let canceled = false;
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+    }
+
+    if (!domainId) {
+      navigate("/domains");
+    }
+
+    async function fetch() {
+      const domainNameDetail = await getDomainNameDetail(domainId || "");
+      if (canceled) {
+        return;
+      }
+      if (domainNameDetail.error) {
+        toast("error", domainNameDetail.error.message);
+      } else {
+        setDomainNameDetail(domainNameDetail.data);
+      }
+
+      const dnsConfigList = await getAllDnsConfig(domainId || "");
+      if (canceled) {
+        return;
+      }
+      if (dnsConfigList.error) {
+        toast("error", dnsConfigList.error.message);
+      } else {
+        const recordList = dnsConfigList.data?.content.map((item) => {
+          return {
+            ...item,
+            virtualId: item.dnsConfigId,
+          };
+        });
+        setRecordList(recordList || []);
+        setOldRecordList(recordList || []);
+      }
+    }
+
+    fetch();
+
+    return () => {
+      canceled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -59,15 +137,28 @@ const DomainDetail: React.FC = () => {
     }
   }, [recordList]);
 
-  const handleAutoRenewChange = () => {
-    setAutoRenew(!autoRenew);
-    console.log("autoRenew");
+  const handleAutoRenewChange = async () => {
+    const isAutoRenewal = !domainNameDetail?.isAutoRenewal;
+    const updateDomainNameResponse = await updateDomainName({
+      domainNameId: domainNameDetail?.domainNameId || 0,
+      isAutoRenewal: isAutoRenewal,
+      isBlock: domainNameDetail?.isBlock,
+    });
+    if (updateDomainNameResponse.error) {
+      toast("error", updateDomainNameResponse.error.message);
+    } else {
+      setDomainNameDetail((prev) => ({
+        ...prev,
+        isAutoRenewal: isAutoRenewal,
+      }));
+      toast("success", updateDomainNameResponse.message);
+    }
   };
 
   const handleRecordTypeChange = (recordId: number, type: string) => {
     setRecordList((prevRecordList) =>
       prevRecordList.map((record) =>
-        record.id === recordId ? { ...record, type: type } : record,
+        record.virtualId === recordId ? { ...record, type: type } : record,
       ),
     );
   };
@@ -75,7 +166,7 @@ const DomainDetail: React.FC = () => {
   const handleRecordNameChange = (recordId: number, name: string) => {
     setRecordList((prevRecordList) =>
       prevRecordList.map((record) =>
-        record.id === recordId ? { ...record, name: name } : record,
+        record.virtualId === recordId ? { ...record, host: name } : record,
       ),
     );
   };
@@ -83,7 +174,7 @@ const DomainDetail: React.FC = () => {
   const handleRecordValueChange = (recordId: number, value: string) => {
     setRecordList((prevRecordList) =>
       prevRecordList.map((record) =>
-        record.id === recordId ? { ...record, value: value } : record,
+        record.virtualId === recordId ? { ...record, value: value } : record,
       ),
     );
   };
@@ -91,18 +182,25 @@ const DomainDetail: React.FC = () => {
   const handleRecordTTLChange = (recordId: number, ttl: number) => {
     setRecordList((prevRecordList) =>
       prevRecordList.map((record) =>
-        record.id === recordId ? { ...record, ttl: ttl } : record,
+        record.virtualId === recordId ? { ...record, ttl: ttl } : record,
       ),
     );
   };
 
   const handleAddRecord = () => {
+    let newRecordId = 0;
+    if (recordList.length === 0) {
+      newRecordId = 1;
+    } else {
+      newRecordId = (recordList[recordList?.length - 1].virtualId || 0) + 1;
+    }
     setRecordList((prevRecordList) => {
-      const newRecordId = prevRecordList[prevRecordList?.length - 1].id + 1;
-      const newRecord = {
-        id: newRecordId,
+      const newRecord: dnsConfigDto = {
+        virtualId: newRecordId,
+        dnsConfigId: null,
+        domainNameId: domainNameDetail?.domainNameId || 0,
         type: "A",
-        name: "",
+        host: "",
         value: "",
         ttl: 3600,
       };
@@ -112,8 +210,39 @@ const DomainDetail: React.FC = () => {
 
   const handleDeleteRecord = (recordId: number) => {
     setRecordList((prevRecordList) =>
-      prevRecordList.filter((record) => record.id !== recordId),
+      prevRecordList.map((record) =>
+        record.virtualId === recordId
+          ? {
+              ...record,
+              domainNameId: null,
+            }
+          : record,
+      ),
     );
+  };
+
+  const handleRenewal = () => {
+    navigate("/coming-soon");
+  };
+
+  const handleUpdateDnsConfig = async () => {
+    if (recordList === oldRecordList) {
+      toast("warning", "Không có thay đổi record.");
+      return;
+    }
+
+    const matchDnsConfigResponse = await matchDnsConfig({
+      domainNameId: domainNameDetail?.domainNameId || 0,
+      dnsConfigs: recordList,
+    });
+    if (matchDnsConfigResponse.error) {
+      toast("error", matchDnsConfigResponse.error.message);
+    } else {
+      setRecordList(matchDnsConfigResponse.data?.content || []);
+      setOldRecordList(matchDnsConfigResponse.data?.content || []);
+      setShowSaveButton(false);
+      toast("success", matchDnsConfigResponse.message);
+    }
   };
 
   return (
@@ -128,7 +257,11 @@ const DomainDetail: React.FC = () => {
         <h2 className="text-2xl font-bold">Cấu hình tên miền</h2>
         <div className="ml-auto">
           <a
-            href="//example.com"
+            href={
+              "//" +
+              (domainNameDetail?.domainName || "") +
+              (domainNameDetail?.domainExtend || "")
+            }
             className="text-primary hover:text-primary-hover flex items-center gap-2"
             target="_blank"
           >
@@ -141,32 +274,27 @@ const DomainDetail: React.FC = () => {
       {/* Domain info */}
       <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
         <div className="flex items-center gap-3">
-          <h3 className="text-2xl font-medium">example.com</h3>
-          <p className="bg-light-success text-success-hover2 rounded-full px-3 py-1 font-medium">
-            Active
-          </p>
-          <p className="bg-tint-warning text-warning rounded-full px-3 py-1 font-medium">
-            Expiring
-          </p>
-          <p className="bg-tint-fail text-fail rounded-full px-3 py-1 font-medium">
-            Expired
-          </p>
+          <h3 className="text-2xl font-medium">
+            {(domainNameDetail?.domainName || "") +
+              (domainNameDetail?.domainExtend || "")}
+          </h3>
+          <LabelStatus status={domainNameDetail?.status || 0}></LabelStatus>
         </div>
         <div className="space-y-6 md:grid md:grid-cols-3 md:gap-6 md:space-y-0">
           <InfoItem
             Icon={CalendarIcon}
             label="Ngày đăng ký"
-            value="2022-05-15"
+            value={formatDate(domainNameDetail?.registerAt || "")}
           ></InfoItem>
           <InfoItem
             Icon={ClockIcon}
             label="Ngày hết hạn"
-            value="2022-05-15"
+            value={formatDate(domainNameDetail?.expiresAt || "")}
           ></InfoItem>
           <InfoItem
             Icon={LockClosedIcon}
             label="Nhà cung cấp DNS"
-            value="Cloudflare"
+            value={domainNameDetail?.dnsProvider || ""}
           ></InfoItem>
         </div>
       </div>
@@ -192,7 +320,7 @@ const DomainDetail: React.FC = () => {
                 </p>
               </div>
               <div className="ml-auto">
-                <Button label="Gia hạn ngay"></Button>
+                <Button label="Gia hạn ngay" onClick={handleRenewal}></Button>
               </div>
             </div>
           </div>
@@ -201,14 +329,16 @@ const DomainDetail: React.FC = () => {
             <div className="space-y-2">
               <div className="flex items-center gap-3">
                 <ToggleSwitch
-                  enable={autoRenew}
+                  enable={domainNameDetail?.isAutoRenewal || false}
                   onChange={handleAutoRenewChange}
                 ></ToggleSwitch>
                 <p>Bật tự động gia hạn</p>
-                <div className="ml-auto flex items-center gap-1">
-                  <CheckCircleIcon className="text-success-hover2 size-5"></CheckCircleIcon>
-                  <p className="text-sm text-gray-500">Kích hoạt</p>
-                </div>
+                {domainNameDetail?.isAutoRenewal && (
+                  <div className="ml-auto flex items-center gap-1">
+                    <CheckCircleIcon className="text-success-hover2 size-5"></CheckCircleIcon>
+                    <p className="text-sm text-gray-500">Kích hoạt</p>
+                  </div>
+                )}
               </div>
               <p className="text-sm text-gray-500">
                 Tên miền của bạn sẽ được tự động gia hạn 30 ngày trước khi hết
@@ -247,68 +377,82 @@ const DomainDetail: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {recordList?.map((record) => (
-                <tr key={record.id} className="hover:bg-gray-50">
-                  <td className="p-6">
-                    <select
-                      className="focus:ring-primary-hover rounded-lg border border-gray-300 p-2 focus:border-transparent focus:ring-2"
-                      value={record.type}
-                      onChange={(event) =>
-                        handleRecordTypeChange(record.id, event.target.value)
-                      }
-                    >
-                      <option value="A">A</option>
-                      <option value="AAAA">AAAA</option>
-                      <option value="CNAME">CNAME</option>
-                    </select>
-                  </td>
-                  <td className="p-6">
-                    <div className="w-60">
-                      <Input
-                        placeholder="Nhập tên miền"
-                        value={record.name}
-                        onChange={(event) =>
-                          handleRecordNameChange(record.id, event.target.value)
-                        }
-                      ></Input>
-                    </div>
-                  </td>
-                  <td className="p-6">
-                    <div className="w-40">
-                      <Input
-                        placeholder="Nhập giá trị"
-                        value={record.value}
-                        onChange={(event) =>
-                          handleRecordValueChange(record.id, event.target.value)
-                        }
-                      ></Input>
-                    </div>
-                  </td>
-                  <td className="p-6">
-                    <div className="w-20">
-                      <Input
-                        placeholder="Nhập TTL"
-                        value={record.ttl.toString()}
-                        onChange={(event) =>
-                          handleRecordTTLChange(
-                            record.id,
-                            Number(event.target.value),
-                          )
-                        }
-                      ></Input>
-                    </div>
-                  </td>
-                  <td className="p-6">
-                    <SquareButton
-                      leftIcon={
-                        <XMarkIcon className="text-fail size-5"></XMarkIcon>
-                      }
-                      className="hover:bg-light-fail bg-tint-fail"
-                      onClick={() => handleDeleteRecord(record.id)}
-                    ></SquareButton>
-                  </td>
-                </tr>
-              ))}
+              {recordList?.map(
+                (record) =>
+                  record.domainNameId && (
+                    <tr key={record.virtualId} className="hover:bg-gray-50">
+                      <td className="p-6">
+                        <select
+                          className="focus:ring-primary-hover rounded-lg border border-gray-300 p-2 focus:border-transparent focus:ring-2"
+                          value={record.type}
+                          onChange={(event) =>
+                            handleRecordTypeChange(
+                              record.virtualId || 0,
+                              event.target.value,
+                            )
+                          }
+                        >
+                          <option value="A">A</option>
+                          <option value="AAAA">AAAA</option>
+                          <option value="CNAME">CNAME</option>
+                        </select>
+                      </td>
+                      <td className="p-6">
+                        <div className="w-60">
+                          <Input
+                            placeholder="Nhập tên miền"
+                            value={record.host}
+                            onChange={(event) =>
+                              handleRecordNameChange(
+                                record.virtualId || 0,
+                                event.target.value,
+                              )
+                            }
+                          ></Input>
+                        </div>
+                      </td>
+                      <td className="p-6">
+                        <div className="w-40">
+                          <Input
+                            placeholder="Nhập giá trị"
+                            value={record.value}
+                            onChange={(event) =>
+                              handleRecordValueChange(
+                                record.virtualId || 0,
+                                event.target.value,
+                              )
+                            }
+                          ></Input>
+                        </div>
+                      </td>
+                      <td className="p-6">
+                        <div className="w-20">
+                          <Input
+                            placeholder="Nhập TTL"
+                            value={record.ttl?.toString() || ""}
+                            onChange={(event) =>
+                              handleRecordTTLChange(
+                                record.virtualId || 0,
+                                Number(event.target.value),
+                              )
+                            }
+                          ></Input>
+                        </div>
+                      </td>
+                      <td className="p-6">
+                        <SquareButton
+                          leftIcon={
+                            <XMarkIcon className="text-fail size-5"></XMarkIcon>
+                          }
+                          className="hover:bg-light-fail bg-tint-fail"
+                          onClick={() =>
+                            handleDeleteRecord(record.virtualId || 0)
+                          }
+                        ></SquareButton>
+                      </td>
+                    </tr>
+                  ),
+              )}
             </tbody>
           </table>
         </div>
@@ -333,7 +477,10 @@ const DomainDetail: React.FC = () => {
               showSaveButton ? "block" : "pointer-events-none opacity-50"
             }
           >
-            <Button label="Lưu thay đổi"></Button>
+            <Button
+              label="Lưu thay đổi"
+              onClick={handleUpdateDnsConfig}
+            ></Button>
           </div>
         </div>
       </div>

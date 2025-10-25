@@ -11,7 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useToast } from "../../components/context/Toast";
 import { getCountDomainName } from "../../api/domainName/domainNameApi";
 import { useAppState } from "../../components/context/AppContext";
@@ -77,6 +77,7 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const toast = useToast();
   const { account, isShowPopup } = useAppState();
+  const { pathname } = useLocation();
 
   const [activeTab, setActiveTab] = useState("");
   const [domainNameActive, setDomainNameActive] = useState(0);
@@ -113,13 +114,21 @@ const Dashboard: React.FC = () => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (isShowPopup) {
-  //     document.body.classList.add("overflow-hidden");
-  //   } else {
-  //     document.body.classList.remove("overflow-hidden");
-  //   }
-  // }, [isShowPopup]);
+  useEffect(() => {
+    let canceled = false;
+
+    const pathnameSplit = pathname.split("/");
+    if (pathnameSplit.length == 2) {
+      setActiveTab("");
+    }
+    if (pathnameSplit.length > 2) {
+      setActiveTab(pathnameSplit[2]);
+    }
+
+    return () => {
+      canceled = true;
+    };
+  }, [pathname]);
 
   const handleActiveTab = (activeTab: string) => {
     setActiveTab(activeTab);

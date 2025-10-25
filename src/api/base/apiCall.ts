@@ -139,3 +139,36 @@ export async function callPut<T, B>(params: callApiParams<B>): Promise<UseApiRes
   return { data, error, message, loading };
 }
 
+export async function callPatch<T, B>(params: callApiParams<B>): Promise<UseApiResult<T>> {
+  let data: T | null = null;
+  let message: string | "" = "";
+  let error: apiResponse<null> | null = null;
+  let loading = true;
+
+  try {
+    const resp = await apiClient.patch<apiResponse<T>>(
+      params.url,
+      params.data,
+      { login: params.login, withCredentials: params.withCredentials }
+    );
+    const responseCustom: apiResponse<T> = resp.data;
+    data = responseCustom.data;
+    message = responseCustom.message;
+  } catch (err: any) {
+    if (err instanceof TypeError) {
+      error = {
+        timestamp: null,
+        status: null,
+        message: "Lỗi kết nối đến server",
+        data: null,
+      };
+    } else {
+      error = err;
+    }
+  } finally {
+    loading = false;
+  }
+
+  return { data, error, message, loading };
+}
+
