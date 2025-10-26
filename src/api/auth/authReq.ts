@@ -8,3 +8,10 @@ export interface loginReq {
   email: string;
   password: string;
 }
+
+export interface updateAccountReq {
+  fullname: string | null;
+  oldPassword: string | null;
+  newPassword: string | null;
+  confirmPassword: string | null;
+}

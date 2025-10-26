@@ -6,8 +6,10 @@ import type { menuType } from "./types";
 import { headerMenuList } from "./headerData";
 import { Link } from "react-router-dom";
 import { getProfile } from "../../api/account/accountApi";
-import { useAppState } from "../context/AppContext";
+import { useAppState, type account } from "../context/AppContext";
 import { useAccount } from "../context/Account";
+import { mapping } from "../../utils/MapUtil";
+import type { accountProfileRes } from "../../api/account/accountRes";
 
 const Header: React.FC = () => {
   const { account } = useAppState();
@@ -34,7 +36,10 @@ const Header: React.FC = () => {
       }
       if (profileData.data) {
         setIsLogin(true);
-        accountContext(profileData.data);
+        const mappedData = mapping<accountProfileRes, account>(
+          profileData.data,
+        );
+        accountContext(mappedData);
       }
     }
     fetch();

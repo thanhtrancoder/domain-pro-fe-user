@@ -1,7 +1,8 @@
 import type { UseApiResult } from '../base/apiType';
-import { callPost, callGet } from '../base/apiCall';
-import type { registerReq, loginReq } from './authReq';
+import { callPost, callGet, callPut } from '../base/apiCall';
+import type { registerReq, loginReq, updateAccountReq } from './authReq';
 import type { loginRes } from './authRes';
+import type { accountProfileRes } from '../account/accountRes';
 
 const authUrl = `/auth`;
 
@@ -23,5 +24,13 @@ export async function oauth2(): Promise<UseApiResult<loginRes>> {
   return callGet<loginRes, null>({
     url: `/oauth2/me`,
     withCredentials: true,
+  });
+}
+
+export async function updateAccount(req: updateAccountReq): Promise<UseApiResult<accountProfileRes>> {
+  return callPut<accountProfileRes, updateAccountReq>({
+    url: authUrl + `/update`, 
+    data: req,
+    login: true,
   });
 }
