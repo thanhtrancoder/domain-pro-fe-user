@@ -13,6 +13,12 @@ import IconGallery from "./pages/IconGallery";
 import NotFound from "./pages/NotFound";
 import ComingSoon from "./pages/FeatureComingSoon";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import ForgotPassword from "./pages/forgotPassword/ForgotPassword";
+import ResetPassword from "./pages/forgotPassword/ResetPassword";
+import ResetPasswordSuccess from "./pages/forgotPassword/ResetPasswordSuccess";
+import Contact from "./pages/Contact";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsService from "./pages/TermsService";
 
 import Overview from "./pages/dashboard/Overview";
 import Domains from "./pages/dashboard/Domains";
@@ -35,6 +41,9 @@ function App() {
               {/* <Route path="/test" element={<Test />} /> */}
               <Route path="/" element={<Home />} />
               <Route path="/coming-soon" element={<ComingSoon />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-service" element={<TermsService />} />
               <Route path="/search" element={<Search />} />
               <Route path="/register" element={<Signup />} />
               <Route path="/login" element={<Login />} />
@@ -50,6 +59,12 @@ function App() {
                 <Route path="support" element={<Support />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route
+                path="/reset-password-success"
+                element={<ResetPasswordSuccess />}
+              />
               <Route path="/icon-gallery" element={<IconGallery />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

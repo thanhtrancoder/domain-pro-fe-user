@@ -86,7 +86,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="from-tint-primary to-tint-primary2 flex flex-col items-center justify-center bg-gradient-to-br px-8 py-12">
-      <div className="flex w-fit flex-col items-center justify-center gap-6">
+      <div className="flex w-full max-w-md flex-col items-center justify-center gap-6">
         {/* Title */}
         <a href="/">
           <img src={DomainProIcon} className="h-16 w-16"></img>
@@ -101,10 +101,10 @@ const Login: React.FC = () => {
         {/* Form */}
         <form
           onSubmit={handleSubmit}
-          className="space-y-6 rounded-xl bg-white p-8 shadow-lg"
+          className="w-full space-y-6 rounded-xl bg-white p-8 shadow-lg"
         >
           <div className="space-y-2">
-            <p className="font-medium">Địa chỉ email</p>
+            <p className="font-medium text-gray-700">Địa chỉ email</p>
             <Input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -133,7 +133,7 @@ const Login: React.FC = () => {
           </div>
 
           <div className="space-y-2">
-            <p className="font-medium">Mật khẩu</p>
+            <p className="font-medium text-gray-700">Mật khẩu</p>
             <Input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -165,7 +165,7 @@ const Login: React.FC = () => {
           <div className="text-right">
             <a
               href="/forgot-password"
-              className="text-primary hover:text-primary-hover text-sm font-medium"
+              className="text-primary hover:text-primary-hover text-sm font-medium transition-colors duration-300"
             >
               Quên mật khẩu?
             </a>
@@ -197,7 +197,10 @@ const Login: React.FC = () => {
           <div className="text-center">
             <p className="text-sm text-gray-600">
               Chưa có tài khoản?{" "}
-              <a href="/register" className="text-primary-hover font-medium">
+              <a
+                href="/register"
+                className="text-primary hover:text-primary-hover font-medium transition-colors duration-300"
+              >
                 Đăng ký ngay
               </a>
             </p>

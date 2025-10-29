@@ -1,6 +1,6 @@
 import type { UseApiResult } from '../base/apiType';
 import { callPost, callGet, callPut } from '../base/apiCall';
-import type { registerReq, loginReq, updateAccountReq } from './authReq';
+import type { registerReq, loginReq, updateAccountReq, forgotPasswordReq, resetPasswordReq } from './authReq';
 import type { loginRes } from './authRes';
 import type { accountProfileRes } from '../account/accountRes';
 
@@ -32,5 +32,19 @@ export async function updateAccount(req: updateAccountReq): Promise<UseApiResult
     url: authUrl + `/update`, 
     data: req,
     login: true,
+  });
+}
+
+export async function forgotPassword(req: forgotPasswordReq): Promise<UseApiResult<null>> {
+  return callPost<null, forgotPasswordReq>({
+    url: authUrl + `/forgot-password`,
+    data: req,
+  });
+}
+
+export async function resetPassword(req: resetPasswordReq): Promise<UseApiResult<null>> {
+  return callPost<null, resetPasswordReq>({
+    url: authUrl + `/reset-password`,
+    data: req,
   });
 }

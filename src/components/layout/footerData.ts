@@ -23,7 +23,7 @@ export const footerMenuList: menuType[] = [
   },
   {
     label: "Tên miền",
-    href: "/domains",
+    href: "/search",
     icon: GlobeIcon,
   },
   {
@@ -40,7 +40,7 @@ export const footerMenuList: menuType[] = [
 
 export const contactList: menuType[] = [
   {
-    label: "Tầng 15, Tòa nhà ABC,123 Đường Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh",
+    label: "720A Điện Biên Phủ, Phường 22, Bình Thạnh, Thành phố Hồ Chí Minh",
     href: "https://maps.app.goo.gl/HmFDfMuEm7GUPWir8",
     icon: MapPinIcon,
   },

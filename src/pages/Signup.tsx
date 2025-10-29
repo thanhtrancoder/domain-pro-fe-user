@@ -213,7 +213,7 @@ const Signup: React.FC = () => {
 
   return (
     <div className="from-tint-primary to-tint-primary2 flex flex-col items-center justify-center bg-gradient-to-br px-8 py-12">
-      <div className="flex w-fit flex-col items-center justify-center gap-6">
+      <div className="flex max-w-md flex-col items-center justify-center gap-6">
         {/* Title */}
         <a href="/">
           <img src={DomainProIcon} className="h-16 w-16"></img>
@@ -231,7 +231,7 @@ const Signup: React.FC = () => {
           className="space-y-6 rounded-xl bg-white p-8 shadow-lg"
         >
           <div className="space-y-2">
-            <p className="font-medium">Địa chỉ email</p>
+            <p className="font-medium text-gray-700">Địa chỉ email</p>
             <Input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -252,7 +252,7 @@ const Signup: React.FC = () => {
             )}
           </div>
           <div className="space-y-2">
-            <p className="font-medium">Mật khẩu</p>
+            <p className="font-medium text-gray-700">Mật khẩu</p>
             <Input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -364,7 +364,7 @@ const Signup: React.FC = () => {
             )}
           </div>
           <div className="space-y-2">
-            <p className="font-medium">Nhập lại mật khẩu</p>
+            <p className="font-medium text-gray-700">Nhập lại mật khẩu</p>
             <Input
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -406,11 +406,17 @@ const Signup: React.FC = () => {
               ></input>
               <p className="text-sm text-gray-600">
                 Tôi đồng ý với{" "}
-                <a href="" className="text-primary-hover font-medium">
+                <a
+                  href="/terms-service"
+                  className="text-primary hover:text-primary-hover font-medium transition-colors duration-300"
+                >
                   Điều khoản dịch vụ
                 </a>{" "}
                 và{" "}
-                <a href="" className="text-primary-hover font-medium">
+                <a
+                  href="/privacy-policy"
+                  className="text-primary hover:text-primary-hover font-medium transition-colors duration-300"
+                >
                   Chính sách bảo mật
                 </a>
               </p>
@@ -447,7 +453,10 @@ const Signup: React.FC = () => {
           <div className="text-center">
             <p className="text-sm text-gray-600">
               Đã có tài khoản?{" "}
-              <a href="/login" className="text-primary-hover font-medium">
+              <a
+                href="/login"
+                className="text-primary hover:text-primary-hover font-medium transition-colors duration-300"
+              >
                 Đăng nhập ngay
               </a>
             </p>

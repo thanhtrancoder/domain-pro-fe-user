@@ -16,6 +16,10 @@ const Layout: React.FC<layoutProps> = ({ children }) => {
     "/momo/return",
     "/payment/success",
     "/coming-soon",
+    "/forgot-password",
+    "/reset-password",
+    "/reset-password-success",
+    "/icon-gallery",
   ];
   const isGuest = hideFor.includes(pathname);
 
