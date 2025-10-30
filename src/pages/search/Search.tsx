@@ -99,7 +99,10 @@ const Search: React.FC = () => {
         setPrice(priceData);
         setRelatedDomainList(filtered);
       }
-      if (domainSearchData.error) {
+      if (domainSearchData.error?.status === 401) {
+        toast("warning", domainSearchData.error.message);
+        navigate("/login");
+      } else if (domainSearchData.error) {
         toast("error", domainSearchData.error.message);
       }
     }
@@ -122,7 +125,10 @@ const Search: React.FC = () => {
       if (addToCartData.error.status === 403) {
         navigate("/login");
         toast("warning", "Vui lòng đăng nhập để thêm vào giỏ hàng");
-      } else {
+      } else if (addToCartData.error?.status === 401) {
+        toast("warning", addToCartData.error.message);
+        navigate("/login");
+      } else if (addToCartData.error) {
         toast("error", addToCartData.error.message);
       }
       return;
@@ -139,7 +145,10 @@ const Search: React.FC = () => {
     );
 
     const profileData = await getProfile();
-    if (profileData.error) {
+    if (profileData.error?.status === 401) {
+      toast("warning", profileData.error.message);
+      navigate("/login");
+    } else if (profileData.error) {
       toast("error", profileData.error.message);
     }
     if (profileData.data) {

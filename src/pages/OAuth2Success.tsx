@@ -14,7 +14,10 @@ const OAuth2Success: React.FC = () => {
     async function fetch() {
       const res = await oauth2();
       if (canceled) return;
-      if (res.error) {
+      if (res.error?.status === 401) {
+        toast("warning", res.error.message);
+        navigate("/login");
+      } else if (res.error) {
         toast("error", res.error.message);
         navigate("/login");
       }

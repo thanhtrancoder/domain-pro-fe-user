@@ -133,7 +133,10 @@ const Overview: React.FC = () => {
       if (canceled) {
         return;
       }
-      if (response.error) {
+      if (response.error?.status === 401) {
+        toast("warning", response.error.message);
+        navigate("/login");
+      } else if (response.error) {
         toast("error", response.error.message);
       } else {
         setTotalDomainName(
@@ -152,7 +155,10 @@ const Overview: React.FC = () => {
       if (canceled) {
         return;
       }
-      if (responseNotification.error) {
+      if (responseNotification.error?.status === 401) {
+        toast("warning", responseNotification.error.message);
+        navigate("/login");
+      } else if (responseNotification.error) {
         toast("error", responseNotification.error.message);
       } else {
         setNotifications(responseNotification.data?.content || []);

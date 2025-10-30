@@ -98,7 +98,10 @@ const Dashboard: React.FC = () => {
       if (canceled) {
         return;
       }
-      if (response.error) {
+      if (response.error?.status === 401) {
+        toast("warning", response.error.message);
+        navigate("/login");
+      } else if (response.error) {
         toast("error", response.error.message);
       } else {
         setDomainNameActive(response.data?.totalDomainNameActive || 0);

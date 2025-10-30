@@ -7,10 +7,24 @@ import {
   XMarkIcon,
 } from "../icons/Icon";
 import type { Toast } from "./AppContext";
+import { useEffect } from "react";
 
 export default function ToastContainer() {
   const { toasts } = useAppState();
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (toasts.length > 0) {
+      toasts.forEach((t) => {
+        if (
+          t.type === "warning" &&
+          t.message === "Phiên đăng nhập đã hết hạn"
+        ) {
+          localStorage.removeItem("token");
+        }
+      });
+    }
+  }, [toasts]);
 
   const getToastIcon = (type: Toast["type"]) => {
     switch (type) {

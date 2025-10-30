@@ -123,7 +123,10 @@ const Settings: React.FC = () => {
       if (canceled) {
         return;
       }
-      if (response.error) {
+      if (response.error?.status === 401) {
+        toast("warning", response.error.message);
+        navigate("/login");
+      } else if (response.error) {
         toast("error", response.error.message);
       } else {
         setFullname(response.data?.fullname || "");
@@ -156,7 +159,10 @@ const Settings: React.FC = () => {
       newPassword: newPassword,
       confirmPassword: confirmNewPassword,
     });
-    if (response.error) {
+    if (response.error?.status === 401) {
+      toast("warning", response.error.message);
+      navigate("/login");
+    } else if (response.error) {
       toast("error", response.error.message);
     } else {
       if (response.data) {

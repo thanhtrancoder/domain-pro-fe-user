@@ -98,7 +98,10 @@ const DomainDetail: React.FC = () => {
       if (canceled) {
         return;
       }
-      if (domainNameDetail.error) {
+      if (domainNameDetail.error?.status === 401) {
+        toast("warning", domainNameDetail.error.message);
+        navigate("/login");
+      } else if (domainNameDetail.error) {
         toast("error", domainNameDetail.error.message);
       } else {
         setDomainNameDetail(domainNameDetail.data);
@@ -108,7 +111,10 @@ const DomainDetail: React.FC = () => {
       if (canceled) {
         return;
       }
-      if (dnsConfigList.error) {
+      if (dnsConfigList.error?.status === 401) {
+        toast("warning", dnsConfigList.error.message);
+        navigate("/login");
+      } else if (dnsConfigList.error) {
         toast("error", dnsConfigList.error.message);
       } else {
         const recordList = dnsConfigList.data?.content.map((item) => {
@@ -144,7 +150,10 @@ const DomainDetail: React.FC = () => {
       isAutoRenewal: isAutoRenewal,
       isBlock: domainNameDetail?.isBlock,
     });
-    if (updateDomainNameResponse.error) {
+    if (updateDomainNameResponse.error?.status === 401) {
+      toast("warning", updateDomainNameResponse.error.message);
+      navigate("/login");
+    } else if (updateDomainNameResponse.error) {
       toast("error", updateDomainNameResponse.error.message);
     } else {
       setDomainNameDetail((prev) => ({
@@ -235,7 +244,10 @@ const DomainDetail: React.FC = () => {
       domainNameId: domainNameDetail?.domainNameId || 0,
       dnsConfigs: recordList,
     });
-    if (matchDnsConfigResponse.error) {
+    if (matchDnsConfigResponse.error?.status === 401) {
+      toast("warning", matchDnsConfigResponse.error.message);
+      navigate("/login");
+    } else if (matchDnsConfigResponse.error) {
       toast("error", matchDnsConfigResponse.error.message);
     } else {
       setRecordList(matchDnsConfigResponse.data?.content || []);

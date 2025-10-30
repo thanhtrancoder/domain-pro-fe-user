@@ -233,7 +233,10 @@ const ResetPassword: React.FC = () => {
         password: password,
         confirmPassword: confirmPassword,
       });
-      if (res.error) {
+      if (res.error?.status === 401) {
+        toast("warning", res.error.message);
+        navigate("/login");
+      } else if (res.error) {
         setIsConfirmLoading(false);
         toast("error", res.error.message);
         return;
@@ -256,7 +259,10 @@ const ResetPassword: React.FC = () => {
     const res = await forgotPassword({
       email: email,
     });
-    if (res.error) {
+    if (res.error?.status === 401) {
+      toast("warning", res.error.message);
+      navigate("/login");
+    } else if (res.error) {
       setIsResendLoading(false);
       toast("error", res.error.message);
       return;

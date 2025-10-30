@@ -38,7 +38,10 @@ const ForgotPassword: React.FC = () => {
       const res = await forgotPassword({
         email: email,
       });
-      if (res.error) {
+      if (res.error?.status === 401) {
+        toast("warning", res.error.message);
+        navigate("/login");
+      } else if (res.error) {
         setIsLoading(false);
         toast("error", res.error.message);
         return;

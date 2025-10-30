@@ -32,7 +32,10 @@ const MoMoReturn: React.FC = () => {
     async function fetch() {
       const res = await checkPayment(req);
       if (canceled) return;
-      if (res.error) {
+      if (res.error?.status === 401) {
+        toast("warning", res.error.message);
+        navigate("/login");
+      } else if (res.error) {
         toast("error", res.error.message);
         navigate("/login");
         return;

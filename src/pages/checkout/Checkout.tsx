@@ -107,7 +107,10 @@ const Checkout: React.FC = () => {
       if (canceled) {
         return;
       }
-      if (response.error) {
+      if (response.error?.status === 401) {
+        toast("warning", response.error.message);
+        navigate("/login");
+      } else if (response.error) {
         toast("error", response.error.message);
       } else {
         setDomainList(response.data?.content || []);
@@ -121,7 +124,10 @@ const Checkout: React.FC = () => {
       if (canceled) {
         return;
       }
-      if (profile.error) {
+      if (profile.error?.status === 401) {
+        toast("warning", profile.error.message);
+        navigate("/login");
+      } else if (profile.error) {
         toast("error", profile.error.message);
       } else {
         setName(profile.data?.fullname || "");
@@ -142,7 +148,10 @@ const Checkout: React.FC = () => {
       amount: totalPrice,
     });
 
-    if (response.error) {
+    if (response.error?.status === 401) {
+      toast("warning", response.error.message);
+      navigate("/login");
+    } else if (response.error) {
       toast("error", response.error.message);
       setDiscountPrice(0);
     } else {
@@ -189,7 +198,10 @@ const Checkout: React.FC = () => {
       discountCode: voucherCodeApplied,
     });
 
-    if (order.error) {
+    if (order.error?.status === 401) {
+      toast("warning", order.error.message);
+      navigate("/login");
+    } else if (order.error) {
       toast("error", order.error.message);
       return;
     }
@@ -198,7 +210,10 @@ const Checkout: React.FC = () => {
       orderId: order.data?.orderId + "",
     });
 
-    if (momo.error) {
+    if (momo.error?.status === 401) {
+      toast("warning", momo.error.message);
+      navigate("/login");
+    } else if (momo.error) {
       toast("error", momo.error.message);
       return;
     }

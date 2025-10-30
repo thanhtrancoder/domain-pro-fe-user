@@ -79,7 +79,10 @@ const Domains: React.FC = () => {
       if (canceled) {
         return;
       }
-      if (domainNameResponse.error) {
+      if (domainNameResponse.error?.status === 401) {
+        toast("warning", domainNameResponse.error.message);
+        navigate("/login");
+      } else if (domainNameResponse.error) {
         toast("error", domainNameResponse.error.message);
         setLoading(false);
       } else {
@@ -152,7 +155,10 @@ const Domains: React.FC = () => {
         isAutoRenewal: domainNameCurrent?.isAutoRenewal || false,
         isBlock: !domainNameCurrent?.isBlock,
       });
-      if (updateDomainNameResponse.error) {
+      if (updateDomainNameResponse.error?.status === 401) {
+        toast("warning", updateDomainNameResponse.error.message);
+        navigate("/login");
+      } else if (updateDomainNameResponse.error) {
         toast("error", updateDomainNameResponse.error.message);
       } else {
         setSearchDomainList((prev) =>

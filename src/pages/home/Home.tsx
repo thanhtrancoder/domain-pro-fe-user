@@ -140,7 +140,10 @@ const Home = () => {
       if (domainSaleData.data) {
         setDomainSaleList(domainSaleData.data);
       }
-      if (domainSaleData.error) {
+      if (domainSaleData.error?.status === 401) {
+        toast("warning", domainSaleData.error.message);
+        navigate("/login");
+      } else if (domainSaleData.error) {
         toast("error", domainSaleData.error.message);
       }
 
@@ -149,7 +152,10 @@ const Home = () => {
       if (voucherData.data) {
         setVoucher(voucherData.data);
       }
-      if (voucherData.error) {
+      if (voucherData.error?.status === 401) {
+        toast("warning", voucherData.error.message);
+        navigate("/login");
+      } else if (voucherData.error) {
         toast("error", voucherData.error.message);
       }
     }

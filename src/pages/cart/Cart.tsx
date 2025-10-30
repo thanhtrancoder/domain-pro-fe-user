@@ -57,7 +57,10 @@ const Cart: React.FC = () => {
       if (canceled) {
         return;
       }
-      if (response.error) {
+      if (response.error?.status === 401) {
+        toast("warning", response.error.message);
+        navigate("/login");
+      } else if (response.error) {
         toast("error", response.error.message);
       } else {
         setDomainList(response.data?.content || []);
@@ -123,7 +126,10 @@ const Cart: React.FC = () => {
       period: period,
     };
     const response = await updateCartItem(req);
-    if (response.error) {
+    if (response.error?.status === 401) {
+      toast("warning", response.error.message);
+      navigate("/login");
+    } else if (response.error) {
       toast("error", response.error.message);
     } else if (response.data) {
       setDomainList((prevList) =>
@@ -151,7 +157,10 @@ const Cart: React.FC = () => {
   const handleDeleteCartItem = async (confirm: boolean) => {
     if (confirm) {
       const response = await deleteCartItem(cartId);
-      if (response.error) {
+      if (response.error?.status === 401) {
+        toast("warning", response.error.message);
+        navigate("/login");
+      } else if (response.error) {
         toast("error", response.error.message);
       } else {
         setDomainList((prevList) =>
