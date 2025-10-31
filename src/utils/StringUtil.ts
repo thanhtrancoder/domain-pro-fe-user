@@ -6,6 +6,14 @@ export function removeAccents(str: string): string {
   return without.replace(/đ/g, "d").replace(/Đ/g, "D");
 }
 
+export function keepLettersNumbersHyphen(input: string): string {
+  if (input == null) {
+    return input;
+  }
+  return input.replace(/[^a-zA-Z0-9\-.]/g, "");
+}
+
+
 export function transformString(input: string): string {
   if (!input) return input;
 

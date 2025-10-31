@@ -14,7 +14,10 @@ import { useEffect } from "react";
 import { useToast } from "../../components/context/Toast";
 import { searchDomainExtend } from "../../api/domainExtend/domainExtendApi";
 import type { domainExtendDto } from "../../api/domainExtend/domainExtendRes";
-import { transformString } from "../../utils/StringUtil";
+import {
+  transformString,
+  keepLettersNumbersHyphen,
+} from "../../utils/StringUtil";
 import { addToCart } from "../../api/cart/cartApi";
 import type { addCartReq } from "../../api/cart/cartReq";
 import { useAccount } from "../../components/context/Account";
@@ -92,8 +95,8 @@ const Search: React.FC = () => {
           priceData = domainList[0].basePrice;
           filtered = domainList.filter((d) => d.name !== domainList[0].name);
         }
-        setDomainName(domainNameData);
-        setDomainNameFull(domainNameFullData);
+        setDomainName(keepLettersNumbersHyphen(domainNameData));
+        setDomainNameFull(keepLettersNumbersHyphen(domainNameFullData));
         setDomainExtendIdCurrent(domainExtendIdData);
         setIsAvailable(isAvailableData);
         setPrice(priceData);
@@ -160,7 +163,6 @@ const Search: React.FC = () => {
 
   const onActionIconClick = () => {
     setSearchString("");
-    navigate("/search");
   };
 
   return (

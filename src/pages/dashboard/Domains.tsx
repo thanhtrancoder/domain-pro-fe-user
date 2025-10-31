@@ -179,6 +179,23 @@ const Domains: React.FC = () => {
     popupContext(false);
   };
 
+  const handleCheckboxChange = (
+    domainNameId: number,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setSearchDomainList((prev) =>
+      prev.map((item) => {
+        if (item.domainNameId === domainNameId) {
+          return {
+            ...item,
+            isChecked: e.target.checked,
+          };
+        }
+        return item;
+      }),
+    );
+  };
+
   return (
     <Popup
       title="Xác nhận"
@@ -296,7 +313,10 @@ const Domains: React.FC = () => {
                         <input
                           type="checkbox"
                           className="size-4"
-                          checked={domain.isChecked}
+                          checked={!!domain.isChecked}
+                          onChange={(e) =>
+                            handleCheckboxChange(domain.domainNameId || 0, e)
+                          }
                         ></input>
                       </td>
                       <td className="p-6">
@@ -304,9 +324,8 @@ const Domains: React.FC = () => {
                           <GlobeIcon className="text-primary-hover size-5 shrink-0"></GlobeIcon>
                           <div>
                             <p className="font-medium">
-                              {domain?.domainName ||
-                                "" + domain?.domainExtend ||
-                                ""}
+                              {(domain?.domainName || "") +
+                                (domain?.domainExtend || "")}
                             </p>
                             {domain?.isAutoRenewal && (
                               <div className="text-success-hover2 flex items-center gap-1">

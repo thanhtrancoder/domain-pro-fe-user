@@ -29,6 +29,7 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     let canceled = false;
 
     const token = localStorage.getItem("token");

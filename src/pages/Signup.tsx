@@ -52,6 +52,7 @@ const Signup: React.FC = () => {
   const [isValidAccept, setIsValidAccept] = useState(true);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     let canceled = false;
 
     const token = localStorage.getItem("token");

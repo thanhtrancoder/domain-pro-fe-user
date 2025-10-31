@@ -11,9 +11,34 @@ import {
   certificateList,
 } from "./footerData";
 import type { menuType } from "./types";
+import { useToast } from "../context/Toast";
+import { registerNews } from "../../api/notification/notificationApi";
+import Loading from "./Loading";
 
 const Footer: React.FC = () => {
+  const toast = useToast();
+
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleRegisterNews = async () => {
+    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmailTemp = validEmail.test(email);
+    if (!isValidEmailTemp) {
+      toast("warning", "Email không hợp lệ");
+      return;
+    }
+    setLoading(true);
+    const registerNewsData = await registerNews({ email });
+    if (registerNewsData.error) {
+      setLoading(false);
+      toast("error", registerNewsData.error.message);
+      return;
+    }
+    setLoading(false);
+    toast("success", "Đăng ký nhận tin thành công");
+    setEmail("");
+  };
 
   return (
     <footer className="from-dark to-dark-hover relative z-40 bg-gradient-to-br">
@@ -49,10 +74,13 @@ const Footer: React.FC = () => {
               className="border border-gray-500 bg-gray-700"
               onChange={(e) => setEmail(e.target.value)}
             ></Input>
-            <Button
-              label="Đăng ký"
-              className="bg-primary-hover hover:bg-primary text-white"
-            ></Button>
+            <Loading loading={loading} className="w-full">
+              <Button
+                label="Đăng ký"
+                className="bg-primary-hover hover:bg-primary w-full text-white"
+                onClick={() => handleRegisterNews()}
+              ></Button>
+            </Loading>
           </div>
         </div>
 

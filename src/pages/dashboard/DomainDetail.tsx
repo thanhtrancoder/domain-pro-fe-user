@@ -235,14 +235,18 @@ const DomainDetail: React.FC = () => {
   };
 
   const handleUpdateDnsConfig = async () => {
-    if (recordList === oldRecordList) {
+    const recordListTemp = recordList.filter(
+      (record) => record.domainNameId !== null || record.dnsConfigId !== null,
+    );
+
+    if (JSON.stringify(recordListTemp) === JSON.stringify(oldRecordList)) {
       toast("warning", "Không có thay đổi record.");
       return;
     }
 
     const matchDnsConfigResponse = await matchDnsConfig({
       domainNameId: domainNameDetail?.domainNameId || 0,
-      dnsConfigs: recordList,
+      dnsConfigs: recordListTemp,
     });
     if (matchDnsConfigResponse.error?.status === 401) {
       toast("warning", matchDnsConfigResponse.error.message);
@@ -250,8 +254,14 @@ const DomainDetail: React.FC = () => {
     } else if (matchDnsConfigResponse.error) {
       toast("error", matchDnsConfigResponse.error.message);
     } else {
-      setRecordList(matchDnsConfigResponse.data?.content || []);
-      setOldRecordList(matchDnsConfigResponse.data?.content || []);
+      const recordListNew = matchDnsConfigResponse.data?.content.map((item) => {
+        return {
+          ...item,
+          virtualId: item.dnsConfigId,
+        };
+      });
+      setRecordList(recordListNew || []);
+      setOldRecordList(recordListNew || []);
       setShowSaveButton(false);
       toast("success", matchDnsConfigResponse.message);
     }
@@ -323,13 +333,13 @@ const DomainDetail: React.FC = () => {
             <div className="flex items-center">
               <div>
                 <p className="text-sm text-gray-600">Gia hạn cho 1 năm</p>
-                <p className="font-medium">
+                {/* <p className="font-medium">
                   {moneyFormat({
                     value: 100000,
                     countryCode: "vi-VN",
                     currency: "VND",
                   })}
-                </p>
+                </p> */}
               </div>
               <div className="ml-auto">
                 <Button label="Gia hạn ngay" onClick={handleRenewal}></Button>

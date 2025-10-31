@@ -144,8 +144,6 @@ const Overview: React.FC = () => {
             (response.data?.totalDomainNameExpiring || 0) +
             (response.data?.totalDomainNameExpired || 0),
         );
-        const date = new Date(account?.createdAt || "");
-        setYear(date.getFullYear());
       }
 
       const responseNotification = await getAllNotification({
@@ -171,6 +169,13 @@ const Overview: React.FC = () => {
       canceled = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (account) {
+      const date = new Date(account?.createdAt || "");
+      setYear(date.getFullYear());
+    }
+  }, [account]);
 
   return (
     <div className="space-y-6">
@@ -236,14 +241,14 @@ const Overview: React.FC = () => {
           <QuickActionItem
             icon={<PlusIcon className="text-primary-hover size-8 stroke-2" />}
             title="Đăng ký tên miền"
-            to="/domain"
+            to="/search?domain=yourdomain.com"
           />
           <QuickActionItem
             icon={
               <ArrowPathIcon className="text-success-hover2 size-8 stroke-2" />
             }
             title="Gia hạn tên miền"
-            to="/domain"
+            to="/coming-soon"
           />
           <QuickActionItem
             icon={

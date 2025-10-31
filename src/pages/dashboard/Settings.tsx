@@ -11,6 +11,7 @@ import { mapping } from "../../utils/MapUtil";
 import type { accountProfileRes } from "../../api/account/accountRes";
 import type { account } from "../../components/context/AppContext";
 import { EyeIcon, EyeSlashIcon } from "../../components/icons/Icon";
+import Loading from "../../components/layout/Loading";
 
 interface inputItemProps {
   label: string;
@@ -97,6 +98,7 @@ const Settings: React.FC = () => {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
   const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!showChangePassword) {
@@ -153,6 +155,7 @@ const Settings: React.FC = () => {
       return;
     }
 
+    setIsLoading(true);
     const response = await updateAccount({
       fullname: fullname,
       oldPassword: oldPassword,
@@ -160,14 +163,29 @@ const Settings: React.FC = () => {
       confirmPassword: confirmNewPassword,
     });
     if (response.error?.status === 401) {
+      setIsLoading(false);
       toast("warning", response.error.message);
       navigate("/login");
     } else if (response.error) {
+      setIsLoading(false);
       toast("error", response.error.message);
     } else {
+      setIsLoading(false);
       if (response.data) {
-        const mappedData = mapping<accountProfileRes, account>(response.data);
-        accountContext(mappedData);
+        const profileData = await getProfile();
+        if (profileData.error?.status === 401) {
+          toast("warning", profileData.error.message);
+          navigate("/login");
+        } else if (profileData.error) {
+          toast("error", profileData.error.message);
+        } else {
+          if (profileData.data) {
+            const mappedProfileData = mapping<accountProfileRes, account>(
+              profileData.data,
+            );
+            accountContext(mappedProfileData);
+          }
+        }
       }
       setShowChangePassword(false);
       toast("success", response.message);
@@ -181,88 +199,105 @@ const Settings: React.FC = () => {
         <h3 className="text-xl font-bold">Cài đặt tài khoản</h3>
       </div>
 
-      {/* Conntent */}
-      <div className="space-y-6">
-        {/* Profile */}
-        <div className="space-y-4 rounded-xl border border-gray-300 p-6">
-          <h4 className="font-medium">Thông tin cá nhân</h4>
-          <div className="space-y-4 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
-            <InputItem
-              label="Họ và tên"
-              placeholder="Nhập họ và tên"
-              value={fullname}
-              handleValueChange={(value) => setFullname(value)}
-            ></InputItem>
-            <div className="pointer-events-none">
+      <Loading loading={isLoading}>
+        {/* Conntent */}
+        <div className="space-y-6">
+          {/* Profile */}
+          <div className="space-y-4 rounded-xl border border-gray-300 p-6">
+            <h4 className="font-medium">Thông tin cá nhân</h4>
+            <div className="space-y-4 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
               <InputItem
-                label="Email"
-                placeholder="Nhập email"
-                value={email}
-                handleValueChange={(value) => setEmail(value)}
-                inputClassName="text-gray-500"
+                label="Họ và tên"
+                placeholder="Nhập họ và tên"
+                value={fullname}
+                handleValueChange={(value) => setFullname(value)}
               ></InputItem>
+              <div className="pointer-events-none">
+                <InputItem
+                  label="Email"
+                  placeholder="Nhập email"
+                  value={email}
+                  handleValueChange={(value) => setEmail(value)}
+                  inputClassName="text-gray-500"
+                ></InputItem>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Security */}
-        <div className="space-y-4 rounded-xl border border-gray-300 p-6">
-          <h4 className="font-medium">Bảo mật</h4>
-          <div className="space-y-4">
+          {/* Security */}
+          <div className="space-y-4 rounded-xl border border-gray-300 p-6">
+            <h4 className="font-medium">Bảo mật</h4>
             <div className="space-y-4">
-              <Button
-                label="Đổi mật khẩu"
-                leftIcon={<LockClosedIcon className="size-5"></LockClosedIcon>}
-                className="border border-gray-300 hover:bg-gray-100"
-                onClick={() => setShowChangePassword(!showChangePassword)}
-              ></Button>
-              <div
-                className={
-                  "origin-top transform duration-300 ease-in-out" +
-                  (showChangePassword
-                    ? "max-h-screen scale-100 opacity-100"
-                    : "hidden max-h-0 scale-95 overflow-hidden opacity-0")
-                }
-              >
-                <div className="border-light-primary space-y-4 rounded-xl border p-6">
-                  <InputItemPassword
-                    label="Mật khẩu cũ"
-                    placeholder="Nhập mật khẩu cũ"
-                    value={oldPassword}
-                    handleValueChange={(value) => setOldPassword(value)}
-                    showPassword={showOldPassword}
-                    setShowPassword={setShowOldPassword}
-                  ></InputItemPassword>
-                  <InputItemPassword
-                    label="Mật khẩu mới"
-                    placeholder="Nhập mật khẩu mới"
-                    value={newPassword}
-                    handleValueChange={(value) => setNewPassword(value)}
-                    showPassword={showNewPassword}
-                    setShowPassword={setShowNewPassword}
-                  ></InputItemPassword>
-                  <InputItemPassword
-                    label="Xác nhận mật khẩu"
-                    placeholder="Nhập lại mật khẩu mới"
-                    value={confirmNewPassword}
-                    handleValueChange={(value) => setConfirmNewPassword(value)}
-                    showPassword={showConfirmNewPassword}
-                    setShowPassword={setShowConfirmNewPassword}
-                  ></InputItemPassword>
+              <div className="space-y-4">
+                <div className="flex items-center">
+                  <Button
+                    label="Đổi mật khẩu"
+                    leftIcon={
+                      <LockClosedIcon className="size-5"></LockClosedIcon>
+                    }
+                    className="border border-gray-300 hover:bg-gray-100"
+                    onClick={() => setShowChangePassword(!showChangePassword)}
+                  ></Button>
+                  {showChangePassword && (
+                    <a
+                      href="/forgot-password"
+                      className="text-primary hover:text-primary-hover ml-auto transition-colors duration-300"
+                    >
+                      Quên mật khẩu
+                    </a>
+                  )}
                 </div>
-              </div>
 
-              {/* {showChangePassword && (
+                <div
+                  className={
+                    "origin-top transform duration-300 ease-in-out" +
+                    (showChangePassword
+                      ? "max-h-screen scale-100 opacity-100"
+                      : "hidden max-h-0 scale-95 overflow-hidden opacity-0")
+                  }
+                >
+                  <div className="border-light-primary space-y-4 rounded-xl border p-6">
+                    <InputItemPassword
+                      label="Mật khẩu cũ"
+                      placeholder="Nhập mật khẩu cũ"
+                      value={oldPassword}
+                      handleValueChange={(value) => setOldPassword(value)}
+                      showPassword={showOldPassword}
+                      setShowPassword={setShowOldPassword}
+                    ></InputItemPassword>
+                    <InputItemPassword
+                      label="Mật khẩu mới"
+                      placeholder="Nhập mật khẩu mới"
+                      value={newPassword}
+                      handleValueChange={(value) => setNewPassword(value)}
+                      showPassword={showNewPassword}
+                      setShowPassword={setShowNewPassword}
+                    ></InputItemPassword>
+                    <InputItemPassword
+                      label="Xác nhận mật khẩu"
+                      placeholder="Nhập lại mật khẩu mới"
+                      value={confirmNewPassword}
+                      handleValueChange={(value) =>
+                        setConfirmNewPassword(value)
+                      }
+                      showPassword={showConfirmNewPassword}
+                      setShowPassword={setShowConfirmNewPassword}
+                    ></InputItemPassword>
+                  </div>
+                </div>
+
+                {/* {showChangePassword && (
                 
               )} */}
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="flex items-center justify-end">
-        <Button label="Lưu thay đổi" onClick={handleUpdateAccount}></Button>
-      </div>
+        <div className="mt-6 flex items-center justify-end">
+          <Button label="Lưu thay đổi" onClick={handleUpdateAccount}></Button>
+        </div>
+      </Loading>
     </div>
   );
 };

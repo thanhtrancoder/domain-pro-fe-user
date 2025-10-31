@@ -264,7 +264,10 @@ const Cart: React.FC = () => {
                           onClick={() =>
                             handleUpdatePeriod(domain.cartId, domain.period - 1)
                           }
-                          className="hover:bg-gray-100"
+                          className={
+                            "hover:bg-gray-100 " +
+                            (domain.period <= 1 && "pointer-events-none")
+                          }
                         ></SquareButton>
                         <p className="text-center text-sm font-medium">
                           {domain.period} năm
