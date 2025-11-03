@@ -25,17 +25,16 @@ const FeatureComingSoon = () => {
         </div>
 
         <h1 className="text-3xl font-bold text-gray-800 sm:text-4xl md:text-5xl">
-          Tính năng đang phát triển
+          Feature under development
         </h1>
 
         <p className="mt-4 text-base text-gray-600 sm:text-lg">
-          Chúng tôi đang nỗ lực làm việc để sớm ra mắt tính năng này. Cảm ơn bạn
-          đã quan tâm và vui lòng quay lại sau!
+          We are working hard to launch this feature soon. Thank you for your interest and please check back later!
         </p>
 
         <div className="mt-8 flex items-center justify-center">
           <Button
-            label="Quay lại"
+            label="Go back"
             onClick={handleGoBack}
             className="bg-primary hover:bg-primary-hover px-6 py-3 text-white"
           ></Button>

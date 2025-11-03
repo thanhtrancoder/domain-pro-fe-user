@@ -182,14 +182,16 @@ const Overview: React.FC = () => {
       {/* Welcome */}
       <div className="from-primary-hover to-primary-hover2 space-y-6 rounded-xl bg-gradient-to-br p-8 text-white">
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold">Chào mừng trở lại, Thành!</h2>
-          <p>Bạn đã là thành viên từ năm {year}</p>
+          <h2 className="text-2xl font-bold">
+            Welcome back, {account?.fullname}!
+          </h2>
+          <p>You have been a member since {year}</p>
         </div>
         <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4 md:space-y-0">
           <ReportItem
             Icon={GlobeIcon}
             value={totalDomainName}
-            name="Tên miền"
+            name="Domains"
           ></ReportItem>
           <ReportItem Icon={ServerIcon} value={0} name="Hosting"></ReportItem>
           <ReportItem Icon={ShieldIcon} value={0} name="SSL"></ReportItem>
@@ -200,7 +202,7 @@ const Overview: React.FC = () => {
       <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
         <div className="flex items-center gap-2">
           <BellIcon className="text-primary-hover size-6"></BellIcon>
-          <h2 className="text-xl font-bold">Thông báo quan trọng</h2>
+          <h2 className="text-xl font-bold">Important notifications</h2>
         </div>
         <div className="space-y-4">
           {notifications.map((notification) => (
@@ -211,50 +213,30 @@ const Overview: React.FC = () => {
               date={formatDateTime(notification.createdAt)}
             ></NotificationItem>
           ))}
-          {/* <NotificationItem
-            type="warning"
-            title="mystore.vn sẽ hết hạn trong 12 ngày"
-            date="2025-09-25"
-          ></NotificationItem>
-          <NotificationItem
-            type="info"
-            title="Hóa đơn mới đã được tạo cho mydomain.com"
-            date="2025-09-25"
-          ></NotificationItem>
-          <NotificationItem
-            type="success"
-            title="SSL certificate đã được cài đặt thành công"
-            date="2025-09-25"
-          ></NotificationItem>
-          <NotificationItem
-            type="error"
-            title="Hóa đơn của mydomain.com đã hết hạn"
-            date="2025-09-25"
-          ></NotificationItem> */}
         </div>
       </div>
 
       {/* Quick action */}
       <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
-        <h2 className="text-xl font-bold">Thao tác nhanh</h2>
+        <h2 className="text-xl font-bold">Quick actions</h2>
         <div className="flex flex-col gap-4 md:grid md:grid-cols-3 md:gap-4">
           <QuickActionItem
             icon={<PlusIcon className="text-primary-hover size-8 stroke-2" />}
-            title="Đăng ký tên miền"
+            title="Register a domain"
             to="/search?domain=yourdomain.com"
           />
           <QuickActionItem
             icon={
               <ArrowPathIcon className="text-success-hover2 size-8 stroke-2" />
             }
-            title="Gia hạn tên miền"
+            title="Renew domain"
             to="/coming-soon"
           />
           <QuickActionItem
             icon={
               <QuestionMarkCircleIcon className="text-warning size-8 stroke-2" />
             }
-            title="Hỗ trợ"
+            title="Support"
             to="/coming-soon"
           />
         </div>

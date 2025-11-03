@@ -16,10 +16,7 @@ export default function ToastContainer() {
   useEffect(() => {
     if (toasts.length > 0) {
       toasts.forEach((t) => {
-        if (
-          t.type === "warning" &&
-          t.message === "Phiên đăng nhập đã hết hạn"
-        ) {
+        if (t.type === "warning" && t.message === "Your session has expired") {
           localStorage.removeItem("token");
         }
       });
@@ -74,12 +71,12 @@ export default function ToastContainer() {
                   <button
                     className="inline-flex cursor-pointer rounded-md text-white transition-colors duration-200 hover:text-gray-200 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-transparent focus:outline-none"
                     onClick={() => {
-                      // Đánh dấu toast đang biến mất
+                      // Mark toast as leaving (for animation)
                       dispatch({ type: "START_REMOVE_TOAST", id: t.id });
-                      // Sau khi animation kết thúc thì xóa khỏi state
+                      // Remove from state after animation ends
                       setTimeout(() => {
                         dispatch({ type: "REMOVE_TOAST", id: t.id });
-                      }, 300); // Khớp với thời gian animation
+                      }, 300); // Match the animation duration
                     }}
                   >
                     <XMarkIcon className="h-5 w-5" aria-hidden="true" />

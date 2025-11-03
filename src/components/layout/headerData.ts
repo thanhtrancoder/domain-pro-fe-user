@@ -3,12 +3,12 @@ import { HomeIcon, GlobeIcon } from "../icons/Icon";
 
 export const headerMenuList: menuType[] = [
   {
-    label: "Trang chủ",
+    label: "Home",
     href: "/",
     icon: HomeIcon,
   },
   {
-    label: "Tên miền",
+    label: "Domains",
     href: "/search",
     icon: GlobeIcon,
   },

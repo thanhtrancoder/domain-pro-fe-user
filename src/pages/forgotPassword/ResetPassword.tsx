@@ -188,18 +188,18 @@ const ResetPassword: React.FC = () => {
       newOtp[i] = chars.shift()!;
     }
     setOtp(newOtp);
-    // focus đến ô cuối đã điền hoặc tiếp theo
+    // focus to the last filled box or the next one
     const nextIndex = Math.min(index + paste.length, otp.length - 1);
     inputRefs.current[nextIndex]?.focus();
   };
 
   const handleResetPassword = async () => {
     if (email === null || email === undefined) {
-      toast("error", "Email không hợp lệ");
+      toast("error", "Invalid email");
       return;
     }
     if (otp.join("") === "") {
-      toast("error", "Mã OTP không hợp lệ");
+      toast("error", "Invalid OTP code");
       return;
     }
     {
@@ -251,7 +251,7 @@ const ResetPassword: React.FC = () => {
 
   const handleResendOtp = async () => {
     if (email === null || email === undefined) {
-      toast("error", "Email không hợp lệ");
+      toast("error", "Invalid email");
       return;
     }
     setOtp(["", "", "", "", "", ""]);
@@ -282,10 +282,10 @@ const ResetPassword: React.FC = () => {
           <img src={DomainProIcon} className="h-16 w-16"></img>
         </a>
         <div className="space-y-2 text-center">
-          <p className="text-3xl font-bold">Đặt lại mật khẩu</p>
+          <p className="text-3xl font-bold">Reset password</p>
           <p className="text-gray-600">
-            Nhập mã OTP đã được gửi đến <strong>{email}</strong> và tạo mật khẩu
-            mới
+            Enter the OTP sent to <strong>{email}</strong> and create a new
+            password
           </p>
         </div>
 
@@ -297,7 +297,7 @@ const ResetPassword: React.FC = () => {
                   htmlFor="otp"
                   className="mb-2 block font-medium text-gray-700"
                 >
-                  Mã xác thực (OTP)
+                  Verification code (OTP)
                 </label>
                 <div className="flex justify-between gap-2">
                   {otp.map((data, index) => (
@@ -320,14 +320,14 @@ const ResetPassword: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <p className="font-medium text-gray-700">Mật khẩu mới</p>
+                <p className="font-medium text-gray-700">New password</p>
                 <Input
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   icon={
                     <LockClosedIcon className="size-6 text-gray-400"></LockClosedIcon>
                   }
-                  placeholder="Nhập mật khẩu mới"
+                  placeholder="Enter new password"
                   type={showPassword ? "text" : "password"}
                   className={inputClassName}
                   actionIcon={
@@ -344,13 +344,13 @@ const ResetPassword: React.FC = () => {
                 {password.length === 0 && !checkPassword.valid && (
                   <div className="text-fail flex items-center gap-1 text-sm">
                     <ExclamationCircleIcon className="size-4"></ExclamationCircleIcon>
-                    <p>Vui lòng nhập mật khẩu</p>
+                    <p>Please enter a password</p>
                   </div>
                 )}
                 {/* Password requirements */}
                 {password.length > 0 && (
                   <div className="space-y-2 rounded-lg bg-gray-50 p-3 text-sm">
-                    <p className="font-medium">Yêu cầu mật khẩu:</p>
+                    <p className="font-medium">Password requirements:</p>
                     <div className="space-y-1">
                       <div
                         className={
@@ -365,7 +365,7 @@ const ResetPassword: React.FC = () => {
                         ) : (
                           <XMarkIcon className="size-4"></XMarkIcon>
                         )}
-                        <p>Tối thiểu 8 ký tự</p>
+                        <p>At least 8 characters</p>
                       </div>
                       <div
                         className={
@@ -380,7 +380,7 @@ const ResetPassword: React.FC = () => {
                         ) : (
                           <XMarkIcon className="size-4"></XMarkIcon>
                         )}
-                        <p>Có chữ hoa</p>
+                        <p>Contains uppercase letter</p>
                       </div>
                       <div
                         className={
@@ -395,7 +395,7 @@ const ResetPassword: React.FC = () => {
                         ) : (
                           <XMarkIcon className="size-4"></XMarkIcon>
                         )}
-                        <p>Có chữ thường</p>
+                        <p>Contains lowercase letter</p>
                       </div>
                       <div
                         className={
@@ -410,7 +410,7 @@ const ResetPassword: React.FC = () => {
                         ) : (
                           <XMarkIcon className="size-4"></XMarkIcon>
                         )}
-                        <p>Có số</p>
+                        <p>Contains number</p>
                       </div>
                       <div
                         className={
@@ -425,23 +425,21 @@ const ResetPassword: React.FC = () => {
                         ) : (
                           <XMarkIcon className="size-4"></XMarkIcon>
                         )}
-                        <p>Có ký tự đặc biệt</p>
+                        <p>Contains special character</p>
                       </div>
                     </div>
                   </div>
                 )}
               </div>
               <div className="space-y-2">
-                <p className="font-medium text-gray-700">
-                  Nhập lại mật khẩu mới
-                </p>
+                <p className="font-medium text-gray-700">Re-enter new password</p>
                 <Input
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   icon={
                     <LockClosedIcon className="size-6 text-gray-400"></LockClosedIcon>
                   }
-                  placeholder="Nhập lại mật khẩu mới"
+                  placeholder="Re-enter new password"
                   type={showConfirmPassword ? "text" : "password"}
                   className={inputClassName}
                   actionIcon={
@@ -460,14 +458,14 @@ const ResetPassword: React.FC = () => {
                 {!isValidConfirmPassword && (
                   <div className="text-fail flex items-center gap-1 text-sm">
                     <ExclamationCircleIcon className="size-4"></ExclamationCircleIcon>
-                    <p>Mật khẩu không khớp</p>
+                    <p>Passwords do not match</p>
                   </div>
                 )}
               </div>
 
               <Loading loading={isConfirmLoading}>
                 <Button
-                  label="Xác nhận"
+                  label="Confirm"
                   rightIcon={
                     <CheckCircleIcon className="size-4"></CheckCircleIcon>
                   }
@@ -481,12 +479,12 @@ const ResetPassword: React.FC = () => {
           <div className="border-t border-gray-100 bg-gray-50 px-8 py-4">
             <Loading loading={isResendLoading}>
               <p className="text-center text-sm text-gray-600">
-                Không nhận được mã?{" "}
+                Didn't receive the code?{" "}
                 <a
                   className="text-primary hover:text-primary-hover cursor-pointer font-medium transition-colors duration-300"
                   onClick={() => handleResendOtp()}
                 >
-                  Gửi lại
+                  Resend
                 </a>
               </p>
             </Loading>
@@ -495,9 +493,7 @@ const ResetPassword: React.FC = () => {
 
         {/* Support */}
         <div className="w-full space-y-4 rounded-xl bg-white p-8 shadow-lg">
-          <p className="text-center text-lg font-bold">
-            Tại sao chọn DomainPro?
-          </p>
+          <p className="text-center text-lg font-bold">Why choose DomainPro?</p>
           <div className="space-y-2">
             {supportData.map((supportItem: supportType, index: number) => (
               <div key={index} className="flex items-center gap-2">

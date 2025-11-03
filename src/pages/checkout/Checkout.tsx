@@ -173,18 +173,18 @@ const Checkout: React.FC = () => {
 
   const handleCheckout = async () => {
     if (name === "") {
-      toast("warning", "Vui lòng nhập họ và tên");
+      toast("warning", "Please enter your full name");
       return;
     }
 
     const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email === "" || !validEmail.test(email)) {
-      toast("warning", "Vui lòng nhập địa chỉ email hợp lệ");
+      toast("warning", "Please enter a valid email address");
       return;
     }
 
     if (paymentMethod === "") {
-      toast("warning", "Vui lòng chọn phương thức thanh toán");
+      toast("warning", "Please select a payment method");
       return;
     }
 
@@ -229,10 +229,8 @@ const Checkout: React.FC = () => {
     <div className="space-y-8 bg-gray-50 px-3 py-8 md:px-10 lg:px-20">
       {/* Title */}
       <div className="space-y-2">
-        <p className="text-3xl font-bold">Thanh toán</p>
-        <p className="text-gray-600">
-          Hoàn tất đơn hàng của bạn một cách an toàn và bảo mật
-        </p>
+        <p className="text-3xl font-bold">Checkout</p>
+        <p className="text-gray-600">Complete your order safely and securely</p>
       </div>
 
       <div className="gap-8 lg:grid lg:grid-cols-3">
@@ -244,43 +242,43 @@ const Checkout: React.FC = () => {
               <div className="text-primary-hover bg-tint-primary rounded-full p-2">
                 <UserIcon></UserIcon>
               </div>
-              <p className="text-xl font-bold">Thông tin khách hàng</p>
+              <p className="text-xl font-bold">Customer information</p>
             </div>
             {/* Form */}
             <div className="space-y-4">
               <InputData
-                label="Họ và tên"
-                placeholder="Nhập họ và tên"
+                label="Full name"
+                placeholder="Enter your full name"
                 Icon={UserIcon}
                 required={true}
                 value={name}
                 onChange={(event) => setName(event.target.value)}
               ></InputData>
               <InputData
-                label="Địa chỉ email"
-                placeholder="Nhập địa chỉ email"
+                label="Email address"
+                placeholder="Enter your email address"
                 Icon={EnvelopeIcon}
                 required={true}
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               ></InputData>
               <InputData
-                label="Số điện thoại"
-                placeholder="Nhập số điện thoại"
+                label="Phone number"
+                placeholder="Enter your phone number"
                 Icon={PhoneIcon}
                 value={phone}
                 onChange={(event) => setPhone(event.target.value)}
               ></InputData>
               <InputData
-                label="Tỉnh/Thành phố"
-                placeholder="Nhập tỉnh/thành phố"
+                label="Province/City"
+                placeholder="Enter province/city"
                 Icon={MapPinIcon}
                 value={province}
                 onChange={(event) => setProvince(event.target.value)}
               ></InputData>
               <InputData
-                label="Địa chỉ"
-                placeholder="Nhập địa chỉ"
+                label="Address"
+                placeholder="Enter your address"
                 Icon={MapPinIcon}
                 value={address}
                 onChange={(event) => setAddress(event.target.value)}
@@ -295,7 +293,7 @@ const Checkout: React.FC = () => {
               <div className="text-success-hover2 bg-light-success rounded-full p-2">
                 <CreditCardIcon></CreditCardIcon>
               </div>
-              <p className="text-xl font-bold">Phương thức thanh toán</p>
+              <p className="text-xl font-bold">Payment method</p>
             </div>
             {/* Payment method list */}
             <div className="space-y-4">
@@ -316,10 +314,8 @@ const Checkout: React.FC = () => {
                 ></input>
                 <img src={MomoIcon} className="size-8 rounded-full"></img>
                 <div>
-                  <h3 className="font-bold">Ví MoMo</h3>
-                  <p className="text-sm text-gray-600">
-                    Thanh toán qua ví điện tử MoMo
-                  </p>
+                  <h3 className="font-bold">MoMo e-wallet</h3>
+                  <p className="text-sm text-gray-600">Pay via MoMo e-wallet</p>
                 </div>
               </div>
             </div>
@@ -330,7 +326,7 @@ const Checkout: React.FC = () => {
         <div className="pt-8 lg:col-span-1 lg:pt-0">
           <div className="sticky top-24 space-y-8">
             <div className="space-y-4 rounded-xl bg-white p-6 shadow-lg">
-              <p className="text-xl font-bold">Tóm tắt đơn hàng</p>
+              <p className="text-xl font-bold">Order summary</p>
               {/* Domain list */}
               <div className="space-y-3">
                 {domainList.map((domainItem) => (
@@ -346,7 +342,7 @@ const Checkout: React.FC = () => {
                       </p>
                     </div>
                     <p className="text-sm text-gray-600">
-                      {domainItem.period} năm
+                      {domainItem.period} years
                     </p>
                     <p className="text-sm text-gray-500">
                       {moneyFormat({
@@ -362,7 +358,7 @@ const Checkout: React.FC = () => {
               {/* Temporary total */}
               <div className="border-t border-gray-200">
                 <div className="flex items-center pt-4 font-medium">
-                  <p>Tạm tính</p>
+                  <p>Subtotal</p>
                   <p className="ml-auto">
                     {moneyFormat({
                       value: totalPrice,
@@ -375,10 +371,10 @@ const Checkout: React.FC = () => {
 
               {/* Discount */}
               <div className="space-y-3">
-                <p className="font-medium">Mã giảm giá</p>
+                <p className="font-medium">Discount code</p>
                 <div className="flex items-center gap-2">
                   <Input
-                    placeholder="Nhập mã giảm giá"
+                    placeholder="Enter discount code"
                     actionIcon={
                       <XMarkIcon className="size-6 cursor-pointer text-gray-500"></XMarkIcon>
                     }
@@ -388,10 +384,7 @@ const Checkout: React.FC = () => {
                     onActionIconClick={() => setVoucherCode("")}
                   ></Input>
                   <div className="ml-auto">
-                    <Button
-                      label="Áp dụng"
-                      onClick={handleApplyVoucher}
-                    ></Button>
+                    <Button label="Apply" onClick={handleApplyVoucher}></Button>
                   </div>
                 </div>
                 {discountPrice !== 0 && (
@@ -401,13 +394,13 @@ const Checkout: React.FC = () => {
                       <p className="font-bold uppercase">
                         {voucherCodeApplied}
                       </p>
-                      {/* <p>(Giảm 80%)</p> */}
+                      {/* <p>(Discount 80%)</p> */}
                       <button className="ml-auto" onClick={handleCancelVoucher}>
                         <XMarkIcon className="size-4 cursor-pointer"></XMarkIcon>
                       </button>
                     </div>
                     <div className="text-success-hover2 flex items-center pt-2 font-medium">
-                      <p>Giảm giá</p>
+                      <p>Discount</p>
                       <p className="ml-auto">
                         -
                         {moneyFormat({
@@ -424,7 +417,7 @@ const Checkout: React.FC = () => {
               {/* Total */}
               <div className="space-y-1 border-t border-gray-200 pt-4">
                 <div className="flex items-center text-xl font-bold">
-                  <p>Tổng cộng</p>
+                  <p>Total</p>
                   <p className="text-primary-hover ml-auto">
                     {moneyFormat({
                       value: totalPrice - discountPrice,
@@ -433,12 +426,12 @@ const Checkout: React.FC = () => {
                     })}
                   </p>
                 </div>
-                <p className="text-sm text-gray-500">Đã bao gồm thuế VAT</p>
+                <p className="text-sm text-gray-500">VAT included</p>
               </div>
 
               {/* Checkout button */}
               <Button
-                label="Hoàn tất thanh toán"
+                label="Complete payment"
                 rightIcon={<ArrowRightIcon className="size-5"></ArrowRightIcon>}
                 className="bg-primary hover:bg-primary-hover w-full py-4 text-lg text-white"
                 onClick={handleCheckout}
@@ -448,22 +441,22 @@ const Checkout: React.FC = () => {
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm text-gray-500">
                   <ShieldIcon className="size-5"></ShieldIcon>
-                  <p>Thanh toán an toàn với SSL 256-bit</p>
+                  <p>Secure payment with 256-bit SSL</p>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-500">
                   <LockClosedIcon className="size-5"></LockClosedIcon>
-                  <p>Thông tin được bảo mật tuyệt đối</p>
+                  <p>Your information is fully protected</p>
                 </div>
               </div>
             </div>
 
             {/* Payment security */}
             <div className="space-y-2 p-6">
-              <h3>🔒 Bảo mật thanh toán</h3>
+              <h3>🔒 Payment security</h3>
               <ul className="space-y-2">
-                <PaymentSecurity content="Mã hóa SSL 256-bit"></PaymentSecurity>
-                <PaymentSecurity content="Tuân thủ chuẩn PCI DSS"></PaymentSecurity>
-                <PaymentSecurity content="Bảo vệ thông tin khách hàng"></PaymentSecurity>
+                <PaymentSecurity content="256-bit SSL encryption"></PaymentSecurity>
+                <PaymentSecurity content="PCI DSS compliant"></PaymentSecurity>
+                <PaymentSecurity content="Customer data protection"></PaymentSecurity>
               </ul>
             </div>
           </div>

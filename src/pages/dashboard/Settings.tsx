@@ -151,7 +151,7 @@ const Settings: React.FC = () => {
       newPassword === "" &&
       confirmNewPassword === ""
     ) {
-      toast("info", "Không có thông tin nào được thay đổi.");
+      toast("info", "No information has been changed.");
       return;
     }
 
@@ -196,7 +196,7 @@ const Settings: React.FC = () => {
     <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
       {/* Title */}
       <div>
-        <h3 className="text-xl font-bold">Cài đặt tài khoản</h3>
+        <h3 className="text-xl font-bold">Account settings</h3>
       </div>
 
       <Loading loading={isLoading}>
@@ -204,18 +204,18 @@ const Settings: React.FC = () => {
         <div className="space-y-6">
           {/* Profile */}
           <div className="space-y-4 rounded-xl border border-gray-300 p-6">
-            <h4 className="font-medium">Thông tin cá nhân</h4>
+            <h4 className="font-medium">Personal information</h4>
             <div className="space-y-4 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
               <InputItem
-                label="Họ và tên"
-                placeholder="Nhập họ và tên"
+                label="Full name"
+                placeholder="Enter full name"
                 value={fullname}
                 handleValueChange={(value) => setFullname(value)}
               ></InputItem>
               <div className="pointer-events-none">
                 <InputItem
                   label="Email"
-                  placeholder="Nhập email"
+                  placeholder="Enter email"
                   value={email}
                   handleValueChange={(value) => setEmail(value)}
                   inputClassName="text-gray-500"
@@ -226,12 +226,12 @@ const Settings: React.FC = () => {
 
           {/* Security */}
           <div className="space-y-4 rounded-xl border border-gray-300 p-6">
-            <h4 className="font-medium">Bảo mật</h4>
+            <h4 className="font-medium">Security</h4>
             <div className="space-y-4">
               <div className="space-y-4">
                 <div className="flex items-center">
                   <Button
-                    label="Đổi mật khẩu"
+                    label="Change password"
                     leftIcon={
                       <LockClosedIcon className="size-5"></LockClosedIcon>
                     }
@@ -243,7 +243,7 @@ const Settings: React.FC = () => {
                       href="/forgot-password"
                       className="text-primary hover:text-primary-hover ml-auto transition-colors duration-300"
                     >
-                      Quên mật khẩu
+                      Forgot password
                     </a>
                   )}
                 </div>
@@ -258,24 +258,24 @@ const Settings: React.FC = () => {
                 >
                   <div className="border-light-primary space-y-4 rounded-xl border p-6">
                     <InputItemPassword
-                      label="Mật khẩu cũ"
-                      placeholder="Nhập mật khẩu cũ"
+                      label="Old password"
+                      placeholder="Enter old password"
                       value={oldPassword}
                       handleValueChange={(value) => setOldPassword(value)}
                       showPassword={showOldPassword}
                       setShowPassword={setShowOldPassword}
                     ></InputItemPassword>
                     <InputItemPassword
-                      label="Mật khẩu mới"
-                      placeholder="Nhập mật khẩu mới"
+                      label="New password"
+                      placeholder="Enter new password"
                       value={newPassword}
                       handleValueChange={(value) => setNewPassword(value)}
                       showPassword={showNewPassword}
                       setShowPassword={setShowNewPassword}
                     ></InputItemPassword>
                     <InputItemPassword
-                      label="Xác nhận mật khẩu"
-                      placeholder="Nhập lại mật khẩu mới"
+                      label="Confirm password"
+                      placeholder="Re-enter new password"
                       value={confirmNewPassword}
                       handleValueChange={(value) =>
                         setConfirmNewPassword(value)
@@ -295,7 +295,7 @@ const Settings: React.FC = () => {
         </div>
 
         <div className="mt-6 flex items-center justify-end">
-          <Button label="Lưu thay đổi" onClick={handleUpdateAccount}></Button>
+          <Button label="Save changes" onClick={handleUpdateAccount}></Button>
         </div>
       </Loading>
     </div>

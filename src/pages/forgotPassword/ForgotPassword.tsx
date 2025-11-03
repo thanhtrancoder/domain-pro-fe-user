@@ -70,24 +70,22 @@ const ForgotPassword: React.FC = () => {
           <img src={DomainProIcon} className="h-16 w-16"></img>
         </a>
         <div className="space-y-2 text-center">
-          <p className="text-3xl font-bold">Quên mật khẩu?</p>
-          <p className="text-gray-600">
-            Nhập email của bạn và chúng tôi sẽ gửi hướng dẫn đặt lại mật khẩu
-          </p>
+          <p className="text-3xl font-bold">Forgot password?</p>
+          <p className="text-gray-600">Enter your email and we'll send reset instructions</p>
         </div>
 
         <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-xl">
           <div className="p-8">
             <form className="space-y-6">
               <div className="space-y-2">
-                <p className="font-medium text-gray-700">Địa chỉ email</p>
+                <p className="font-medium text-gray-700">Email address</p>
                 <Input
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   icon={
                     <EnvelopeIcon className="size-6 text-gray-400"></EnvelopeIcon>
                   }
-                  placeholder="Nhập địa chỉ email"
+                  placeholder="Enter your email address"
                   type="email"
                   className={inputClassName}
                   onKeyDown={handleKeyDown}
@@ -96,13 +94,13 @@ const ForgotPassword: React.FC = () => {
                 {isEmptyEmail ? (
                   <div className="text-fail flex items-center gap-1 text-sm">
                     <ExclamationCircleIcon className="size-4"></ExclamationCircleIcon>
-                    <p>Vui lòng nhập email</p>
+                    <p>Please enter your email</p>
                   </div>
                 ) : (
                   !isValidEmail && (
                     <div className="text-fail flex items-center gap-1 text-sm">
                       <ExclamationCircleIcon className="size-4"></ExclamationCircleIcon>
-                      <p>Email không hợp lệ</p>
+                      <p>Invalid email</p>
                     </div>
                   )
                 )}
@@ -110,7 +108,7 @@ const ForgotPassword: React.FC = () => {
 
               <Loading loading={isLoading}>
                 <Button
-                  label="Tiếp tục"
+                  label="Continue"
                   rightIcon={
                     <ArrowRightIcon className="size-4"></ArrowRightIcon>
                   }
@@ -123,12 +121,12 @@ const ForgotPassword: React.FC = () => {
 
           <div className="border-t border-gray-100 bg-gray-50 px-8 py-4">
             <p className="text-center text-sm text-gray-600">
-              Quay lại đăng nhập?{" "}
+              Back to sign in?{" "}
               <a
                 href="/login"
                 className="text-primary hover:text-primary-hover font-medium transition-colors duration-300"
               >
-                Đăng nhập
+                Sign in
               </a>
             </p>
           </div>
@@ -136,9 +134,7 @@ const ForgotPassword: React.FC = () => {
 
         {/* Support */}
         <div className="w-full space-y-4 rounded-xl bg-white p-8 shadow-lg">
-          <p className="text-center text-lg font-bold">
-            Tại sao chọn DomainPro?
-          </p>
+          <p className="text-center text-lg font-bold">Why choose DomainPro?</p>
           <div className="space-y-2">
             {supportData.map((supportItem: supportType, index: number) => (
               <div key={index} className="flex items-center gap-2">

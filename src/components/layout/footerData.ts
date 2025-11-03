@@ -17,22 +17,22 @@ import type { menuType } from "./types";
 
 export const footerMenuList: menuType[] = [
   {
-    label: "Trang chủ",
+    label: "Home",
     href: "/",
     icon: HomeIcon,
   },
   {
-    label: "Tên miền",
+    label: "Domains",
     href: "/search",
     icon: GlobeIcon,
   },
   {
-    label: "Giỏ hàng",
+    label: "Cart",
     href: "/cart",
     icon: CartIcon,
   },
   {
-    label: "Bảng điều khiển",
+    label: "Dashboard",
     href: "/dashboard",
     icon: UserCircleIcon,
   },
@@ -40,7 +40,7 @@ export const footerMenuList: menuType[] = [
 
 export const contactList: menuType[] = [
   {
-    label: "720A Điện Biên Phủ, Phường 22, Bình Thạnh, Thành phố Hồ Chí Minh",
+    label: "720A Dien Bien Phu, Ward 22, Binh Thanh District, Ho Chi Minh City",
     href: "https://maps.app.goo.gl/HmFDfMuEm7GUPWir8",
     icon: MapPinIcon,
   },

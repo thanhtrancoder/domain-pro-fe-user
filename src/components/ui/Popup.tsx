@@ -46,13 +46,13 @@ export const Popup: React.FC<popupProps> = ({
                   className="cursor-pointer rounded bg-gray-200 px-4 py-2 text-gray-800 transition-colors duration-300 hover:bg-gray-300 focus:outline-none"
                   onClick={() => onConfirm(false)}
                 >
-                  Hủy
+                  Cancel
                 </button>
                 <button
                   className="cursor-pointer rounded bg-red-600 px-4 py-2 text-white transition-colors duration-300 hover:bg-red-700 focus:outline-none"
                   onClick={() => onConfirm(true)}
                 >
-                  Xác nhận
+                  Confirm
                 </button>
               </div>
             </div>
@@ -95,13 +95,13 @@ export const Popup2: React.FC<popupProps> = ({
                   className="cursor-pointer rounded bg-gray-200 px-4 py-2 text-gray-800 transition-colors duration-300 hover:bg-gray-300 focus:outline-none"
                   onClick={() => onConfirm(false)}
                 >
-                  Hủy
+                  Cancel
                 </button>
                 <button
                   className="cursor-pointer rounded bg-red-600 px-4 py-2 text-white transition-colors duration-300 hover:bg-red-700 focus:outline-none"
                   onClick={() => onConfirm(true)}
                 >
-                  Xác nhận
+                  Confirm
                 </button>
               </div>
             </div>

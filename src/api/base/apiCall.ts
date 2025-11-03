@@ -28,14 +28,14 @@ export async function callGet<T, B>(params: callApiParams<B>): Promise<UseApiRes
       error = {
         timestamp: null,
         status: null,
-        message: "Lỗi kết nối đến server",
+        message: "Failed to connect to server",
         data: null,
       };
     } else if(err.path !== undefined && err.path !== null && err.path !== "") {
       error = {
         timestamp: null,
         status: null,
-        message: "Có lỗi xảy ra trong quá trình xử lý",
+        message: "An error occurred during processing",
         data: null,
       };
     } else {
@@ -67,14 +67,14 @@ export async function callDelete<T>(params: callApiParams<null>): Promise<UseApi
       error = {
         timestamp: null,
         status: null,
-        message: "Lỗi kết nối đến server",
+        message: "Failed to connect to server",
         data: null,
       };
     } else if(err.path !== undefined && err.path !== null && err.path !== "") {
       error = {
         timestamp: null,
         status: null,
-        message: "Có lỗi xảy ra trong quá trình xử lý",
+        message: "An error occurred during processing",
         data: null,
       };
     } else {
@@ -107,14 +107,14 @@ export async function callPost<T, B>(params: callApiParams<B>): Promise<UseApiRe
       error = {
         timestamp: null,
         status: null,
-        message: "Lỗi kết nối đến server",
+        message: "Failed to connect to server",
         data: null,
       };
     } else if(err.path !== undefined && err.path !== null && err.path !== "") {
       error = {
         timestamp: null,
         status: null,
-        message: "Có lỗi xảy ra trong quá trình xử lý",
+        message: "An error occurred during processing",
         data: null,
       };
     } else {
@@ -147,14 +147,14 @@ export async function callPut<T, B>(params: callApiParams<B>): Promise<UseApiRes
       error = {
         timestamp: null,
         status: null,
-        message: "Lỗi kết nối đến server",
+        message: "Failed to connect to server",
         data: null,
       };
     } else if(err.path !== undefined && err.path !== null && err.path !== "") {
       error = {
         timestamp: null,
         status: null,
-        message: "Có lỗi xảy ra trong quá trình xử lý",
+        message: "An error occurred during processing",
         data: null,
       };
     } else {
@@ -187,14 +187,14 @@ export async function callPatch<T, B>(params: callApiParams<B>): Promise<UseApiR
       error = {
         timestamp: null,
         status: null,
-        message: "Lỗi kết nối đến server",
+        message: "Failed to connect to server",
         data: null,
       };
     } else if(err.path !== undefined && err.path !== null && err.path !== "") {
       error = {
         timestamp: null,
         status: null,
-        message: "Có lỗi xảy ra trong quá trình xử lý",
+        message: "An error occurred during processing",
         data: null,
       };
     } else {

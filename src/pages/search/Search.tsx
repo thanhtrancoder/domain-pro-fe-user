@@ -127,7 +127,7 @@ const Search: React.FC = () => {
     if (addToCartData.error) {
       if (addToCartData.error.status === 403) {
         navigate("/login");
-        toast("warning", "Vui lòng đăng nhập để thêm vào giỏ hàng");
+        toast("warning", "Please log in to add to cart");
       } else if (addToCartData.error?.status === 401) {
         toast("warning", addToCartData.error.message);
         navigate("/login");
@@ -158,7 +158,7 @@ const Search: React.FC = () => {
       accountContext(profileData.data);
     }
 
-    toast("success", addToCartData.message || "Thêm vào giỏ hàng thành công");
+    toast("success", addToCartData.message || "Added to cart successfully");
   };
 
   const onActionIconClick = () => {
@@ -170,8 +170,7 @@ const Search: React.FC = () => {
       <div className="from-primary to-primary-hover2 space-y-8 bg-gradient-to-br px-4 py-12 md:space-y-10 md:px-10 md:py-16 lg:space-y-12 lg:px-20 lg:py-20">
         {/* Tittle */}
         <p className="text-center text-4xl font-bold text-white md:text-5xl">
-          Sở hữu <span className="text-light-secondary">tên miền</span> riêng
-          của bạn
+          Own your own <span className="text-light-secondary">domain</span>
         </p>
 
         {/* Search */}
@@ -223,8 +222,8 @@ const Search: React.FC = () => {
                     }
                   >
                     {isAvailable
-                      ? "Có sẵn để đăng ký"
-                      : "Tên miền này đã được đăng ký"}
+                      ? "Available for registration"
+                      : "This domain is already registered"}
                   </p>
                 </div>
               </div>
@@ -237,7 +236,7 @@ const Search: React.FC = () => {
                         countryCode: "vi-VN",
                         currency: "VND",
                       })}
-                      /năm
+                      /year
                     </p> */}
                     <p className="text-primary text-2xl font-bold">
                       {moneyFormat({
@@ -245,7 +244,7 @@ const Search: React.FC = () => {
                         countryCode: "vi-VN",
                         currency: "VND",
                       })}
-                      /năm
+                      /year
                     </p>
                   </div>
                   <div
@@ -256,7 +255,7 @@ const Search: React.FC = () => {
                   >
                     <div className="hidden md:block lg:ml-0">
                       <Button
-                        label="Thêm vào giỏ hàng"
+                        label="Add to cart"
                         leftIcon={<CartIcon></CartIcon>}
                         onClick={() => handleAddToCart(domainExtendIdCurrent)}
                       ></Button>
@@ -272,7 +271,7 @@ const Search: React.FC = () => {
               ) : (
                 <div className="flex items-center justify-center lg:col-span-2">
                   <p className="text-sm text-gray-500 lg:text-right">
-                    Không khả dụng
+                    Not available
                   </p>
                 </div>
               )}
@@ -287,7 +286,7 @@ const Search: React.FC = () => {
         searchQuery !== null ? (
           <div className="space-y-4">
             <p className="text-2xl font-bold break-all">
-              Các đuôi tên miền khác cho "{searchQuery}"
+              Other domain extensions for "{searchQuery}"
             </p>
             <div className="space-y-4">
               {relatedDomainList.map((relatedDomain) => (
@@ -307,7 +306,7 @@ const Search: React.FC = () => {
                           countryCode: "vi-VN",
                           currency: "VND",
                         })}
-                        /năm
+                        /year
                       </p> */}
                       <p className="text-primary text-2xl font-bold">
                         {moneyFormat({
@@ -315,7 +314,7 @@ const Search: React.FC = () => {
                           countryCode: "vi-VN",
                           currency: "VND",
                         })}
-                        /năm
+                        /year
                       </p>
                     </div>
                     <div
@@ -327,7 +326,7 @@ const Search: React.FC = () => {
                     >
                       <div className="hidden md:block">
                         <Button
-                          label="Thêm vào giỏ hàng"
+                          label="Add to cart"
                           leftIcon={<CartIcon></CartIcon>}
                           onClick={() =>
                             handleAddToCart(relatedDomain.domainExtendId)
@@ -351,9 +350,9 @@ const Search: React.FC = () => {
         ) : (
           <div className="flex flex-col items-center justify-center gap-2 rounded-xl px-4 py-10 shadow-lg">
             <img src={FindIcon}></img>
-            <p className="text-lg font-bold">Không tìm thấy kết quả phù hợp</p>
+            <p className="text-lg font-bold">No matching results found</p>
             <p className="text-sm text-gray-500">
-              Vui lòng nhập tên miền vào ô tìm kiếm
+              Please enter a domain into the search box
             </p>
           </div>
         )}

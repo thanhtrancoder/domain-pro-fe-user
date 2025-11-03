@@ -24,7 +24,7 @@ export const SearchForm1: React.FC<searchProps> = ({
         <Input
           value={searchString}
           onChange={(e) => setSearchString(e.target.value)}
-          placeholder="Nhập tên miền bạn muốn tìm..."
+          placeholder="Enter the domain you want to search..."
           className="focus-within:border-primary focus-within:ring-primary flex-1 border border-gray-200 focus-within:ring-2 lg:px-6 lg:py-4"
           actionIcon={
             <XMarkIcon className="size-6 cursor-pointer text-gray-400 hover:text-gray-500"></XMarkIcon>
@@ -33,7 +33,7 @@ export const SearchForm1: React.FC<searchProps> = ({
           onKeyDown={onKeyDown}
         ></Input>
         <NavButton
-          label="Tìm kiếm"
+          label="Search"
           to={navigate || ""}
           leftIcon={<SearchIcon className="size-6"></SearchIcon>}
           className="bg-primary hover:bg-primary-hover text-lg text-white lg:px-6"
@@ -55,7 +55,7 @@ export const SearchForm2: React.FC<searchProps> = ({
       <Input
         value={searchString}
         onChange={(e) => setSearchString(e.target.value)}
-        placeholder="Nhập tên miền bạn muốn tìm..."
+        placeholder="Enter the domain you want to search..."
         className="focus-within:border-primary focus-within:ring-primary flex-1 border border-gray-200 focus-within:ring-2 lg:px-6 lg:py-4"
         actionIcon={
           <XMarkIcon className="size-6 cursor-pointer text-gray-400 hover:text-gray-500"></XMarkIcon>
@@ -64,7 +64,7 @@ export const SearchForm2: React.FC<searchProps> = ({
         onKeyDown={onKeyDown}
       ></Input>
       <Button
-        label="Tìm kiếm"
+        label="Search"
         onClick={onClick}
         leftIcon={<SearchIcon className="size-6"></SearchIcon>}
         className="bg-primary hover:bg-primary-hover text-lg text-white lg:px-6"

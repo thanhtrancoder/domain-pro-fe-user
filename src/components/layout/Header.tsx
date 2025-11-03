@@ -67,7 +67,7 @@ const Header: React.FC = () => {
         <div className="mx-3 my-2 grid grid-cols-3 items-center md:mx-10 md:my-4 md:flex md:items-center lg:mx-20">
           {/* Mobile hamburger button */}
           <button
-            aria-label={isMobileMenuOpen ? "Đóng menu" : "Mở menu"}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
             className="relative flex h-6 w-6 items-center justify-center md:hidden"
             onClick={() => onToggleMobileMenu()}
@@ -151,11 +151,11 @@ const Header: React.FC = () => {
             !isLogin && (
               <div className="flex items-center justify-end md:ml-auto md:space-x-1">
                 <NavButton
-                  label="Đăng Ký"
+                  label="Sign up"
                   to="/register"
                   className="text-primary hover:text-primary-hover hidden hover:bg-gray-200 md:block"
                 />
-                <NavButton label="Đăng nhập" to="/login" />
+                <NavButton label="Sign in" to="/login" />
               </div>
             )
           )}
@@ -184,7 +184,7 @@ const Header: React.FC = () => {
             ))}
           </ul>
           <NavButton
-            label="Đăng ký"
+            label="Sign up"
             to="/register"
             onClick={() => setIsMobileMenuOpen(false)}
             className="bg-primary hover:bg-primary-hover mx-4 mt-auto text-white"

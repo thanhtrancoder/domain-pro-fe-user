@@ -93,10 +93,8 @@ const Login: React.FC = () => {
           <img src={DomainProIcon} className="h-16 w-16"></img>
         </a>
         <div className="space-y-2 text-center">
-          <p className="text-3xl font-bold">Chào mừng trở lại</p>
-          <p className="text-gray-600">
-            Đăng nhập để quản lý tên miền và dịch vụ của bạn
-          </p>
+          <p className="text-3xl font-bold">Welcome back</p>
+          <p className="text-gray-600">Sign in to manage your domains and services</p>
         </div>
 
         {/* Form */}
@@ -105,14 +103,14 @@ const Login: React.FC = () => {
           className="w-full space-y-6 rounded-xl bg-white p-8 shadow-lg"
         >
           <div className="space-y-2">
-            <p className="font-medium text-gray-700">Địa chỉ email</p>
+            <p className="font-medium text-gray-700">Email address</p>
             <Input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               icon={
                 <EnvelopeIcon className="size-6 text-gray-400"></EnvelopeIcon>
               }
-              placeholder="Nhập địa chỉ email"
+              placeholder="Enter email address"
               type="email"
               className={inputClassName}
               onKeyDown={handleKeyDown}
@@ -121,27 +119,27 @@ const Login: React.FC = () => {
             {isEmptyEmail ? (
               <div className="text-fail flex items-center gap-1 text-sm">
                 <ExclamationCircleIcon className="size-4"></ExclamationCircleIcon>
-                <p>Vui lòng nhập email</p>
+                <p>Please enter your email</p>
               </div>
             ) : (
               !isValidEmail && (
                 <div className="text-fail flex items-center gap-1 text-sm">
                   <ExclamationCircleIcon className="size-4"></ExclamationCircleIcon>
-                  <p>Email không hợp lệ</p>
+                  <p>Invalid email</p>
                 </div>
               )
             )}
           </div>
 
           <div className="space-y-2">
-            <p className="font-medium text-gray-700">Mật khẩu</p>
+            <p className="font-medium text-gray-700">Password</p>
             <Input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               icon={
                 <LockClosedIcon className="size-6 text-gray-400"></LockClosedIcon>
               }
-              placeholder="Nhập mật khẩu"
+              placeholder="Enter password"
               type={showPassword ? "text" : "password"}
               className={inputClassName}
               actionIcon={
@@ -158,7 +156,7 @@ const Login: React.FC = () => {
             {isEmptyPassword && (
               <div className="text-fail flex items-center gap-1 text-sm">
                 <ExclamationCircleIcon className="size-4"></ExclamationCircleIcon>
-                <p>Vui lòng nhập mật khẩu</p>
+                <p>Please enter your password</p>
               </div>
             )}
           </div>
@@ -168,12 +166,12 @@ const Login: React.FC = () => {
               href="/forgot-password"
               className="text-primary hover:text-primary-hover text-sm font-medium transition-colors duration-300"
             >
-              Quên mật khẩu?
+              Forgot password?
             </a>
           </div>
 
           <Button
-            label="Đăng nhập"
+            label="Sign in"
             rightIcon={<ArrowRightIcon className="size-4"></ArrowRightIcon>}
             className="bg-primary hover:bg-primary-hover w-full text-white"
             onClick={() => onHandleLogin()}
@@ -181,7 +179,7 @@ const Login: React.FC = () => {
 
           <div className="relative flex items-center justify-center">
             <p className="relative z-10 w-fit bg-white px-2 text-center text-sm text-gray-500">
-              Hoặc đăng nhập bằng
+              Or sign in with
             </p>
             <div className="absolute top-1/2 w-full border-t border-gray-300"></div>
           </div>
@@ -197,12 +195,12 @@ const Login: React.FC = () => {
 
           <div className="text-center">
             <p className="text-sm text-gray-600">
-              Chưa có tài khoản?{" "}
+              Don't have an account?{" "}
               <a
                 href="/register"
                 className="text-primary hover:text-primary-hover font-medium transition-colors duration-300"
               >
-                Đăng ký ngay
+                Sign up now
               </a>
             </p>
           </div>
@@ -210,9 +208,7 @@ const Login: React.FC = () => {
 
         {/* Support */}
         <div className="w-full space-y-4 rounded-xl bg-white p-8 shadow-lg">
-          <p className="text-center text-lg font-bold">
-            Tại sao chọn DomainPro?
-          </p>
+          <p className="text-center text-lg font-bold">Why choose DomainPro?</p>
           <div className="space-y-2">
             {supportData.map((supportItem: supportType, index: number) => (
               <div key={index} className="flex items-center gap-2">

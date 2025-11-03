@@ -179,8 +179,8 @@ const Cart: React.FC = () => {
 
   return (
     <Popup
-      title="Xác nhận"
-      content="Bạn có chắc chắn muốn xóa tên miền này?"
+      title="Confirm"
+      content="Are you sure you want to delete this domain?"
       value={
         "" +
         domainList.find((item) => item.cartId === cartId)?.domainName +
@@ -192,10 +192,8 @@ const Cart: React.FC = () => {
       <div className="space-y-8 bg-gray-50 px-3 py-8 md:px-10 lg:px-20">
         {/* Title */}
         <div className="space-y-2">
-          <p className="text-3xl font-bold">Giỏ hàng của bạn</p>
-          <p className="text-gray-600">
-            Xem lại các sản phẩm đã chọn và hoàn tất đơn hàng
-          </p>
+          <p className="text-3xl font-bold">Your cart</p>
+          <p className="text-gray-600">Review selected items and complete your order</p>
         </div>
 
         <div className="gap-8 lg:grid lg:grid-cols-3">
@@ -207,9 +205,9 @@ const Cart: React.FC = () => {
                   <GlobeIcon className="text-primary-hover size-6"></GlobeIcon>
                 </div>
 
-                <p className="text-xl font-bold">Tên miền đã chọn</p>
+                <p className="text-xl font-bold">Selected domains</p>
                 <p className="text-primary-hover bg-light-primary2 rounded-full px-3 py-1 text-center text-sm font-medium">
-                  {numberCartItem} tên miền
+                  {numberCartItem} domains
                 </p>
               </div>
 
@@ -241,7 +239,7 @@ const Cart: React.FC = () => {
                               countryCode: "vi-VN",
                               currency: "VND",
                             })}
-                            /năm
+                            /year
                           </p>
                         )}
 
@@ -251,13 +249,13 @@ const Cart: React.FC = () => {
                             countryCode: "vi-VN",
                             currency: "VND",
                           })}
-                          /năm
+                          /year
                         </p>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-2 lg:ml-auto">
-                      <p className="text-sm text-gray-600">Thời hạn:</p>
+                      <p className="text-sm text-gray-600">Term:</p>
                       <div className="flex items-center gap-2 rounded-xl border border-gray-200">
                         <SquareButton
                           leftIcon={<MinusIcon className="size-4" />}
@@ -270,7 +268,7 @@ const Cart: React.FC = () => {
                           }
                         ></SquareButton>
                         <p className="text-center text-sm font-medium">
-                          {domain.period} năm
+                          {domain.period} years
                         </p>
                         <SquareButton
                           rightIcon={<PlusIcon className="size-4" />}
@@ -290,7 +288,7 @@ const Cart: React.FC = () => {
                         </p>
                         {domain.period > 1 && (
                           <p className="text-sm text-gray-500">
-                            {domain.period} năm
+                            {domain.period} years
                           </p>
                         )}
                       </div>
@@ -311,7 +309,7 @@ const Cart: React.FC = () => {
               <div className="absolute z-10 flex h-full w-fit w-full items-center justify-center">
                 <div className="bg-tint-primary border-tint-primary2 text-primary-hover2 flex w-fit items-center justify-center gap-2 rounded-xl border p-4 font-medium shadow-xl">
                   <img src={AnnouncementIcon} className="size-6"></img>
-                  <span className="">Tính năng sẽ được phát hành sau.</span>
+                  <span className="">This feature will be released later.</span>
                 </div>
               </div>
 
@@ -322,9 +320,9 @@ const Cart: React.FC = () => {
                     <div className="bg-light-success rounded-full p-2">
                       <SquaresPlusIcon className="text-success-hover2 size-6"></SquaresPlusIcon>
                     </div>
-                    <p className="text-xl font-bold">Dịch vụ bổ trợ</p>
+                    <p className="text-xl font-bold">Add-on services</p>
                     <p className="text-secondary bg-lightest-secondary rounded-full px-3 py-1 text-center text-sm font-medium">
-                      Khuyến nghị
+                      Recommended
                     </p>
                   </div>
 
@@ -385,7 +383,7 @@ const Cart: React.FC = () => {
                                 countryCode: "vi-VN",
                                 currency: "VND",
                               })}
-                              /năm
+                              /year
                             </p>
                           </div>
                         </div>
@@ -400,11 +398,11 @@ const Cart: React.FC = () => {
             <div className="sticky top-24 space-y-8">
               {/* Summary */}
               <div className="space-y-4 rounded-xl bg-white p-6 shadow-lg">
-                <p className="text-xl font-bold">Tóm tắt đơn hàng</p>
+                <p className="text-xl font-bold">Order summary</p>
                 {/* List item */}
                 <div className="space-y-2 text-gray-600">
                   <div className="flex items-center">
-                    <p>Tên miền ({numberCartItem})</p>
+                    <p>Domains ({numberCartItem})</p>
                     <p className="ml-auto">
                       {moneyFormat({
                         value: totalPrice,
@@ -414,14 +412,14 @@ const Cart: React.FC = () => {
                     </p>
                   </div>
                   <div className="flex items-center">
-                    <p>Dịch vụ bổ trợ (0)</p>
+                    <p>Add-on services (0)</p>
                     <p className="ml-auto">0</p>
                   </div>
                 </div>
                 {/* Total */}
                 <div className="space-y-1 border-t border-gray-200 pt-4">
                   <div className="flex items-center text-xl font-bold">
-                    <p>Tổng cộng</p>
+                    <p>Total</p>
                     <p className="text-primary-hover ml-auto">
                       {moneyFormat({
                         value: totalPrice,
@@ -438,7 +436,7 @@ const Cart: React.FC = () => {
                   }
                 >
                   <Button
-                    label="Tiến hành thanh toán"
+                    label="Proceed to checkout"
                     rightIcon={
                       <ArrowRightIcon className="size-4"></ArrowRightIcon>
                     }
@@ -450,13 +448,11 @@ const Cart: React.FC = () => {
 
               {/* Suggest */}
               <div className="bg-tint-primary space-y-3 rounded-xl p-6">
-                <p className="text-primary-hover2 font-bold">
-                  💡 Gợi ý cho bạn
-                </p>
+                <p className="text-primary-hover2 font-bold">💡 Tips for you</p>
                 <ul className="text-primary-hover2 space-y-1 text-sm">
-                  <li>• Đăng ký nhiều năm để tiết kiệm chi phí</li>
-                  <li>• Thêm Domain Privacy để bảo vệ thông tin</li>
-                  <li>• SSL Certificate giúp website an toàn hơn</li>
+                  <li>• Register for multiple years to save costs</li>
+                  <li>• Add Domain Privacy to protect your information</li>
+                  <li>• SSL Certificate helps keep your website secure</li>
                 </ul>
               </div>
             </div>

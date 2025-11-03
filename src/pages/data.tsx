@@ -9,14 +9,14 @@ export interface supportType {
 export const supportData: supportType[] = [
   {
     icon: ShieldIcon,
-    content: "Bảo mật thông tin tuyệt đối",
+    content: "Absolute data security",
   },
   {
     icon: BoltIcon,
-    content: "Đăng ký tên miền nhanh chóng",
+    content: "Fast domain registration",
   },
   {
     icon: UserIcon,
-    content: "Hỗ trợ khách hàng 24/7",
+    content: "24/7 customer support",
   },
 ];

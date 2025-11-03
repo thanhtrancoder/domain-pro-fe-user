@@ -66,14 +66,14 @@ const DomainDiscount: React.FC<domainDiscountProps> = ({
         <div className="flex items-center justify-center font-bold text-black">
           <div className="bg-sixth flex items-center justify-center space-x-1 rounded-2xl px-4 py-1">
             <CheckBadgeIcon className="size-5"></CheckBadgeIcon>
-            <p>Phổ biến nhất</p>
+            <p>Most popular</p>
           </div>
         </div>
       )}
       <p className="text-3xl font-bold">{domain}</p>
       {/* <p className={`text-sm ${priceTextColor} line-through`}>
         {moneyFormat({ value: price, countryCode: "vi-VN", currency: "VND" })}
-        /năm
+        /year
       </p> */}
       <p className="text-4xl font-bold">
         {moneyFormat({
@@ -81,7 +81,7 @@ const DomainDiscount: React.FC<domainDiscountProps> = ({
           countryCode: "vi-VN",
           currency: "VND",
         })}
-        <span className="text-lg font-normal">/năm</span>
+        <span className="text-lg font-normal">/year</span>
       </p>
       <div className="space-y-3 text-left">
         {feature.map((item: string, index: number) => (
@@ -93,13 +93,13 @@ const DomainDiscount: React.FC<domainDiscountProps> = ({
       </div>
       {isPopular ? (
         <NavButton
-          label="Đăng ký ngay"
+          label="Register now"
           to={"/search?domain=yourdomain" + domain}
           className="text-primary bg-white font-medium hover:bg-gray-100"
         ></NavButton>
       ) : (
         <NavButton
-          label="Đăng ký ngay"
+          label="Register now"
           to={"/search?domain=yourdomain" + domain}
         ></NavButton>
       )}
@@ -125,9 +125,9 @@ const Home = () => {
   const [showSearchStringEmptyTooltip, setShowSearchStringEmptyTooltip] =
     useState(false);
   const [featureList, setFeatureList] = useState<string[]>([
-    "Hỗ trợ 24/7",
-    "DNS miễn phí",
-    "Chuyển đổi dễ dàng",
+    "24/7 support",
+    "Free DNS",
+    "Easy transfer",
   ]);
   const [voucher, setVoucher] = useState<voucherDto | null>(null);
 
@@ -182,11 +182,11 @@ const Home = () => {
         <div className="flex flex-col items-center space-y-8">
           {/* Title */}
           <h1 className="text-center text-4xl font-bold text-white md:text-5xl lg:text-6xl">
-            Tìm tên miền <p className="text-light-secondary">hoàn hảo</p> cho
-            doanh nghiệp
+            Find the <p className="text-light-secondary">perfect</p> domain for
+            your business
           </h1>
           <p className="text-center text-xl text-white lg:text-2xl">
-            Đăng ký tên miền với giá tốt nhất.
+            Register domains at the best prices.
           </p>
 
           {/* Search form */}
@@ -195,7 +195,7 @@ const Home = () => {
               <div className="relative">
                 <div className="absolute bottom-full left-0 mb-2 -translate-x-0 transform">
                   <div className="tooltip-box bg-light-warning2 relative rounded px-2 py-1 text-sm">
-                    Bạn chưa nhập tên miền hoặc từ khóa
+                    You haven't entered a domain or keyword
                     <div className="tooltip-arrow border-t-light-warning2 absolute bottom-[-4px] left-1/2 h-0 w-0 -translate-x-1/2 transform border-t-4 border-r-4 border-l-4 border-r-transparent border-l-transparent" />
                   </div>
                 </div>
@@ -248,10 +248,10 @@ const Home = () => {
       <div className="bg-gray-50 px-2 py-20 md:px-10 lg:px-20">
         {/* Title */}
         <div className="flex flex-col space-y-4 pb-16 text-center">
-          <p className="text-4xl font-bold">Dịch vụ chuyên nghiệp</p>
+          <p className="text-4xl font-bold">Professional services</p>
           <p className="text-xl text-gray-600">
-            Chúng tôi cung cấp đầy đủ các dịch vụ cần thiết để xây dựng và phát
-            triển sự hiện diện trực tuyến của bạn.
+            We provide all the essential services to build and grow your online
+            presence.
           </p>
         </div>
 
@@ -276,7 +276,7 @@ const Home = () => {
                 ))}
               </ul>
               <p className="text-primary-hover text-2xl font-bold no-underline">
-                Từ &nbsp;
+                From &nbsp;
                 {moneyFormat({
                   value: service.price,
                   countryCode: "vi-VN",
@@ -286,7 +286,7 @@ const Home = () => {
                 {service.unitPrice}
               </p>
               <NavButton
-                label="Tìm hiểu thêm"
+                label="Learn more"
                 to={service.navigate}
                 className="hover:bg-primary-hover bg-gray-100 hover:text-white"
                 rightIcon={<ArrowRightIcon className="size-4"></ArrowRightIcon>}
@@ -300,10 +300,9 @@ const Home = () => {
       <div className="space-y-10 px-2 py-20 md:px-10 lg:px-20">
         {/* Title */}
         <div className="space-y-4 text-center">
-          <p className="text-4xl font-bold">Giá cả minh bạch, ưu đãi hấp dẫn</p>
+          <p className="text-4xl font-bold">Transparent pricing, great deals</p>
           <p className="text-xl text-gray-600">
-            Không có phí ẩn, không có chi phí bất ngờ. Chỉ có giá tốt nhất thị
-            trường.
+            No hidden fees, no surprises. Just the best prices on the market.
           </p>
         </div>
 
@@ -312,10 +311,10 @@ const Home = () => {
           <div className="from-secondary to-fail space-y-4 rounded-xl bg-gradient-to-br p-8 text-center text-white">
             <div className="flex items-center justify-center space-x-1 font-bold">
               <BoltIcon className="size-8"></BoltIcon>
-              <p className="text-2xl">Khuyến mãi đặc biệt!</p>
+              <p className="text-2xl">Special promotion!</p>
             </div>
             <p className="text-xl">
-              Giảm giá lên đến{" "}
+              Discount up to{" "}
               <span className="text-3xl font-bold">
                 {moneyFormat({
                   value: voucher.maxDiscountAmount,
@@ -323,12 +322,12 @@ const Home = () => {
                   currency: "VND",
                 })}
               </span>{" "}
-              cho tên miền bất kỳ{" "}
+              for any domain{" "}
               {/* <span className="font-bold">{domainDiscount.domain}</span> */}
             </p>
             <p className="text-lg">
-              Nhập mã <span className="font-bold">{voucher.code}</span> để nhận
-              ưu đãi này!
+              Enter code <span className="font-bold">{voucher.code}</span> to
+              get this offer!
             </p>
           </div>
         ) : (

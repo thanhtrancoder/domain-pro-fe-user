@@ -155,8 +155,8 @@ const Dashboard: React.FC = () => {
       >
         {/* Title */}
         <div className="space-y-2">
-          <h1 className="text-3xl font-bold">Bảng điều khiển</h1>
-          <p className="text-gray-600">Quản lý tên miền và dịch vụ của bạn</p>
+          <h1 className="text-3xl font-bold">Dashboard</h1>
+          <p className="text-gray-600">Manage your domains and services</p>
         </div>
 
         {/* Main */}
@@ -200,35 +200,35 @@ const Dashboard: React.FC = () => {
               <ul className="space-y-2">
                 <ActionItem
                   icon={<BuildingOfficeIcon></BuildingOfficeIcon>}
-                  name="Tổng quan"
+                  name="Overview"
                   to=""
                   activeTab={activeTab}
                   handleActive={handleActiveTab}
                 ></ActionItem>
                 <ActionItem
                   icon={<ServerIcon></ServerIcon>}
-                  name="Tên miền của tôi"
+                  name="My domains"
                   to="domains"
                   activeTab={activeTab}
                   handleActive={handleActiveTab}
                 ></ActionItem>
                 {/* <ActionItem
               icon={<FileLinesIcon></FileLinesIcon>}
-              name="Hóa đơn"
+              name="Billing"
               to="billing"
               activeTab={activeTab}
               handleActive={handleActiveTab}
             ></ActionItem> */}
                 <ActionItem
                   icon={<QuestionMarkCircleIcon></QuestionMarkCircleIcon>}
-                  name="Hỗ trợ"
+                  name="Support"
                   to="support"
                   activeTab={activeTab}
                   handleActive={handleActiveTab}
                 ></ActionItem>
                 <ActionItem
                   icon={<Cog6ToothIcon></Cog6ToothIcon>}
-                  name="Cài đặt"
+                  name="Settings"
                   to="settings"
                   activeTab={activeTab}
                   handleActive={handleActiveTab}
@@ -237,7 +237,7 @@ const Dashboard: React.FC = () => {
               icon={
                 <ArrowRightStartOnRectangleIcon></ArrowRightStartOnRectangleIcon>
               }
-              name="Đăng xuất"
+              name="Logout"
               to="settings"
               activeTab={activeTab}
               handleActive={handleActiveTab}
@@ -247,27 +247,27 @@ const Dashboard: React.FC = () => {
                   onClick={() => handleLogout()}
                 >
                   <ArrowRightStartOnRectangleIcon></ArrowRightStartOnRectangleIcon>
-                  <span>Đăng xuất</span>
+                  <span>Logout</span>
                 </button>
               </ul>
             </div>
 
             {/* Quick report */}
             <div className="space-y-4 rounded-xl bg-white p-6 shadow-lg">
-              <h2 className="font-bold">Thống kê nhanh</h2>
+              <h2 className="font-bold">Quick stats</h2>
               <div className="space-y-2">
                 <QuickReportItem
-                  name="Tên miền hoạt động"
+                  name="Active domains"
                   total={domainNameActive}
                   totalColor="success-hover2"
                 ></QuickReportItem>
                 <QuickReportItem
-                  name="Sắp hết hạn"
+                  name="Expiring soon"
                   total={domainNameExpiring}
                   totalColor="fail"
                 ></QuickReportItem>
                 <QuickReportItem
-                  name="Đã hết hạn"
+                  name="Expired"
                   total={domainNameExpired}
                   totalColor="fail"
                 ></QuickReportItem>

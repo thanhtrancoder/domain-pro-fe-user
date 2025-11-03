@@ -7,97 +7,96 @@ const PrivacyPolicy: React.FC = () => {
         <div className="overflow-hidden rounded-lg bg-white shadow-xl">
           <div className="from-primary to-primary-hover bg-gradient-to-r px-6 py-8 text-center">
             <h1 className="text-3xl font-bold text-white">
-              Chính sách bảo mật
+              Privacy Policy
             </h1>
             <p className="mt-2 text-blue-100">
-              Cập nhật lần cuối: 15 tháng 5, 2023
+              Last updated: May 15, 2023
             </p>
           </div>
 
           <div className="px-6 py-8">
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Giới thiệu
+                Introduction
               </h2>
               <p className="leading-relaxed text-gray-600">
-                Tại Công ty Đăng ký Tên miền, chúng tôi cam kết bảo vệ thông tin
-                cá nhân của bạn. Chính sách bảo mật này giải thích cách chúng
-                tôi thu thập, sử dụng, và bảo vệ thông tin của bạn khi bạn sử
-                dụng dịch vụ đăng ký tên miền của chúng tôi.
+                At Domain Registration Company, we are committed to protecting
+                your personal information. This Privacy Policy explains how we
+                collect, use, and protect your information when you use our
+                domain registration services.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Thông tin chúng tôi thu thập
+                Information We Collect
               </h2>
               <div className="border-primary-hover mb-4 border-l-4 bg-blue-50 p-4">
                 <p className="text-gray-700">
-                  Chúng tôi thu thập các loại thông tin sau để cung cấp và cải
-                  thiện dịch vụ của mình:
+                  We collect the following types of information to provide and
+                  improve our services:
                 </p>
               </div>
               <ul className="list-disc space-y-2 pl-6 text-gray-600">
                 <li>
-                  Thông tin cá nhân: Tên, địa chỉ email, số điện thoại, địa chỉ
-                  thanh toán
+                  Personal information: Name, email address, phone number,
+                  billing address
                 </li>
                 <li>
-                  Thông tin tài khoản: Tên đăng nhập, mật khẩu (được mã hóa)
+                  Account information: Username, password (encrypted)
                 </li>
                 <li>
-                  Thông tin tên miền: Tên miền bạn đăng ký, thông tin DNS, thông
-                  tin chuyển nhượng
+                  Domain information: Domains you register, DNS details,
+                  transfer information
                 </li>
                 <li>
-                  Thông tin thanh toán: Thẻ tín dụng, thông tin tài khoản ngân
-                  hàng (được xử lý bởi bên thứ ba an toàn)
+                  Payment information: Credit card, bank account details (handled
+                  by secure third-party processors)
                 </li>
                 <li>
-                  Thông tin sử dụng: Dữ liệu về cách bạn tương tác với trang web
-                  của chúng tôi
+                  Usage data: Information about how you interact with our
+                  website
                 </li>
               </ul>
             </section>
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Cách chúng tôi sử dụng thông tin của bạn
+                How We Use Your Information
               </h2>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-lg bg-gray-50 p-4">
                   <h3 className="mb-2 font-semibold text-gray-800">
-                    Để cung cấp dịch vụ
+                    To provide services
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Đăng ký tên miền, gia hạn, chuyển nhượng và quản lý tài
-                    khoản của bạn
+                    Domain registration, renewal, transfer, and account
+                    management
                   </p>
                 </div>
                 <div className="rounded-lg bg-gray-50 p-4">
                   <h3 className="mb-2 font-semibold text-gray-800">
-                    Để cải thiện dịch vụ
+                    To improve services
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Phân tích dữ liệu để hiểu nhu cầu và cải thiện trải nghiệm
-                    người dùng
+                    Analyze data to understand needs and improve user experience
                   </p>
                 </div>
                 <div className="rounded-lg bg-gray-50 p-4">
                   <h3 className="mb-2 font-semibold text-gray-800">
-                    Để giao tiếp
+                    To communicate
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Gửi thông báo quan trọng về tài khoản và dịch vụ của bạn
+                    Send important notifications about your account and services
                   </p>
                 </div>
                 <div className="rounded-lg bg-gray-50 p-4">
                   <h3 className="mb-2 font-semibold text-gray-800">
-                    Để tuân thủ pháp luật
+                    To comply with the law
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Đáp ứng các yêu cầu pháp lý và quy định của cơ quan đăng ký
-                    tên miền
+                    Respond to legal and regulatory requirements of domain
+                    registries
                   </p>
                 </div>
               </div>
@@ -105,42 +104,40 @@ const PrivacyPolicy: React.FC = () => {
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Chia sẻ thông tin của bạn
+                Sharing Your Information
               </h2>
               <p className="mb-4 leading-relaxed text-gray-600">
-                Chúng tôi không bán, trao đổi hoặc cho thuê thông tin cá nhân
-                của bạn cho bên thứ ba. Chúng tôi chỉ chia sẻ thông tin của bạn
-                trong các trường hợp sau:
+                We do not sell, trade, or rent your personal information to third
+                parties. We only share your information in the following cases:
               </p>
               <div className="mb-4 border-l-4 border-yellow-500 bg-yellow-50 p-4">
                 <p className="text-gray-700">
-                  Thông tin liên hệ của chủ sở hữu tên miền (ngoại trừ thông tin
-                  bảo mật) có thể được công khai theo yêu cầu của ICANN và các
-                  cơ quan đăng ký tên miền.
+                  The domain owner's contact information (excluding privacy-protected
+                  details) may be made public as required by ICANN and domain
+                  registries.
                 </p>
               </div>
               <ul className="list-disc space-y-2 pl-6 text-gray-600">
                 <li>
-                  Đối với các nhà cung cấp dịch vụ thanh toán để xử lý giao dịch
+                  With payment service providers to process transactions
                 </li>
                 <li>
-                  Đối với các cơ quan đăng ký tên miền để quản lý tên miền của
-                  bạn
+                  With domain registries to manage your domains
                 </li>
                 <li>
-                  Đối với các cơ quan thực thi pháp luật khi có yêu cầu hợp lệ
+                  With law enforcement agencies upon valid request
                 </li>
-                <li>Đối với các đối tác kinh doanh đã ký thỏa thuận bảo mật</li>
+                <li>With business partners under confidentiality agreements</li>
               </ul>
             </section>
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Bảo mật thông tin
+                Information Security
               </h2>
               <p className="mb-4 leading-relaxed text-gray-600">
-                Chúng tôi áp dụng các biện pháp bảo mật phù hợp để bảo vệ thông
-                tin của bạn:
+                We apply appropriate security measures to protect your
+                information:
               </p>
               <div className="space-y-3">
                 <div className="flex items-start">
@@ -150,9 +147,7 @@ const PrivacyPolicy: React.FC = () => {
                     </div>
                   </div>
                   <div className="ml-3">
-                    <p className="text-gray-700">
-                      Mã hóa dữ liệu nhạy cảm bằng SSL/TLS
-                    </p>
+                    <p className="text-gray-700">Encrypt sensitive data with SSL/TLS</p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -162,9 +157,7 @@ const PrivacyPolicy: React.FC = () => {
                     </div>
                   </div>
                   <div className="ml-3">
-                    <p className="text-gray-700">
-                      Hạn chế quyền truy cập thông tin cá nhân
-                    </p>
+                    <p className="text-gray-700">Restrict access to personal information</p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -174,9 +167,7 @@ const PrivacyPolicy: React.FC = () => {
                     </div>
                   </div>
                   <div className="ml-3">
-                    <p className="text-gray-700">
-                      Đánh giá và cập nhật các biện pháp bảo mật định kỳ
-                    </p>
+                    <p className="text-gray-700">Regularly review and update security measures</p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -186,9 +177,7 @@ const PrivacyPolicy: React.FC = () => {
                     </div>
                   </div>
                   <div className="ml-3">
-                    <p className="text-gray-700">
-                      Sao lưu dữ liệu và kế hoạch phục hồi thảm họa
-                    </p>
+                    <p className="text-gray-700">Data backups and disaster recovery plans</p>
                   </div>
                 </div>
               </div>
@@ -196,11 +185,11 @@ const PrivacyPolicy: React.FC = () => {
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Cookie và công nghệ theo dõi
+                Cookies and Tracking Technologies
               </h2>
               <p className="mb-4 leading-relaxed text-gray-600">
-                Chúng tôi sử dụng cookie và các công nghệ tương tự để cải thiện
-                trải nghiệm của bạn trên trang web của chúng tôi:
+                We use cookies and similar technologies to enhance your
+                experience on our website:
               </p>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
@@ -210,54 +199,54 @@ const PrivacyPolicy: React.FC = () => {
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
                       >
-                        Loại Cookie
+                        Cookie Type
                       </th>
                       <th
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
                       >
-                        Mục đích
+                        Purpose
                       </th>
                       <th
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase"
                       >
-                        Thời gian lưu trữ
+                        Retention Period
                       </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
                     <tr>
                       <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-900">
-                        Cookie thiết yếu
+                        Essential cookies
                       </td>
                       <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
-                        Đảm bảo trang web hoạt động đúng
+                        Ensure the website functions correctly
                       </td>
                       <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
-                        Phiên làm việc
+                        Session
                       </td>
                     </tr>
                     <tr>
                       <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-900">
-                        Cookie hiệu suất
+                        Performance cookies
                       </td>
                       <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
-                        Thu thập thông tin thống kê
+                        Collect statistical information
                       </td>
                       <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
-                        1 năm
+                        1 year
                       </td>
                     </tr>
                     <tr>
                       <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-900">
-                        Cookie chức năng
+                        Functional cookies
                       </td>
                       <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
-                        Ghi nhớ cài đặt của bạn
+                        Remember your settings
                       </td>
                       <td className="px-6 py-4 text-sm whitespace-nowrap text-gray-500">
-                        30 ngày
+                        30 days
                       </td>
                     </tr>
                   </tbody>
@@ -267,42 +256,43 @@ const PrivacyPolicy: React.FC = () => {
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Quyền của bạn
+                Your Rights
               </h2>
               <p className="mb-4 leading-relaxed text-gray-600">
-                Bạn có các quyền sau đối với thông tin cá nhân của mình:
+                You have the following rights regarding your personal
+                information:
               </p>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-lg border border-gray-200 p-4">
                   <h3 className="mb-2 font-semibold text-gray-800">
-                    Quyền truy cập
+                    Right of access
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Yêu cầu bản sao thông tin cá nhân của bạn
+                    Request a copy of your personal information
                   </p>
                 </div>
                 <div className="rounded-lg border border-gray-200 p-4">
                   <h3 className="mb-2 font-semibold text-gray-800">
-                    Quyền sửa đổi
+                    Right to rectification
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Cập nhật hoặc sửa đổi thông tin không chính xác
+                    Update or correct inaccurate information
                   </p>
                 </div>
                 <div className="rounded-lg border border-gray-200 p-4">
                   <h3 className="mb-2 font-semibold text-gray-800">
-                    Quyền xóa
+                    Right to erasure
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Yêu cầu xóa thông tin cá nhân của bạn
+                    Request deletion of your personal information
                   </p>
                 </div>
                 <div className="rounded-lg border border-gray-200 p-4">
                   <h3 className="mb-2 font-semibold text-gray-800">
-                    Quyền hạn chế
+                    Right to restriction
                   </h3>
                   <p className="text-sm text-gray-600">
-                    Hạn chế xử lý thông tin của bạn
+                    Restrict processing of your information
                   </p>
                 </div>
               </div>
@@ -310,23 +300,22 @@ const PrivacyPolicy: React.FC = () => {
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Thay đổi chính sách bảo mật
+                Changes to This Privacy Policy
               </h2>
               <p className="leading-relaxed text-gray-600">
-                Chúng tôi có thể cập nhật chính sách bảo mật này theo thời gian.
-                Bất kỳ thay đổi nào sẽ được đăng trên trang này và, nếu có thay
-                đổi đáng kể, chúng tôi sẽ thông báo cho bạn qua email hoặc thông
-                báo trên trang web của chúng tôi.
+                We may update this Privacy Policy from time to time. Any changes
+                will be posted on this page and, where significant, we will notify
+                you via email or a notice on our website.
               </p>
             </section>
 
             <section className="mb-8">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Liên hệ
+                Contact
               </h2>
               <p className="mb-4 leading-relaxed text-gray-600">
-                Nếu bạn có câu hỏi hoặc thắc mắc về chính sách bảo mật này, vui
-                lòng liên hệ với chúng tôi:
+                If you have any questions or concerns about this Privacy Policy,
+                please contact us:
               </p>
               <div className="rounded-lg bg-gray-50 p-6">
                 <div className="mb-4">
@@ -335,14 +324,14 @@ const PrivacyPolicy: React.FC = () => {
                 </div>
                 <div className="mb-4">
                   <p className="text-sm font-medium text-gray-500">
-                    Điện thoại
+                    Phone
                   </p>
                   <p className="text-gray-900">(028) 1234 5678</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-500">Địa chỉ</p>
+                  <p className="text-sm font-medium text-gray-500">Address</p>
                   <p className="text-gray-900">
-                    123 Đường Công nghệ, Quận 1, TP. Hồ Chí Minh, Việt Nam
+                    123 Technology Street, District 1, Ho Chi Minh City, Vietnam
                   </p>
                 </div>
               </div>

@@ -30,7 +30,7 @@ const PaymentSuccess: React.FC = () => {
           <img src={DomainProIcon} className="h-16 w-16"></img>
         </div>
         <div className="w-full max-w-md rounded-lg bg-white p-8 text-center shadow-lg">
-          {/* Icon thành công */}
+          {/* Success icon */}
           <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-green-100">
             <svg
               className="h-12 w-12 text-green-600"
@@ -47,25 +47,25 @@ const PaymentSuccess: React.FC = () => {
             </svg>
           </div>
 
-          {/* Tiêu đề */}
+          {/* Title */}
           <h1 className="mb-2 text-3xl font-semibold text-gray-800">
-            Thanh toán thành công!
+            Payment successful!
           </h1>
 
-          {/* Mô tả */}
+          {/* Description */}
           <p className="mb-6 text-gray-600">
-            Cảm ơn bạn đã hoàn tất thanh toán. Đơn hàng của bạn đang được xử lý
-            và bạn sẽ sớm nhận được thông tin xác nhận.
+            Thank you for completing your payment. Your order is being processed,
+            and you will receive a confirmation soon.
           </p>
 
-          {/* Thông tin đơn hàng (ví dụ) */}
+          {/* Order information */}
           <div className="mb-6 rounded-md bg-gray-50 p-4 text-left">
             <div className="mb-2 flex justify-between">
-              <span className="text-gray-500">Mã đơn hàng:</span>
+              <span className="text-gray-500">Order ID:</span>
               <span className="font-medium text-gray-700">{orderId}</span>
             </div>
             <div className="mb-2 flex justify-between">
-              <span className="text-gray-500">Tổng số tiền:</span>
+              <span className="text-gray-500">Total amount:</span>
               <span className="font-medium text-gray-700">
                 {moneyFormat({
                   value: amount || 0,
@@ -75,20 +75,20 @@ const PaymentSuccess: React.FC = () => {
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-500">Ngày giao dịch:</span>
+              <span className="text-gray-500">Transaction date:</span>
               <span className="font-medium text-gray-700">
                 {formatDate(date || "")}
               </span>
             </div>
           </div>
 
-          {/* Nút hành động */}
+          {/* Action button */}
           <button
             type="button"
             className="bg-primary hover:bg-primary-hover inline-flex w-full cursor-pointer items-center justify-center rounded-lg px-6 py-3 font-medium text-white transition-colors duration-300"
             onClick={() => navigate("/")}
           >
-            Quay về trang chủ
+            Back to homepage
           </button>
         </div>
       </div>

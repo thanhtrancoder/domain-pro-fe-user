@@ -1,8 +1,8 @@
 export function removeAccents(str: string): string {
-  // NFD tách ký tự + dấu, regex loại bỏ các combining marks
+  // NFD separates base characters and diacritics; regex removes combining marks
   const normalized = str.normalize("NFD");
   const without = normalized.replace(/[\u0300-\u036f]/g, "");
-  // xử lý đ/Đ nếu cần
+  // handle Vietnamese-specific đ/Đ if needed
   return without.replace(/đ/g, "d").replace(/Đ/g, "D");
 }
 

@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
     const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const isValidEmailTemp = validEmail.test(email);
     if (!isValidEmailTemp) {
-      toast("warning", "Email không hợp lệ");
+      toast("warning", "Invalid email");
       return;
     }
     setLoading(true);
@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
       return;
     }
     setLoading(false);
-    toast("success", "Đăng ký nhận tin thành công");
+    toast("success", "Subscribed successfully");
     setEmail("");
   };
 
@@ -53,20 +53,20 @@ const Footer: React.FC = () => {
               </span>
             </div>
             <p className="text-justify">
-              Dịch vụ đăng ký tên miền hàng đầu Việt Nam. Chúng tôi cung cấp
-              giải pháp toàn diện cho nhu cầu tên miền của bạn.
+              Leading domain registration service. We provide comprehensive
+              solutions for your domain needs.
             </p>
           </div>
 
           {/* Get news */}
           <div className="flex flex-col space-y-3">
             <span className="text-light-primary text-lg font-medium">
-              Đăng ký nhận tin
+              Subscribe for updates
             </span>
 
             <Input
               type="email"
-              placeholder="Nhập email của bạn"
+              placeholder="Enter your email"
               icon={
                 <EnvelopeIcon className="size-6 text-gray-500"></EnvelopeIcon>
               }
@@ -76,7 +76,7 @@ const Footer: React.FC = () => {
             ></Input>
             <Loading loading={loading} className="w-full">
               <Button
-                label="Đăng ký"
+                label="Subscribe"
                 className="bg-primary-hover hover:bg-primary w-full text-white"
                 onClick={() => handleRegisterNews()}
               ></Button>
@@ -87,7 +87,7 @@ const Footer: React.FC = () => {
         {/* Navigation */}
         <div className="flex flex-col space-y-3">
           <span className="text-light-primary text-lg font-medium">
-            Điều hướng
+            Navigation
           </span>
           <ul className="list-none space-y-3">
             {footerMenuList.map((menuItem: menuType, index: number) => (
@@ -107,7 +107,7 @@ const Footer: React.FC = () => {
         {/* Contact */}
         <div className="flex flex-col space-y-2">
           <span className="text-light-primary text-lg font-medium whitespace-nowrap">
-            Liên hệ
+            Contact
           </span>
           <ul className="list-none space-y-3">
             {contactList.map((contactItem: menuType, index: number) => (
@@ -128,7 +128,7 @@ const Footer: React.FC = () => {
         {/* Social */}
         <div className="flex flex-col space-y-2">
           <span className="text-light-primary text-lg font-medium">
-            Kết nối với chúng tôi
+            Connect with us
           </span>
           <div className="flex space-x-4">
             {socialList.map((socialItem: menuType, index: number) => (
@@ -170,10 +170,10 @@ const Footer: React.FC = () => {
       {/* Copyright */}
       <div className="flex flex-col items-center space-y-2 px-4 pb-8">
         <p className="text-sm text-gray-400">
-          © 2025 DomainPro. Tất cả các quyền được bảo lưu.
+          © 2025 DomainPro. All rights reserved.
         </p>
         <p className="text-xs text-gray-500">
-          Thiết kế bởi Domain-Pro Development Team
+          Designed by Domain-Pro Development Team
         </p>
       </div>
     </footer>

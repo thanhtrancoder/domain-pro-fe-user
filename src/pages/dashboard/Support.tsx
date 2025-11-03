@@ -3,7 +3,7 @@ const Support: React.FC = () => {
     <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
       {/* Title */}
       <div>
-        <h3 className="text-xl font-bold">Trung tâm hỗ trợ</h3>
+        <h3 className="text-xl font-bold">Support Center</h3>
       </div>
 
       {/* FAQ */}
@@ -12,21 +12,21 @@ const Support: React.FC = () => {
 
       {/* Contact */}
       <div className="bg-light-primary2 text-primary-hover2 space-y-4 rounded-xl p-6 text-sm font-medium">
-        <h4 className="text-base font-bold">Thông tin liên hệ</h4>
+        <h4 className="text-base font-bold">Contact Information</h4>
         <div className="space-y-4 md:grid md:grid-cols-3 md:gap-4 md:space-y-0">
           <div>
-            <p>Email hỗ trợ</p>
+            <p>Support Email</p>
             <p className="text-primary-hover font-normal">
               support@domainpro.com
             </p>
           </div>
           <div>
-            <p>Hotline hỗ trợ</p>
+            <p>Support Hotline</p>
             <p className="text-primary-hover font-normal">1900 1234</p>
           </div>
           <div>
-            <p>Giờ làm việc</p>
-            <p className="text-primary-hover font-normal">8h00 - 22h00</p>
+            <p>Working Hours</p>
+            <p className="text-primary-hover font-normal">08:00 - 22:00</p>
           </div>
         </div>
       </div>

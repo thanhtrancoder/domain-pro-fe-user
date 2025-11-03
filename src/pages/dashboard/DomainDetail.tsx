@@ -240,7 +240,7 @@ const DomainDetail: React.FC = () => {
     );
 
     if (JSON.stringify(recordListTemp) === JSON.stringify(oldRecordList)) {
-      toast("warning", "Không có thay đổi record.");
+      toast("warning", "No record changes.");
       return;
     }
 
@@ -276,7 +276,7 @@ const DomainDetail: React.FC = () => {
           className="hover:text-primary-hover"
           onClick={() => navigate(-1)}
         ></Button>
-        <h2 className="text-2xl font-bold">Cấu hình tên miền</h2>
+        <h2 className="text-2xl font-bold">Domain Configuration</h2>
         <div className="ml-auto">
           <a
             href={
@@ -288,7 +288,7 @@ const DomainDetail: React.FC = () => {
             target="_blank"
           >
             <ArrowTopRightOnSquareIcon className="size-4 stroke-2"></ArrowTopRightOnSquareIcon>
-            Đi đến website
+            Go to website
           </a>
         </div>
       </div>
@@ -305,17 +305,17 @@ const DomainDetail: React.FC = () => {
         <div className="space-y-6 md:grid md:grid-cols-3 md:gap-6 md:space-y-0">
           <InfoItem
             Icon={CalendarIcon}
-            label="Ngày đăng ký"
+            label="Registration Date"
             value={formatDate(domainNameDetail?.registerAt || "")}
           ></InfoItem>
           <InfoItem
             Icon={ClockIcon}
-            label="Ngày hết hạn"
+            label="Expiration Date"
             value={formatDate(domainNameDetail?.expiresAt || "")}
           ></InfoItem>
           <InfoItem
             Icon={LockClosedIcon}
-            label="Nhà cung cấp DNS"
+            label="DNS Provider"
             value={domainNameDetail?.dnsProvider || ""}
           ></InfoItem>
         </div>
@@ -325,14 +325,14 @@ const DomainDetail: React.FC = () => {
       <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
         <div className="flex items-center gap-2">
           <ArrowPathIcon className="text-primary-hover size-6"></ArrowPathIcon>
-          <h3 className="text-lg font-medium">Gia hạn</h3>
+          <h3 className="text-lg font-medium">Renewal</h3>
         </div>
         <div className="space-y-6 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
           <div className="space-y-3 rounded-xl border border-gray-300 p-4">
-            <p className="font-medium">Gia hạn thủ công</p>
+            <p className="font-medium">Manual Renewal</p>
             <div className="flex items-center">
               <div>
-                <p className="text-sm text-gray-600">Gia hạn cho 1 năm</p>
+                <p className="text-sm text-gray-600">Renew for 1 year</p>
                 {/* <p className="font-medium">
                   {moneyFormat({
                     value: 100000,
@@ -342,29 +342,28 @@ const DomainDetail: React.FC = () => {
                 </p> */}
               </div>
               <div className="ml-auto">
-                <Button label="Gia hạn ngay" onClick={handleRenewal}></Button>
+                <Button label="Renew now" onClick={handleRenewal}></Button>
               </div>
             </div>
           </div>
           <div className="space-y-3 rounded-xl border border-gray-300 p-4">
-            <p className="font-medium">Gia hạn tự động</p>
+            <p className="font-medium">Automatic Renewal</p>
             <div className="space-y-2">
               <div className="flex items-center gap-3">
                 <ToggleSwitch
                   enable={domainNameDetail?.isAutoRenewal || false}
                   onChange={handleAutoRenewChange}
                 ></ToggleSwitch>
-                <p>Bật tự động gia hạn</p>
+                <p>Enable auto-renewal</p>
                 {domainNameDetail?.isAutoRenewal && (
                   <div className="ml-auto flex items-center gap-1">
                     <CheckCircleIcon className="text-success-hover2 size-5"></CheckCircleIcon>
-                    <p className="text-sm text-gray-500">Kích hoạt</p>
+                    <p className="text-sm text-gray-500">Activated</p>
                   </div>
                 )}
               </div>
               <p className="text-sm text-gray-500">
-                Tên miền của bạn sẽ được tự động gia hạn 30 ngày trước khi hết
-                hạn
+                Your domain will be automatically renewed 30 days before expiration
               </p>
             </div>
           </div>
@@ -376,10 +375,10 @@ const DomainDetail: React.FC = () => {
         {/* Title */}
         <div className="flex items-center gap-2 px-6">
           <ServerIcon className="text-primary-hover size-7"></ServerIcon>
-          <h3 className="text-lg font-medium">Quản lý DNS</h3>
+          <h3 className="text-lg font-medium">DNS Management</h3>
           <div className="ml-auto">
             <Button
-              label="Thêm Record"
+              label="Add Record"
               leftIcon={<PlusIcon className="size-5"></PlusIcon>}
               className="border-primary-hover text-primary-hover hover:bg-tint-primary border"
               onClick={handleAddRecord}
@@ -391,11 +390,11 @@ const DomainDetail: React.FC = () => {
           <table className="w-full">
             <thead className="bg-gray-100 text-left">
               <tr>
-                <th className="p-6">Loại</th>
-                <th className="p-6">Tên miền</th>
-                <th className="p-6">Giá trị</th>
+                <th className="p-6">Type</th>
+                <th className="p-6">Host</th>
+                <th className="p-6">Value</th>
                 <th className="p-6">TTL</th>
-                <th className="p-6">Thao tác</th>
+                <th className="p-6">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -422,7 +421,7 @@ const DomainDetail: React.FC = () => {
                       <td className="p-6">
                         <div className="w-60">
                           <Input
-                            placeholder="Nhập tên miền"
+                            placeholder="Enter host"
                             value={record.host}
                             onChange={(event) =>
                               handleRecordNameChange(
@@ -436,7 +435,7 @@ const DomainDetail: React.FC = () => {
                       <td className="p-6">
                         <div className="w-40">
                           <Input
-                            placeholder="Nhập giá trị"
+                            placeholder="Enter value"
                             value={record.value}
                             onChange={(event) =>
                               handleRecordValueChange(
@@ -450,7 +449,7 @@ const DomainDetail: React.FC = () => {
                       <td className="p-6">
                         <div className="w-20">
                           <Input
-                            placeholder="Nhập TTL"
+                            placeholder="Enter TTL"
                             value={record.ttl?.toString() || ""}
                             onChange={(event) =>
                               handleRecordTTLChange(
@@ -483,11 +482,9 @@ const DomainDetail: React.FC = () => {
           <div className="bg-light-primary2 text-primary-hover border-light-primary flex gap-2 rounded-xl border p-4">
             <ExclamationCircleIcon className="size-6 shrink-0"></ExclamationCircleIcon>
             <div className="space-y-1">
-              <p className="font-medium">Lưu ý</p>
+              <p className="font-medium">Note</p>
               <p className="text-sm">
-                Thay đổi DNS có thể mất đến 48 giờ để thay đổi được áp dụng trên
-                toàn cầu. Các thay đổi được thực hiện tại đây sẽ ảnh hưởng đến
-                cách tên miền của bạn được phân giải thành địa chỉ IP.
+                DNS changes may take up to 48 hours to propagate globally. Changes made here will affect how your domain resolves to an IP address.
               </p>
             </div>
           </div>
@@ -500,7 +497,7 @@ const DomainDetail: React.FC = () => {
             }
           >
             <Button
-              label="Lưu thay đổi"
+              label="Save changes"
               onClick={handleUpdateDnsConfig}
             ></Button>
           </div>

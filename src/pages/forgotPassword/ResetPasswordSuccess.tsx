@@ -40,11 +40,10 @@ const ResetPasswordSuccess: React.FC = () => {
 
           {/* Success Message */}
           <h1 className="mb-2 text-2xl font-bold text-gray-800">
-            Đặt lại mật khẩu thành công!
+            Password reset successful!
           </h1>
           <p className="mb-8 text-center text-gray-600">
-            Mật khẩu của bạn đã được cập nhật thành công. Bây giờ bạn có thể
-            đăng nhập bằng mật khẩu mới.
+            Your password has been updated successfully. You can now sign in with your new password.
           </p>
 
           {/* Illustration */}
@@ -55,14 +54,13 @@ const ResetPasswordSuccess: React.FC = () => {
           {/* Additional Info */}
           <div className="mb-6 w-full rounded-lg bg-blue-50 p-4">
             <p className="text-primary-hover text-sm">
-              <span className="font-semibold">Lưu ý:</span> Đảm bảo bạn giữ mật
-              khẩu mới ở nơi an toàn và không chia sẻ với người khác.
+              <span className="font-semibold">Note:</span> Make sure to keep your new password in a safe place and do not share it with others.
             </p>
           </div>
 
           {/* Login Button */}
           <Button
-            label="Đăng nhập ngay"
+            label="Sign in now"
             className="bg-primary hover:bg-primary-hover w-full text-white"
             onClick={() => handleLoginNow()}
           ></Button>
@@ -70,12 +68,12 @@ const ResetPasswordSuccess: React.FC = () => {
           {/* Additional Links */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
-              Cần hỗ trợ?{" "}
+              Need help?{" "}
               <a
                 href="/contact"
                 className="text-primary hover:text-primary-hover font-medium transition duration-300"
               >
-                Liên hệ với chúng tôi
+                Contact us
               </a>
             </p>
           </div>

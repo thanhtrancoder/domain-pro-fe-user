@@ -198,11 +198,11 @@ const Domains: React.FC = () => {
 
   return (
     <Popup
-      title="Xác nhận"
+      title="Confirmation"
       content={
         domainNameCurrent?.isBlock
-          ? "Bạn có chắc chắn muốn mở khóa tên miền này?"
-          : "Bạn có chắc chắn muốn khóa tên miền này?"
+          ? "Are you sure you want to unlock this domain?"
+          : "Are you sure you want to lock this domain?"
       }
       value={
         domainNameCurrent?.domainName ||
@@ -219,7 +219,7 @@ const Domains: React.FC = () => {
             <Input
               value={searchKey}
               onChange={(e) => setSearchKey(e.target.value)}
-              placeholder="Tìm kiếm tên miền..."
+              placeholder="Search domains..."
               icon={<SearchIcon className="size-6 text-gray-400"></SearchIcon>}
               className="focus-within:ring-primary-hover w-full border border-gray-300 focus-within:border-transparent focus-within:ring-2"
               actionIcon={
@@ -236,7 +236,7 @@ const Domains: React.FC = () => {
               }}
             />
             <div className="ml-auto">
-              <Button label="Tìm kiếm" onClick={handleSearch}></Button>
+              <Button label="Search" onClick={handleSearch}></Button>
             </div>
           </div>
           <div className="flex items-center gap-4">
@@ -247,10 +247,10 @@ const Domains: React.FC = () => {
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
               >
-                <option value="all">Tất cả trạng thái</option>
-                <option value="active">Đang hoạt động</option>
-                <option value="expiring">Sắp hết hạn</option>
-                <option value="expired">Đã hết hạn</option>
+                <option value="all">All statuses</option>
+                <option value="active">Active</option>
+                <option value="expiring">Expiring soon</option>
+                <option value="expired">Expired</option>
               </select>
             </div>
             <div className="flex items-center gap-2">
@@ -260,10 +260,10 @@ const Domains: React.FC = () => {
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
               >
-                <option value="domain_name,asc">Tên: A-Z</option>
-                <option value="domain_name,desc">Tên: Z-A</option>
-                <option value="expires_at,asc">Ngày hết hạn: Tăng dần</option>
-                <option value="expires_at,desc">Ngày hết hạn: Giảm dần</option>
+                <option value="domain_name,asc">Name: A-Z</option>
+                <option value="domain_name,desc">Name: Z-A</option>
+                <option value="expires_at,asc">Expiration date: Ascending</option>
+                <option value="expires_at,desc">Expiration date: Descending</option>
               </select>
             </div>
           </div>
@@ -273,7 +273,7 @@ const Domains: React.FC = () => {
         <div className="overflow-hidden rounded-xl bg-white pt-6 shadow-lg">
           <div className="flex items-center px-6 pb-6">
             <h3 className="text-xl font-bold">
-              Tên miền của tôi ({totalElements})
+              My domains ({totalElements})
             </h3>
             <div className="ml-auto">
               <PaginationMini
@@ -300,10 +300,10 @@ const Domains: React.FC = () => {
                         {/* {isChecked && <p>({searchDomainList.length})</p>} */}
                       </div>
                     </th>
-                    <th className="p-6">Tên miền</th>
-                    <th className="p-6">Trạng thái</th>
-                    <th className="p-6">Ngày hết hạn</th>
-                    <th className="p-6">Thao tác</th>
+                    <th className="p-6">Domain</th>
+                    <th className="p-6">Status</th>
+                    <th className="p-6">Expiration date</th>
+                    <th className="p-6">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -330,7 +330,7 @@ const Domains: React.FC = () => {
                             {domain?.isAutoRenewal && (
                               <div className="text-success-hover2 flex items-center gap-1">
                                 <ArrowPathIcon className="size-4"></ArrowPathIcon>
-                                <p className="text-sm">Tự động gia hạn</p>
+                                <p className="text-sm">Auto-renewal</p>
                               </div>
                             )}
                           </div>
@@ -339,16 +339,16 @@ const Domains: React.FC = () => {
                       <td className="p-6 text-sm font-medium">
                         {statusDomainName(domain.status || 0) === "active" ? (
                           <p className="text-success-hover2 bg-light-success w-fit rounded-full px-3 py-1">
-                            Đang hoạt động
+                            Active
                           </p>
                         ) : statusDomainName(domain.status || 0) ===
                           "expiring" ? (
                           <p className="text-warning bg-lightest-warning w-fit rounded-full px-3 py-1">
-                            Sắp hết hạn
+                            Expiring soon
                           </p>
                         ) : (
                           <p className="text-fail bg-light-fail w-fit rounded-full px-3 py-1">
-                            Đã hết hạn
+                            Expired
                           </p>
                         )}
                       </td>
