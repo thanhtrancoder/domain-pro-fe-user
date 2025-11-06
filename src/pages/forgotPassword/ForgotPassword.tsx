@@ -71,7 +71,9 @@ const ForgotPassword: React.FC = () => {
         </a>
         <div className="space-y-2 text-center">
           <p className="text-3xl font-bold">Forgot password?</p>
-          <p className="text-gray-600">Enter your email and we'll send reset instructions</p>
+          <p className="text-gray-600">
+            Enter your email and we'll send reset instructions
+          </p>
         </div>
 
         <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-xl">
@@ -121,12 +123,12 @@ const ForgotPassword: React.FC = () => {
 
           <div className="border-t border-gray-100 bg-gray-50 px-8 py-4">
             <p className="text-center text-sm text-gray-600">
-              Back to sign in?{" "}
+              Back to Login?{" "}
               <a
                 href="/login"
                 className="text-primary hover:text-primary-hover font-medium transition-colors duration-300"
               >
-                Sign in
+                Login
               </a>
             </p>
           </div>

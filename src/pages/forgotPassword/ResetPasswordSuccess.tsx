@@ -43,7 +43,8 @@ const ResetPasswordSuccess: React.FC = () => {
             Password reset successful!
           </h1>
           <p className="mb-8 text-center text-gray-600">
-            Your password has been updated successfully. You can now sign in with your new password.
+            Your password has been updated successfully. You can now Login with
+            your new password.
           </p>
 
           {/* Illustration */}
@@ -54,13 +55,14 @@ const ResetPasswordSuccess: React.FC = () => {
           {/* Additional Info */}
           <div className="mb-6 w-full rounded-lg bg-blue-50 p-4">
             <p className="text-primary-hover text-sm">
-              <span className="font-semibold">Note:</span> Make sure to keep your new password in a safe place and do not share it with others.
+              <span className="font-semibold">Note:</span> Make sure to keep
+              your new password in a safe place and do not share it with others.
             </p>
           </div>
 
           {/* Login Button */}
           <Button
-            label="Sign in now"
+            label="Login now"
             className="bg-primary hover:bg-primary-hover w-full text-white"
             onClick={() => handleLoginNow()}
           ></Button>

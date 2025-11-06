@@ -8,7 +8,7 @@ const TermsService: React.FC = () => {
             Terms of Service
           </h1>
           <p className="mt-2 text-center text-blue-100">
-            Last updated: May 15, 2023
+            Last updated: Oct 15, 2025
           </p>
         </div>
 
@@ -31,9 +31,10 @@ const TermsService: React.FC = () => {
                 1. Acceptance of Terms
               </h2>
               <p className="leading-relaxed text-gray-700">
-                By using our services, you confirm that you have read, understood,
-                and agree to be bound by these Terms of Service. If you do not
-                agree with any part of these terms, you may not use our services.
+                By using our services, you confirm that you have read,
+                understood, and agree to be bound by these Terms of Service. If
+                you do not agree with any part of these terms, you may not use
+                our services.
               </p>
             </div>
 
@@ -67,7 +68,9 @@ const TermsService: React.FC = () => {
                 <li>Not use domains for illegal activities</li>
                 <li>Not violate third-party intellectual property rights</li>
                 <li>Not send spam or engage in fraudulent activities</li>
-                <li>Maintain the confidentiality of your account information</li>
+                <li>
+                  Maintain the confidentiality of your account information
+                </li>
               </ul>
             </div>
 
@@ -80,9 +83,7 @@ const TermsService: React.FC = () => {
                 Regarding domain payment and renewal:
               </p>
               <ul className="ml-4 list-inside list-disc space-y-2 text-gray-700">
-                <li>
-                  All payments must be made in full and on time
-                </li>
+                <li>All payments must be made in full and on time</li>
                 <li>Prices may change without prior notice</li>
                 <li>Domains may be cancelled if not renewed on time</li>
                 <li>No refunds for registered domains</li>
@@ -109,8 +110,8 @@ const TermsService: React.FC = () => {
               <p className="leading-relaxed text-gray-700">
                 We are committed to protecting your personal information in
                 accordance with our privacy policy. However, we are not
-                responsible for any data leaks caused by third parties or by your
-                own actions.
+                responsible for any data leaks caused by third parties or by
+                your own actions.
               </p>
             </div>
 
@@ -120,9 +121,9 @@ const TermsService: React.FC = () => {
                 7. Limitation of Liability
               </h2>
               <p className="leading-relaxed text-gray-700">
-                To the maximum extent permitted by law, we are not liable for any
-                indirect, special, incidental, or consequential damages arising
-                from the use of or inability to use our services.
+                To the maximum extent permitted by law, we are not liable for
+                any indirect, special, incidental, or consequential damages
+                arising from the use of or inability to use our services.
               </p>
             </div>
 

@@ -155,7 +155,7 @@ const Header: React.FC = () => {
                   to="/register"
                   className="text-primary hover:text-primary-hover hidden hover:bg-gray-200 md:block"
                 />
-                <NavButton label="Sign in" to="/login" />
+                <NavButton label="Login" to="/login" />
               </div>
             )
           )}

@@ -94,7 +94,9 @@ const Login: React.FC = () => {
         </a>
         <div className="space-y-2 text-center">
           <p className="text-3xl font-bold">Welcome back</p>
-          <p className="text-gray-600">Sign in to manage your domains and services</p>
+          <p className="text-gray-600">
+            Login to manage your domains and services
+          </p>
         </div>
 
         {/* Form */}
@@ -171,7 +173,7 @@ const Login: React.FC = () => {
           </div>
 
           <Button
-            label="Sign in"
+            label="Login"
             rightIcon={<ArrowRightIcon className="size-4"></ArrowRightIcon>}
             className="bg-primary hover:bg-primary-hover w-full text-white"
             onClick={() => onHandleLogin()}
@@ -179,7 +181,7 @@ const Login: React.FC = () => {
 
           <div className="relative flex items-center justify-center">
             <p className="relative z-10 w-fit bg-white px-2 text-center text-sm text-gray-500">
-              Or sign in with
+              Or Login with
             </p>
             <div className="absolute top-1/2 w-full border-t border-gray-300"></div>
           </div>

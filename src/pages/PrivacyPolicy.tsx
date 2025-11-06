@@ -6,12 +6,8 @@ const PrivacyPolicy: React.FC = () => {
       <div className="mx-auto max-w-4xl">
         <div className="overflow-hidden rounded-lg bg-white shadow-xl">
           <div className="from-primary to-primary-hover bg-gradient-to-r px-6 py-8 text-center">
-            <h1 className="text-3xl font-bold text-white">
-              Privacy Policy
-            </h1>
-            <p className="mt-2 text-blue-100">
-              Last updated: May 15, 2023
-            </p>
+            <h1 className="text-3xl font-bold text-white">Privacy Policy</h1>
+            <p className="mt-2 text-blue-100">Last updated: Oct 15, 2025</p>
           </div>
 
           <div className="px-6 py-8">
@@ -42,16 +38,14 @@ const PrivacyPolicy: React.FC = () => {
                   Personal information: Name, email address, phone number,
                   billing address
                 </li>
-                <li>
-                  Account information: Username, password (encrypted)
-                </li>
+                <li>Account information: Username, password (encrypted)</li>
                 <li>
                   Domain information: Domains you register, DNS details,
                   transfer information
                 </li>
                 <li>
-                  Payment information: Credit card, bank account details (handled
-                  by secure third-party processors)
+                  Payment information: Credit card, bank account details
+                  (handled by secure third-party processors)
                 </li>
                 <li>
                   Usage data: Information about how you interact with our
@@ -107,26 +101,21 @@ const PrivacyPolicy: React.FC = () => {
                 Sharing Your Information
               </h2>
               <p className="mb-4 leading-relaxed text-gray-600">
-                We do not sell, trade, or rent your personal information to third
-                parties. We only share your information in the following cases:
+                We do not sell, trade, or rent your personal information to
+                third parties. We only share your information in the following
+                cases:
               </p>
               <div className="mb-4 border-l-4 border-yellow-500 bg-yellow-50 p-4">
                 <p className="text-gray-700">
-                  The domain owner's contact information (excluding privacy-protected
-                  details) may be made public as required by ICANN and domain
-                  registries.
+                  The domain owner's contact information (excluding
+                  privacy-protected details) may be made public as required by
+                  ICANN and domain registries.
                 </p>
               </div>
               <ul className="list-disc space-y-2 pl-6 text-gray-600">
-                <li>
-                  With payment service providers to process transactions
-                </li>
-                <li>
-                  With domain registries to manage your domains
-                </li>
-                <li>
-                  With law enforcement agencies upon valid request
-                </li>
+                <li>With payment service providers to process transactions</li>
+                <li>With domain registries to manage your domains</li>
+                <li>With law enforcement agencies upon valid request</li>
                 <li>With business partners under confidentiality agreements</li>
               </ul>
             </section>
@@ -147,7 +136,9 @@ const PrivacyPolicy: React.FC = () => {
                     </div>
                   </div>
                   <div className="ml-3">
-                    <p className="text-gray-700">Encrypt sensitive data with SSL/TLS</p>
+                    <p className="text-gray-700">
+                      Encrypt sensitive data with SSL/TLS
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -157,7 +148,9 @@ const PrivacyPolicy: React.FC = () => {
                     </div>
                   </div>
                   <div className="ml-3">
-                    <p className="text-gray-700">Restrict access to personal information</p>
+                    <p className="text-gray-700">
+                      Restrict access to personal information
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -167,7 +160,9 @@ const PrivacyPolicy: React.FC = () => {
                     </div>
                   </div>
                   <div className="ml-3">
-                    <p className="text-gray-700">Regularly review and update security measures</p>
+                    <p className="text-gray-700">
+                      Regularly review and update security measures
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -177,7 +172,9 @@ const PrivacyPolicy: React.FC = () => {
                     </div>
                   </div>
                   <div className="ml-3">
-                    <p className="text-gray-700">Data backups and disaster recovery plans</p>
+                    <p className="text-gray-700">
+                      Data backups and disaster recovery plans
+                    </p>
                   </div>
                 </div>
               </div>
@@ -304,8 +301,8 @@ const PrivacyPolicy: React.FC = () => {
               </h2>
               <p className="leading-relaxed text-gray-600">
                 We may update this Privacy Policy from time to time. Any changes
-                will be posted on this page and, where significant, we will notify
-                you via email or a notice on our website.
+                will be posted on this page and, where significant, we will
+                notify you via email or a notice on our website.
               </p>
             </section>
 
@@ -323,9 +320,7 @@ const PrivacyPolicy: React.FC = () => {
                   <p className="text-gray-900">support@domainpro.com</p>
                 </div>
                 <div className="mb-4">
-                  <p className="text-sm font-medium text-gray-500">
-                    Phone
-                  </p>
+                  <p className="text-sm font-medium text-gray-500">Phone</p>
                   <p className="text-gray-900">(028) 1234 5678</p>
                 </div>
                 <div>

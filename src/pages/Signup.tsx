@@ -221,7 +221,9 @@ const Signup: React.FC = () => {
         </a>
         <div className="space-y-2 text-center">
           <p className="text-3xl font-bold">Create a new account</p>
-          <p className="text-gray-600">Sign up to start managing your domains</p>
+          <p className="text-gray-600">
+            Sign up to start managing your domains
+          </p>
         </div>
 
         {/* Form */}
@@ -404,18 +406,20 @@ const Signup: React.FC = () => {
                 className="mt-0.5 h-4 w-4 border border-gray-300"
               ></input>
               <p className="text-sm text-gray-600">
-                I agree to the {" "}
+                I agree to the{" "}
                 <a
                   href="/terms-service"
                   className="text-primary hover:text-primary-hover font-medium transition-colors duration-300"
                 >
+                  {" "}
                   Terms of Service
                 </a>{" "}
-                and {" "}
+                and{" "}
                 <a
                   href="/privacy-policy"
                   className="text-primary hover:text-primary-hover font-medium transition-colors duration-300"
                 >
+                  {" "}
                   Privacy Policy
                 </a>
               </p>
@@ -451,12 +455,13 @@ const Signup: React.FC = () => {
           </div>
           <div className="text-center">
             <p className="text-sm text-gray-600">
-              Already have an account? {" "}
+              Already have an account?{" "}
               <a
                 href="/login"
                 className="text-primary hover:text-primary-hover font-medium transition-colors duration-300"
               >
-                Sign in now
+                {" "}
+                Login now
               </a>
             </p>
           </div>
