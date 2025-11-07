@@ -239,7 +239,7 @@ const Domains: React.FC = () => {
               <Button label="Search" onClick={handleSearch}></Button>
             </div>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="space-y-4 md:flex md:items-center md:gap-4 md:space-y-0">
             <div className="flex items-center gap-2">
               <FunnelIcon className="size-6 text-gray-500"></FunnelIcon>
               <select
@@ -262,8 +262,12 @@ const Domains: React.FC = () => {
               >
                 <option value="domain_name,asc">Name: A-Z</option>
                 <option value="domain_name,desc">Name: Z-A</option>
-                <option value="expires_at,asc">Expiration date: Ascending</option>
-                <option value="expires_at,desc">Expiration date: Descending</option>
+                <option value="expires_at,asc">
+                  Expiration date: Ascending
+                </option>
+                <option value="expires_at,desc">
+                  Expiration date: Descending
+                </option>
               </select>
             </div>
           </div>
@@ -272,9 +276,7 @@ const Domains: React.FC = () => {
         {/* Results */}
         <div className="overflow-hidden rounded-xl bg-white pt-6 shadow-lg">
           <div className="flex items-center px-6 pb-6">
-            <h3 className="text-xl font-bold">
-              My domains ({totalElements})
-            </h3>
+            <h3 className="text-xl font-bold">My domains ({totalElements})</h3>
             <div className="ml-auto">
               <PaginationMini
                 totalPages={totalPages}

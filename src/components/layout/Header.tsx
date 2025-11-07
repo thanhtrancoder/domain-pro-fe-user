@@ -69,7 +69,7 @@ const Header: React.FC = () => {
           <button
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
-            className="relative flex h-6 w-6 items-center justify-center md:hidden"
+            className="relative flex h-6 w-6 cursor-pointer items-center justify-center md:hidden"
             onClick={() => onToggleMobileMenu()}
           >
             <span
@@ -183,12 +183,14 @@ const Header: React.FC = () => {
               </li>
             ))}
           </ul>
-          <NavButton
-            label="Sign up"
-            to="/register"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="bg-primary hover:bg-primary-hover mx-4 mt-auto text-white"
-          ></NavButton>
+          {!isLogin && (
+            <NavButton
+              label="Sign up"
+              to="/register"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="bg-primary hover:bg-primary-hover mx-4 mt-auto text-white"
+            ></NavButton>
+          )}
         </div>
       )}
     </>

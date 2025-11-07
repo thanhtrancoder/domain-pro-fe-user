@@ -229,7 +229,7 @@ const Settings: React.FC = () => {
             <h4 className="font-medium">Security</h4>
             <div className="space-y-4">
               <div className="space-y-4">
-                <div className="flex items-center">
+                <div className="md:flex md:items-center">
                   <Button
                     label="Change password"
                     leftIcon={
@@ -239,12 +239,14 @@ const Settings: React.FC = () => {
                     onClick={() => setShowChangePassword(!showChangePassword)}
                   ></Button>
                   {showChangePassword && (
-                    <a
-                      href="/forgot-password"
-                      className="text-primary hover:text-primary-hover ml-auto transition-colors duration-300"
-                    >
-                      Forgot password
-                    </a>
+                    <div className="mt-4 flex w-full items-center md:mt-0">
+                      <a
+                        href="/forgot-password"
+                        className="text-primary hover:text-primary-hover ml-auto transition-colors duration-300"
+                      >
+                        Forgot password
+                      </a>
+                    </div>
                   )}
                 </div>
 

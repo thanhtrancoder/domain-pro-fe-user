@@ -193,7 +193,9 @@ const Cart: React.FC = () => {
         {/* Title */}
         <div className="space-y-2">
           <p className="text-3xl font-bold">Your cart</p>
-          <p className="text-gray-600">Review selected items and complete your order</p>
+          <p className="text-gray-600">
+            Review selected items and complete your order
+          </p>
         </div>
 
         <div className="gap-8 lg:grid lg:grid-cols-3">
@@ -207,7 +209,7 @@ const Cart: React.FC = () => {
 
                 <p className="text-xl font-bold">Selected domains</p>
                 <p className="text-primary-hover bg-light-primary2 rounded-full px-3 py-1 text-center text-sm font-medium">
-                  {numberCartItem} domains
+                  {numberCartItem} {numberCartItem > 1 ? "domains" : "domain"}
                 </p>
               </div>
 
@@ -268,7 +270,7 @@ const Cart: React.FC = () => {
                           }
                         ></SquareButton>
                         <p className="text-center text-sm font-medium">
-                          {domain.period} years
+                          {domain.period} {domain.period > 1 ? "years" : "year"}
                         </p>
                         <SquareButton
                           rightIcon={<PlusIcon className="size-4" />}
