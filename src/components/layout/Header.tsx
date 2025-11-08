@@ -141,6 +141,7 @@ const Header: React.FC = () => {
                     alt="avatar"
                     src={account?.avatar}
                     className="h-7 w-7 rounded-full object-cover"
+                    referrerPolicy="no-referrer"
                   ></img>
                 ) : (
                   <UserCircleIcon className="size-7"></UserCircleIcon>

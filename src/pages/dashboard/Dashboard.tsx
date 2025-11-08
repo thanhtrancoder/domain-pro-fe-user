@@ -171,6 +171,7 @@ const Dashboard: React.FC = () => {
                     alt="avatar"
                     src={account?.avatar}
                     className="h-16 w-16 rounded-full object-cover"
+                    referrerPolicy="no-referrer"
                   ></img>
                 ) : (
                   <UserCircleIcon className="size-16"></UserCircleIcon>
