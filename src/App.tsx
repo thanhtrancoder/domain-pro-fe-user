@@ -12,7 +12,8 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import IconGallery from "./pages/IconGallery";
 import NotFound from "./pages/NotFound";
 import ComingSoon from "./pages/FeatureComingSoon";
-import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentSuccess from "./pages/payment/PaymentSuccess";
+import PaymentGuide from "./pages/payment/PaymentGuide";
 import ForgotPassword from "./pages/forgotPassword/ForgotPassword";
 import ResetPassword from "./pages/forgotPassword/ResetPassword";
 import ResetPasswordSuccess from "./pages/forgotPassword/ResetPasswordSuccess";
@@ -52,6 +53,7 @@ function App() {
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/momo/return" element={<MoMoReturn />} />
               <Route path="/payment/success" element={<PaymentSuccess />} />
+              <Route path="/payment/guide" element={<PaymentGuide />} />
               <Route path="/dashboard" element={<Dashboard />}>
                 <Route index element={<Overview />} />
                 <Route path="domains" element={<Domains />} />

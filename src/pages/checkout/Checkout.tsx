@@ -9,6 +9,7 @@ import {
   ArrowRightIcon,
   ShieldIcon,
   LockClosedIcon,
+  ArrowTopRightOnSquareIcon,
 } from "../../components/icons/Icon";
 import MomoIcon from "../../assets/icons/Momo-Icon.jpeg";
 import { Input } from "../../components/ui/Input";
@@ -27,6 +28,8 @@ import { applyVoucher } from "../../api/vouchers/vouchersApi";
 import { getProfile } from "../../api/account/accountApi";
 import { createOrder } from "../../api/orders/ordersApi";
 import { createCollectionLink } from "../../api/momo/momoApi";
+import { Popup3 } from "../../components/ui/Popup";
+import Loading from "../../components/layout/Loading";
 
 interface inputDataProps {
   label: string;
@@ -90,6 +93,8 @@ const Checkout: React.FC = () => {
   const [discountPrice, setDiscountPrice] = useState<number>(0);
   const [voucherCode, setVoucherCode] = useState<string>("");
   const [voucherCodeApplied, setVoucherCodeApplied] = useState<string>("");
+  const [isShowPopup, setIsShowPopup] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -188,6 +193,17 @@ const Checkout: React.FC = () => {
       return;
     }
 
+    setIsShowPopup(true);
+  };
+
+  const handleConfirm = async (confirm: boolean) => {
+    setIsShowPopup(false);
+
+    if (!confirm) {
+      return;
+    }
+
+    setIsLoading(true);
     const order = await createOrder({
       fullname: name,
       email: email,
@@ -199,9 +215,11 @@ const Checkout: React.FC = () => {
     });
 
     if (order.error?.status === 401) {
+      setIsLoading(false);
       toast("warning", order.error.message);
       navigate("/login");
     } else if (order.error) {
+      setIsLoading(false);
       toast("error", order.error.message);
       return;
     }
@@ -211,258 +229,298 @@ const Checkout: React.FC = () => {
     });
 
     if (momo.error?.status === 401) {
+      setIsLoading(false);
       toast("warning", momo.error.message);
       navigate("/login");
     } else if (momo.error) {
+      setIsLoading(false);
       toast("error", momo.error.message);
       return;
     }
 
     if (momo.data?.payUrl) {
+      setIsLoading(false);
       window.location.href = momo.data?.payUrl;
     } else if (momo.data?.shortLink) {
+      setIsLoading(false);
       window.location.href = momo.data?.shortLink;
     }
   };
 
   return (
-    <div className="space-y-8 bg-gray-50 px-3 py-8 md:px-10 lg:px-20">
-      {/* Title */}
-      <div className="space-y-2">
-        <p className="text-3xl font-bold">Checkout</p>
-        <p className="text-gray-600">Complete your order safely and securely</p>
-      </div>
-
-      <div className="gap-8 lg:grid lg:grid-cols-3">
-        <div className="space-y-8 lg:col-span-2">
-          {/* Customer info */}
-          <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
-            {/* Title */}
-            <div className="flex items-center gap-3">
-              <div className="text-primary-hover bg-tint-primary rounded-full p-2">
-                <UserIcon></UserIcon>
-              </div>
-              <p className="text-xl font-bold">Customer information</p>
-            </div>
-            {/* Form */}
-            <div className="space-y-4">
-              <InputData
-                label="Full name"
-                placeholder="Enter your full name"
-                Icon={UserIcon}
-                required={true}
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-              ></InputData>
-              <InputData
-                label="Email address"
-                placeholder="Enter your email address"
-                Icon={EnvelopeIcon}
-                required={true}
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-              ></InputData>
-              <InputData
-                label="Phone number"
-                placeholder="Enter your phone number"
-                Icon={PhoneIcon}
-                value={phone}
-                onChange={(event) => setPhone(event.target.value)}
-              ></InputData>
-              <InputData
-                label="Province/City"
-                placeholder="Enter province/city"
-                Icon={MapPinIcon}
-                value={province}
-                onChange={(event) => setProvince(event.target.value)}
-              ></InputData>
-              <InputData
-                label="Address"
-                placeholder="Enter your address"
-                Icon={MapPinIcon}
-                value={address}
-                onChange={(event) => setAddress(event.target.value)}
-              ></InputData>
-            </div>
+    <Popup3
+      isShow={isShowPopup}
+      title="Payment Guide"
+      content={
+        <>
+          Please review the payment instructions before confirming:
+          <a
+            href="/payment/guide"
+            className="text-primary hover:text-primary-hover flex items-center gap-1 font-medium transition-colors duration-300"
+            target="_blank"
+          >
+            Payment Guide{" "}
+            <ArrowTopRightOnSquareIcon className="size-4 stroke-2"></ArrowTopRightOnSquareIcon>
+          </a>
+        </>
+      }
+      onConfirm={handleConfirm}
+    >
+      <Loading loading={isLoading}>
+        <div className="space-y-8 bg-gray-50 px-3 py-8 md:px-10 lg:px-20">
+          {/* Title */}
+          <div className="space-y-2">
+            <p className="text-3xl font-bold">Checkout</p>
+            <p className="text-gray-600">
+              Complete your order safely and securely
+            </p>
           </div>
 
-          {/* Payment method */}
-          <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
-            {/* Title */}
-            <div className="flex items-center gap-3">
-              <div className="text-success-hover2 bg-light-success rounded-full p-2">
-                <CreditCardIcon></CreditCardIcon>
-              </div>
-              <p className="text-xl font-bold">Payment method</p>
-            </div>
-            {/* Payment method list */}
-            <div className="space-y-4">
-              <div
-                className={
-                  "flex cursor-pointer items-center gap-4 rounded-xl border-2 p-4 " +
-                  (paymentMethod === "momo"
-                    ? "border-primary-hover hover:border-primary-hover2"
-                    : "border-gray-200 hover:border-gray-300")
-                }
-                onClick={() => handleSelectPaymentMethod()}
-              >
-                <input
-                  type="radio"
-                  className="size-5"
-                  checked={paymentMethod === "momo"}
-                  onChange={() => handleSelectPaymentMethod()}
-                ></input>
-                <img src={MomoIcon} className="size-8 rounded-full"></img>
-                <div>
-                  <h3 className="font-bold">MoMo e-wallet</h3>
-                  <p className="text-sm text-gray-600">Pay via MoMo e-wallet</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Summary */}
-        <div className="pt-8 lg:col-span-1 lg:pt-0">
-          <div className="sticky top-24 space-y-8">
-            <div className="space-y-4 rounded-xl bg-white p-6 shadow-lg">
-              <p className="text-xl font-bold">Order summary</p>
-              {/* Domain list */}
-              <div className="space-y-3">
-                {domainList.map((domainItem) => (
-                  <div key={domainItem.cartId}>
-                    <div className="flex items-center font-medium">
-                      <p>{domainItem.domainName + domainItem.domainExtend}</p>
-                      <p className="ml-auto">
-                        {moneyFormat({
-                          value: domainItem.discountPrice * domainItem.period,
-                          countryCode: "vi-VN",
-                          currency: "VND",
-                        })}
-                      </p>
-                    </div>
-                    <p className="text-sm text-gray-600">
-                      {domainItem.period} years
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      {moneyFormat({
-                        value: domainItem.discountPrice,
-                        countryCode: "vi-VN",
-                        currency: "VND",
-                      })}
-                    </p>
+          <div className="gap-8 lg:grid lg:grid-cols-3">
+            <div className="space-y-8 lg:col-span-2">
+              {/* Customer info */}
+              <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
+                {/* Title */}
+                <div className="flex items-center gap-3">
+                  <div className="text-primary-hover bg-tint-primary rounded-full p-2">
+                    <UserIcon></UserIcon>
                   </div>
-                ))}
-              </div>
-
-              {/* Temporary total */}
-              <div className="border-t border-gray-200">
-                <div className="flex items-center pt-4 font-medium">
-                  <p>Subtotal</p>
-                  <p className="ml-auto">
-                    {moneyFormat({
-                      value: totalPrice,
-                      countryCode: "vi-VN",
-                      currency: "VND",
-                    })}
-                  </p>
+                  <p className="text-xl font-bold">Customer information</p>
+                </div>
+                {/* Form */}
+                <div className="space-y-4">
+                  <InputData
+                    label="Full name"
+                    placeholder="Enter your full name"
+                    Icon={UserIcon}
+                    required={true}
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                  ></InputData>
+                  <InputData
+                    label="Email address"
+                    placeholder="Enter your email address"
+                    Icon={EnvelopeIcon}
+                    required={true}
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                  ></InputData>
+                  <InputData
+                    label="Phone number"
+                    placeholder="Enter your phone number"
+                    Icon={PhoneIcon}
+                    value={phone}
+                    onChange={(event) => setPhone(event.target.value)}
+                  ></InputData>
+                  <InputData
+                    label="Province/City"
+                    placeholder="Enter province/city"
+                    Icon={MapPinIcon}
+                    value={province}
+                    onChange={(event) => setProvince(event.target.value)}
+                  ></InputData>
+                  <InputData
+                    label="Address"
+                    placeholder="Enter your address"
+                    Icon={MapPinIcon}
+                    value={address}
+                    onChange={(event) => setAddress(event.target.value)}
+                  ></InputData>
                 </div>
               </div>
 
-              {/* Discount */}
-              <div className="space-y-3">
-                <p className="font-medium">Discount code</p>
-                <div className="flex items-center gap-2">
-                  <Input
-                    placeholder="Enter discount code"
-                    actionIcon={
-                      <XMarkIcon className="size-6 cursor-pointer text-gray-500"></XMarkIcon>
+              {/* Payment method */}
+              <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
+                {/* Title */}
+                <div className="flex items-center gap-3">
+                  <div className="text-success-hover2 bg-light-success rounded-full p-2">
+                    <CreditCardIcon></CreditCardIcon>
+                  </div>
+                  <p className="text-xl font-bold">Payment method</p>
+                </div>
+                {/* Payment method list */}
+                <div className="space-y-4">
+                  <div
+                    className={
+                      "flex cursor-pointer items-center gap-4 rounded-xl border-2 p-4 " +
+                      (paymentMethod === "momo"
+                        ? "border-primary-hover hover:border-primary-hover2"
+                        : "border-gray-200 hover:border-gray-300")
                     }
-                    className="focus-within:ring-primary-hover focus-within:border-primary-hover w-full border border-gray-400 focus-within:ring-2"
-                    value={voucherCode}
-                    onChange={(event) => setVoucherCode(event.target.value)}
-                    onActionIconClick={() => setVoucherCode("")}
-                  ></Input>
-                  <div className="ml-auto">
-                    <Button label="Apply" onClick={handleApplyVoucher}></Button>
+                    onClick={() => handleSelectPaymentMethod()}
+                  >
+                    <input
+                      type="radio"
+                      className="size-5"
+                      checked={paymentMethod === "momo"}
+                      onChange={() => handleSelectPaymentMethod()}
+                    ></input>
+                    <img src={MomoIcon} className="size-8 rounded-full"></img>
+                    <div>
+                      <h3 className="font-bold">MoMo e-wallet</h3>
+                      <p className="text-sm text-gray-600">
+                        Pay via MoMo e-wallet
+                      </p>
+                    </div>
                   </div>
                 </div>
-                {discountPrice !== 0 && (
-                  <div>
-                    <div className="bg-light-success text-success-hover2 border-success flex items-center gap-2 rounded-lg border px-4 py-2">
-                      <CheckIcon className="size-4"></CheckIcon>
-                      <p className="font-bold uppercase">
-                        {voucherCodeApplied}
-                      </p>
-                      {/* <p>(Discount 80%)</p> */}
-                      <button className="ml-auto" onClick={handleCancelVoucher}>
-                        <XMarkIcon className="size-4 cursor-pointer"></XMarkIcon>
-                      </button>
-                    </div>
-                    <div className="text-success-hover2 flex items-center pt-2 font-medium">
-                      <p>Discount</p>
+              </div>
+            </div>
+
+            {/* Summary */}
+            <div className="pt-8 lg:col-span-1 lg:pt-0">
+              <div className="sticky top-24 space-y-8">
+                <div className="space-y-4 rounded-xl bg-white p-6 shadow-lg">
+                  <p className="text-xl font-bold">Order summary</p>
+                  {/* Domain list */}
+                  <div className="space-y-3">
+                    {domainList.map((domainItem) => (
+                      <div key={domainItem.cartId}>
+                        <div className="flex items-center font-medium">
+                          <p>
+                            {domainItem.domainName + domainItem.domainExtend}
+                          </p>
+                          <p className="ml-auto">
+                            {moneyFormat({
+                              value:
+                                domainItem.discountPrice * domainItem.period,
+                              countryCode: "vi-VN",
+                              currency: "VND",
+                            })}
+                          </p>
+                        </div>
+                        <p className="text-sm text-gray-600">
+                          {domainItem.period} years
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          {moneyFormat({
+                            value: domainItem.discountPrice,
+                            countryCode: "vi-VN",
+                            currency: "VND",
+                          })}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Temporary total */}
+                  <div className="border-t border-gray-200">
+                    <div className="flex items-center pt-4 font-medium">
+                      <p>Subtotal</p>
                       <p className="ml-auto">
-                        -
                         {moneyFormat({
-                          value: discountPrice,
+                          value: totalPrice,
                           countryCode: "vi-VN",
                           currency: "VND",
                         })}
                       </p>
                     </div>
                   </div>
-                )}
-              </div>
 
-              {/* Total */}
-              <div className="space-y-1 border-t border-gray-200 pt-4">
-                <div className="flex items-center text-xl font-bold">
-                  <p>Total</p>
-                  <p className="text-primary-hover ml-auto">
-                    {moneyFormat({
-                      value: totalPrice - discountPrice,
-                      countryCode: "vi-VN",
-                      currency: "VND",
-                    })}
-                  </p>
+                  {/* Discount */}
+                  <div className="space-y-3">
+                    <p className="font-medium">Discount code</p>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        placeholder="Enter discount code"
+                        actionIcon={
+                          <XMarkIcon className="size-6 cursor-pointer text-gray-500"></XMarkIcon>
+                        }
+                        className="focus-within:ring-primary-hover focus-within:border-primary-hover w-full border border-gray-400 focus-within:ring-2"
+                        value={voucherCode}
+                        onChange={(event) => setVoucherCode(event.target.value)}
+                        onActionIconClick={() => setVoucherCode("")}
+                      ></Input>
+                      <div className="ml-auto">
+                        <Button
+                          label="Apply"
+                          onClick={handleApplyVoucher}
+                        ></Button>
+                      </div>
+                    </div>
+                    {discountPrice !== 0 && (
+                      <div>
+                        <div className="bg-light-success text-success-hover2 border-success flex items-center gap-2 rounded-lg border px-4 py-2">
+                          <CheckIcon className="size-4"></CheckIcon>
+                          <p className="font-bold uppercase">
+                            {voucherCodeApplied}
+                          </p>
+                          {/* <p>(Discount 80%)</p> */}
+                          <button
+                            className="ml-auto"
+                            onClick={handleCancelVoucher}
+                          >
+                            <XMarkIcon className="size-4 cursor-pointer"></XMarkIcon>
+                          </button>
+                        </div>
+                        <div className="text-success-hover2 flex items-center pt-2 font-medium">
+                          <p>Discount</p>
+                          <p className="ml-auto">
+                            -
+                            {moneyFormat({
+                              value: discountPrice,
+                              countryCode: "vi-VN",
+                              currency: "VND",
+                            })}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Total */}
+                  <div className="space-y-1 border-t border-gray-200 pt-4">
+                    <div className="flex items-center text-xl font-bold">
+                      <p>Total</p>
+                      <p className="text-primary-hover ml-auto">
+                        {moneyFormat({
+                          value: totalPrice - discountPrice,
+                          countryCode: "vi-VN",
+                          currency: "VND",
+                        })}
+                      </p>
+                    </div>
+                    <p className="text-sm text-gray-500">VAT included</p>
+                  </div>
+
+                  {/* Checkout button */}
+                  <Button
+                    label="Complete payment"
+                    rightIcon={
+                      <ArrowRightIcon className="size-5"></ArrowRightIcon>
+                    }
+                    className="bg-primary hover:bg-primary-hover w-full py-4 text-lg text-white"
+                    onClick={handleCheckout}
+                  ></Button>
+
+                  {/* Commit */}
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <ShieldIcon className="size-5"></ShieldIcon>
+                      <p>Secure payment with 256-bit SSL</p>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                      <LockClosedIcon className="size-5"></LockClosedIcon>
+                      <p>Your information is fully protected</p>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-sm text-gray-500">VAT included</p>
-              </div>
 
-              {/* Checkout button */}
-              <Button
-                label="Complete payment"
-                rightIcon={<ArrowRightIcon className="size-5"></ArrowRightIcon>}
-                className="bg-primary hover:bg-primary-hover w-full py-4 text-lg text-white"
-                onClick={handleCheckout}
-              ></Button>
-
-              {/* Commit */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <ShieldIcon className="size-5"></ShieldIcon>
-                  <p>Secure payment with 256-bit SSL</p>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-500">
-                  <LockClosedIcon className="size-5"></LockClosedIcon>
-                  <p>Your information is fully protected</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Payment security */}
-            <div className="space-y-2 p-6">
+                {/* Payment security */}
+                {/* <div className="space-y-2 p-6">
               <h3>🔒 Payment security</h3>
               <ul className="space-y-2">
                 <PaymentSecurity content="256-bit SSL encryption"></PaymentSecurity>
                 <PaymentSecurity content="PCI DSS compliant"></PaymentSecurity>
                 <PaymentSecurity content="Customer data protection"></PaymentSecurity>
               </ul>
+            </div> */}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </Loading>
+    </Popup3>
   );
 };
 

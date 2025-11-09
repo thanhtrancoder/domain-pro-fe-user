@@ -19,6 +19,11 @@ const ResetPasswordSuccess: React.FC = () => {
         navigate("/");
       }
     }
+
+    const token = localStorage.getItem("token");
+    if (token) {
+      localStorage.removeItem("token");
+    }
   }, []);
 
   const handleLoginNow = () => {

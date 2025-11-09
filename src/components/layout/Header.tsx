@@ -10,8 +10,12 @@ import { useAppState, type account } from "../context/AppContext";
 import { useAccount } from "../context/Account";
 import { mapping } from "../../utils/MapUtil";
 import type { accountProfileRes } from "../../api/account/accountRes";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "../context/Toast";
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
+  const toast = useToast();
   const { account } = useAppState();
   const accountContext = useAccount();
 
@@ -31,7 +35,11 @@ const Header: React.FC = () => {
     async function fetch() {
       const profileData = await getProfile();
       if (cancelled) return;
-      if (profileData.error) {
+      if (profileData.error?.status === 401) {
+        localStorage.removeItem("token");
+        toast("warning", profileData.error.message);
+        navigate("/login");
+      } else if (profileData.error) {
         setIsLogin(false);
       }
       if (profileData.data) {

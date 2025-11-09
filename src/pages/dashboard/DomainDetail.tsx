@@ -363,7 +363,8 @@ const DomainDetail: React.FC = () => {
                 )}
               </div>
               <p className="text-sm text-gray-500">
-                Your domain will be automatically renewed 30 days before expiration
+                Your domain will be automatically renewed 30 days before
+                expiration
               </p>
             </div>
           </div>
@@ -390,8 +391,8 @@ const DomainDetail: React.FC = () => {
           <table className="w-full">
             <thead className="bg-gray-100 text-left">
               <tr>
-                <th className="p-6">Type</th>
                 <th className="p-6">Host</th>
+                <th className="p-6">Type</th>
                 <th className="p-6">Value</th>
                 <th className="p-6">TTL</th>
                 <th className="p-6">Actions</th>
@@ -403,8 +404,31 @@ const DomainDetail: React.FC = () => {
                   record.domainNameId && (
                     <tr key={record.virtualId} className="hover:bg-gray-50">
                       <td className="p-6">
+                        <div className="w-60 space-y-0.5">
+                          <Input
+                            placeholder="Enter host"
+                            value={record.host}
+                            onChange={(event) =>
+                              handleRecordNameChange(
+                                record.virtualId || 0,
+                                event.target.value,
+                              )
+                            }
+                          ></Input>
+                          {record.host ? (
+                            <span className="text-sm text-gray-500">
+                              {(record.host === "@" ? "" : record.host + ".") +
+                                (domainNameDetail?.domainName || "") +
+                                (domainNameDetail?.domainExtend || "")}
+                            </span>
+                          ) : (
+                            <div className="h-6"></div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="p-6">
                         <select
-                          className="focus:ring-primary-hover rounded-lg border border-gray-300 p-2 focus:border-transparent focus:ring-2"
+                          className="focus:ring-primary-hover mb-6 rounded-lg border border-gray-300 p-2 focus:border-transparent focus:ring-2"
                           value={record.type}
                           onChange={(event) =>
                             handleRecordTypeChange(
@@ -419,21 +443,7 @@ const DomainDetail: React.FC = () => {
                         </select>
                       </td>
                       <td className="p-6">
-                        <div className="w-60">
-                          <Input
-                            placeholder="Enter host"
-                            value={record.host}
-                            onChange={(event) =>
-                              handleRecordNameChange(
-                                record.virtualId || 0,
-                                event.target.value,
-                              )
-                            }
-                          ></Input>
-                        </div>
-                      </td>
-                      <td className="p-6">
-                        <div className="w-40">
+                        <div className="mb-6 w-40">
                           <Input
                             placeholder="Enter value"
                             value={record.value}
@@ -447,7 +457,7 @@ const DomainDetail: React.FC = () => {
                         </div>
                       </td>
                       <td className="p-6">
-                        <div className="w-20">
+                        <div className="mb-6 w-20">
                           <Input
                             placeholder="Enter TTL"
                             value={record.ttl?.toString() || ""}
@@ -465,7 +475,7 @@ const DomainDetail: React.FC = () => {
                           leftIcon={
                             <XMarkIcon className="text-fail size-5"></XMarkIcon>
                           }
-                          className="hover:bg-light-fail bg-tint-fail"
+                          className="hover:bg-light-fail bg-tint-fail mb-6"
                           onClick={() =>
                             handleDeleteRecord(record.virtualId || 0)
                           }
@@ -484,7 +494,9 @@ const DomainDetail: React.FC = () => {
             <div className="space-y-1">
               <p className="font-medium">Note</p>
               <p className="text-sm">
-                DNS changes may take up to 48 hours to propagate globally. Changes made here will affect how your domain resolves to an IP address.
+                DNS changes may take up to 48 hours to propagate globally.
+                Changes made here will affect how your domain resolves to an IP
+                address.
               </p>
             </div>
           </div>

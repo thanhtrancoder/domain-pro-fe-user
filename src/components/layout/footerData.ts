@@ -50,8 +50,8 @@ export const contactList: menuType[] = [
     icon: PhoneIcon,
   },
   {
-    label: "support@domainpro.vn",
-    href: "mailto:support@domainpro.vn",
+    label: "support@domainpro.com",
+    href: "mailto:support@domainpro.com",
     icon: EnvelopeIcon,
   },
 ];

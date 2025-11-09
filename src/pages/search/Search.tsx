@@ -74,27 +74,39 @@ const Search: React.FC = () => {
       if (domainSearchData.data) {
         const domainList = domainSearchData.data.content;
         let filtered = domainList;
-        for (const domain of domainList) {
-          if (transformedString.includes(domain.name)) {
-            domainExtendIdData = domain.domainExtendId;
-            isAvailableData = true;
-            priceData = domain.basePrice;
-            filtered = domainList.filter((d) => d.name !== domain.name);
-            break;
-          }
-        }
 
-        if (filtered.length === domainList.length) {
-          isAvailableData = false;
-
-          if (domainNameData === domainNameFullData) {
-            isAvailableData = true;
-            domainNameFullData = transformedString + domainList[0].name;
+        if (domainNameSplit.length > 1) {
+          for (const domain of domainList) {
+            if (
+              "." + domainNameSplit[domainNameSplit.length - 1] ===
+              domain.name
+            ) {
+              domainExtendIdData = domain.domainExtendId;
+              isAvailableData = true;
+              priceData = domain.basePrice;
+              filtered = domainList.filter((d) => d.name !== domain.name);
+              break;
+            }
           }
+        } else {
+          isAvailableData = true;
+          domainNameFullData = transformedString + domainList[0].name;
           domainExtendIdData = domainList[0].domainExtendId;
           priceData = domainList[0].basePrice;
           filtered = domainList.filter((d) => d.name !== domainList[0].name);
         }
+
+        // if (filtered.length === domainList.length) {
+        //   isAvailableData = false;
+
+        //   if (domainNameData === domainNameFullData) {
+        //     isAvailableData = true;
+        //     domainNameFullData = transformedString + domainList[0].name;
+        //   }
+        //   domainExtendIdData = domainList[0].domainExtendId;
+        //   priceData = domainList[0].basePrice;
+        //   filtered = domainList.filter((d) => d.name !== domainList[0].name);
+        // }
         setDomainName(keepLettersNumbersHyphen(domainNameData));
         setDomainNameFull(keepLettersNumbersHyphen(domainNameFullData));
         setDomainExtendIdCurrent(domainExtendIdData);
@@ -165,6 +177,11 @@ const Search: React.FC = () => {
     setSearchString("");
   };
 
+  const handleSearch = () => {
+    setIsAddToCart(false);
+    navigate("/search?domain=" + searchString);
+  };
+
   return (
     <div className="">
       <div className="from-primary to-primary-hover2 space-y-8 bg-gradient-to-br px-4 py-12 md:space-y-10 md:px-10 md:py-16 lg:space-y-12 lg:px-20 lg:py-20">
@@ -180,11 +197,11 @@ const Search: React.FC = () => {
               searchString={searchString}
               setSearchString={setSearchString}
               onActionIconClick={() => onActionIconClick()}
-              onClick={() => navigate("/search?domain=" + searchString)}
+              onClick={() => handleSearch()}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
-                  navigate("/search?domain=" + searchString);
+                  handleSearch();
                 }
               }}
             />

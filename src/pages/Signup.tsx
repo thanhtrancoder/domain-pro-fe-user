@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "../components/context/Toast";
 import { register } from "../api/auth/authApi";
 import type { registerReq } from "../api/auth/authReq";
+import Loading from "../components/layout/Loading";
 
 interface checkPasswordType {
   length: boolean;
@@ -50,6 +51,7 @@ const Signup: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accept, setAccept] = useState(false);
   const [isValidAccept, setIsValidAccept] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -183,11 +185,14 @@ const Signup: React.FC = () => {
         password: password,
         confirmPassword: confirmPassword,
       };
+      setIsLoading(true);
       const registerData = await register(req);
       if (registerData.error) {
+        setIsLoading(false);
         toast("error", registerData.error.message);
         return;
       }
+      setIsLoading(false);
       localStorage.setItem("token", registerData.data?.token || "");
       toast("success", registerData.message);
       navigate("/");
@@ -433,12 +438,15 @@ const Signup: React.FC = () => {
             )}
           </div>
 
-          <Button
-            label="Create account"
-            rightIcon={<ArrowRightIcon className="size-4"></ArrowRightIcon>}
-            className="bg-primary hover:bg-primary-hover w-full text-white"
-            onClick={() => onHandleRegister()}
-          ></Button>
+          <Loading loading={isLoading}>
+            <Button
+              label="Create account"
+              rightIcon={<ArrowRightIcon className="size-4"></ArrowRightIcon>}
+              className="bg-primary hover:bg-primary-hover w-full text-white"
+              onClick={() => onHandleRegister()}
+            ></Button>
+          </Loading>
+
           <div className="relative flex items-center justify-center">
             <p className="relative z-10 w-fit bg-white px-2 text-center text-sm text-gray-500">
               Or sign up with

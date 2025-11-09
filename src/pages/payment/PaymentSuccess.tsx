@@ -1,8 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { moneyFormat, formatDate } from "../utils/Format";
-import DomainProIcon from "../assets/icons/icons8-domain-50.png";
+import { moneyFormat, formatDate, formatDateTime } from "../../utils/Format";
+import DomainProIcon from "../../assets/icons/icons8-domain-50.png";
 
 const PaymentSuccess: React.FC = () => {
   const { state } = useLocation();
@@ -54,8 +54,8 @@ const PaymentSuccess: React.FC = () => {
 
           {/* Description */}
           <p className="mb-6 text-gray-600">
-            Thank you for completing your payment. Your order is being processed,
-            and you will receive a confirmation soon.
+            Thank you for completing your payment. Your order is being
+            processed, and you can configure the domain name right now.
           </p>
 
           {/* Order information */}
@@ -77,7 +77,7 @@ const PaymentSuccess: React.FC = () => {
             <div className="flex justify-between">
               <span className="text-gray-500">Transaction date:</span>
               <span className="font-medium text-gray-700">
-                {formatDate(date || "")}
+                {formatDateTime(date || "")}
               </span>
             </div>
           </div>
