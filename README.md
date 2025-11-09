@@ -27,6 +27,7 @@ Prerequisites: Node.js 18+ and npm
    ```bash
    npm run dev
    ```
+Project run at http://localhost:3000
 
 ## Environment Variables
 Create a `.env` file at the project root if needed:
