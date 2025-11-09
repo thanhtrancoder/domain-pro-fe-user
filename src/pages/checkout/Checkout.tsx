@@ -100,6 +100,7 @@ const Checkout: React.FC = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
+      return;
     }
 
     window.scrollTo(0, 0);

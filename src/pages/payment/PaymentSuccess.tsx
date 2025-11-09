@@ -17,7 +17,6 @@ const PaymentSuccess: React.FC = () => {
       setOrderId(state.orderId);
       setAmount(state.amount);
       setDate(state.createdAt);
-      console.log("state = ", state);
     } else {
       navigate("/");
     }

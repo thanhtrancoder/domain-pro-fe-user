@@ -1,4 +1,24 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 const Support: React.FC = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    let canceled = false;
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    return () => {
+      canceled = true;
+    };
+  }, []);
+
   return (
     <div className="space-y-6 rounded-xl bg-white p-6 shadow-lg">
       {/* Title */}

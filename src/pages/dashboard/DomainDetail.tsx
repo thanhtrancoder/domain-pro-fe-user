@@ -87,10 +87,12 @@ const DomainDetail: React.FC = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
+      return;
     }
 
     if (!domainId) {
       navigate("/domains");
+      return;
     }
 
     async function fetch() {

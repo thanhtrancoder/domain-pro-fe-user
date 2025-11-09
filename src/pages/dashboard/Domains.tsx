@@ -49,6 +49,20 @@ const Domains: React.FC = () => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [domainNameCurrent, setDomainNameCurrent] = useState<domainNameDto>();
 
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  //   let canceled = false;
+
+  //   const token = localStorage.getItem("token");
+  //   if (!token) {
+  //     navigate("/login");
+  //   }
+
+  //   return () => {
+  //     canceled = true;
+  //   };
+  // }, []);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     let canceled = false;
@@ -56,6 +70,7 @@ const Domains: React.FC = () => {
     const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
+      return;
     }
 
     const searchQuery = searchParams.get("keyword") || "";
